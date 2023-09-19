@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SporC.DAL\SporC.DAL.csproj" />
+    <ProjectReference Include="..\SporC.Entities\SporC.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
