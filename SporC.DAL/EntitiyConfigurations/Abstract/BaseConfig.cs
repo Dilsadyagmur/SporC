@@ -13,7 +13,7 @@ namespace SporCDAL.EntitiyConfigurations.Abstract
 	{
 		public virtual void Configure(EntityTypeBuilder<T> builder)
 		{
-			builder.HasKey(p => p.Id);
+			builder.HasKey(p => p.Id.ToString());
 			builder.Property(p => p.CreateDate).HasDefaultValue(DateTime.Now);
 		}
 	}

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SporC.DAL.Repositories.Abstract
 {
-    public interface ICategoryRepository : IBaseRepository<Category>
+    public interface ICategoryRepository : IRepository<Category>
     {
     }
 }

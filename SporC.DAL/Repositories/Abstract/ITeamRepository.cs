@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SporC.DAL.Repositories.Abstract
 {
-    public interface ITeamRepository: IBaseRepository<Team>
+    public interface ITeamRepository: IRepository<Team>
     {
     }
 }

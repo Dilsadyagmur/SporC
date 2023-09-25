@@ -12,14 +12,16 @@ namespace SporC.Entities.Concrete
     {
         public string  Title { get; set; }
         public string Content { get; set; }
-        public DateTime Date { get; set; }
         public int  UserId { get; set; }
         public int TeamId { get; set; }
-        public int CategoryId { get; set; }
+        public int LikeCount  { get; set; }
+        public int CommentCount { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Team> Teams { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
+        
         public virtual ICollection<Comment> Comments { get; set; }
 
     }

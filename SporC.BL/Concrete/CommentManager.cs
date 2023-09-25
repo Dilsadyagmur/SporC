@@ -11,7 +11,7 @@ namespace SporC.BL.Concrete
 {
     public class CommentManager : ManagerBase<Comment>, ICommentManager
     {
-        public CommentManager(IBaseRepository<Comment> repository) : base(repository)
+        public CommentManager(IRepository<Comment> repository) : base(repository)
         {
         }
     }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SporC.DAL.Repositories.Concrete
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity, new()
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity, new()
     {
         public SqlDbContext Context { get; set; }
         public async Task<int> Delete(T input)

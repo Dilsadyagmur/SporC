@@ -1,42 +1,268 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SporC.BL.Abstract;
-using SporC.BL.Concrete;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using SporC.DAL.Repositories.Abstract;
 using SporC.Entities.Concrete;
-using SporC.Web.Models;
-using SporCDAL.Contexts;
 
-namespace SporC.Web.Controllers
+using SporC.Web.Models;
+
+namespace SporC.Controllers
 {
     public class PostController : Controller
     {
-        private readonly SqlDbContext context;
-        private readonly IPostManager postManager;
-        private readonly IMapper mapper;
+        private readonly IRepository<Post> _postRepository;
+        private readonly IRepository<Team> _teamRepository;
 
-        public PostController(SqlDbContext context, IPostManager postManager, IMapper mapper)
+        // Dependency injection
+        public PostController(IRepository<Post> postRepository,
+                              IRepository<Team> teamRepository)
         {
-            this.context = context;
-            this.postManager = postManager;
-            this.mapper = mapper;
-        }
-        public IActionResult Index()
-        {
-          
-            return View();  
+            _postRepository = postRepository;
+            _teamRepository = teamRepository;
         }
 
+        // GET: Post
+        public async Task<IActionResult> Index(int? teamId)
+        {
+            // Get all posts or filter by teamId and include related entities
+            var posts = await _postRepository.GetAllInclude(p => teamId == null || p.TeamId == teamId, p => p.Teams, p => p.Users);
+
+            // Get all teams for dropdown list
+            var teams = await _teamRepository.GetAll();
+
+            // Create a view model to pass data to view
+            var viewModel = new PostIndexViewModel
+            {
+                Posts = posts,
+                Teams = new SelectList(teams, "Id", "Name"),
+                SelectedTeamId = teamId
+            };
+
+            return View(viewModel);
+        }
+
+        // GET: Post/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Get the post by id and include related entities
+            var post = await _postRepository.GetByIdInclude(id.Value, p => p.Team, p => p.User, p => p.Comments);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View(post);
+        }
+
+        // GET: Post/Create
+        public async Task<IActionResult> Create()
+        {
+            // Get all teams for dropdown list
+            var teams = await _teamRepository.GetAll();
+
+            // Create a view model to pass data to view
+            var viewModel = new PostCreateViewModel
+            {
+                Teams = new SelectList(teams, "Id", "Name")
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Post/Create
         [HttpPost]
-        public async Task<IActionResult> InsertPost(PostCreateViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PostCreateViewModel viewModel)
         {
-            var post = mapper.Map<Post>(model.PostDTO);
-            await postManager.Insert(post);
-            await postManager.Update(post);
-            
-            return RedirectToAction("Index", "Post");
+            if (ModelState.IsValid)
+            {
+                // Create a new post from the view model
+                var post = new Post
+                {
+                    Title = viewModel.Title,
+                    Content = viewModel.Content,
+                    TeamId = viewModel.TeamId,
+                    UserId = User.Identity.Name, // Get the current user name
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    LikeCount = 0,
+                    CommentCount = 0
+                };
+
+                // Insert the post to the database
+                await _postRepository.Insert(post);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Get all teams for dropdown list
+            var teams = await _teamRepository.GetAll();
+
+            // Update the view model with teams data
+            viewModel.Teams = new SelectList(teams, "Id", "Name");
+
+            return View(viewModel);
         }
+
+        // GET: Post/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Get the post by id
+            var post = await _postRepository.GetById(id.Value);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the current user is the owner of the post
+            if (post.UserId.ToString() != User.Identity.Name)
+            {
+                return Forbid();
+            }
+
+            // Get all teams for dropdown list
+            var teams = await _teamRepository.GetAll();
+
+            // Create a view model from the post data
+            var viewModel = new PostEditViewModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                TeamId = post.TeamId,
+                Teams = new SelectList(teams, "Id", "Name")
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Post/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, PostEditViewModel viewModel)
+        {
+            if (id != viewModel.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Get the post by id
+                    var post = await _postRepository.GetById(id);
+
+                    if (post == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Check if the current user is the owner of the post
+                    if (post.UserId.ToString() != User.Identity.Name)
+                    {
+                        return Forbid();
+                    }
+
+                    // Update the post from the view model data
+                    post.Title = viewModel.Title;
+                    post.Content = viewModel.Content;
+                    post.TeamId = viewModel.TeamId;
+                    post.UpdatedDate = DateTime.Now;
+
+                    // Update the post in the database
+                    await _postRepository.Update(post);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PostExists(viewModel.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Get all teams for dropdown list
+            var teams = await _teamRepository.GetAll();
+
+            // Update the view model with teams data
+            viewModel.Teams = new SelectList(teams, "Id", "Name");
+
+            return View(viewModel);
+        }
+
+        // GET: Post/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Get the post by id and include related entities
+            var post = await _postRepository.GetByIdInclude(id.Value, p => p.Team, p => p.User, p => p.Comments);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the current user is the owner of the post
+            if (post.UserId != User.Identity.Name)
+            {
+                return Forbid();
+            }
+
+            return View(post);
+        }
+
+        // POST: Post/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            // Get the post by id
+            var post = await _postRepository.GetById(id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the current user is the owner of the post
+            if (post.UserId.ToString() != User.Identity.Name)
+            {
+                return Forbid();
+            }
+
+            // Delete the post from the database
+            await _postRepository.Delete(post);
+
+            // Redirect to Index function
+            return RedirectToAction(nameof(Index));
+        }
+
+       
     }
 }
-
-

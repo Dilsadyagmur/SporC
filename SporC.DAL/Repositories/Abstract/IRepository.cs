@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SporC.DAL.Repositories.Abstract
 {
-    public interface IBaseRepository<T> where T : BaseEntity, new()
+    public interface IRepository<T> where T : BaseEntity, new()
     {
         Task<int> Insert(T input);
         Task<int> Update(T input);

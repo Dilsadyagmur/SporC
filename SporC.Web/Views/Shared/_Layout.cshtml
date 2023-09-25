@@ -1,135 +1,52 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SporC.Web</title>
+    <title>@ViewData["Title"] - WebApplicationflan</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SporC.Web.styles.css" asp-append-version="true" />
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <link rel="stylesheet" href="dist/layout/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="~/WebApplicationflan.styles.css" asp-append-version="true" />
 </head>
-<body id="top">
-    <div class="wrapper col1">
-        <div id="header">
-            <div id="logo">
-                <h1><a href="#">SporC</a></h1>
-                <p><strong>Trendyol Süperlig </strong></p>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplicationflan</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-            <div class="identity-buttons">
-                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-secondary">Login</a>
-                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register</a>
-            </div>
-
-            <br class="clear" />
-        </div>
-    </div>
-    <div class="wrapper col2">
-        <div id="topbar">
-            <div id="topnav">
-                <ul>
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="pages/style-demo.html">Style Demo</a></li>
-                    <li><a href="pages/full-width.html">Full Width</a></li>
-                    <li>
-                        <a href="#">DropDown</a>
-                        <ul>
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="last"><a href="#">A Long Link Text</a></li>
-                </ul>
-            </div>
-            <div id="search">
-                <form action="#" method="post">
-                    <fieldset>
-                        <legend>Site Search</legend>
-                        <input type="text" value="Search Our Website&hellip;" onfocus="this.value=(this.value=='Search Our Website&hellip;')? '' : this.value ;" />
-                        <input type="submit" name="go" id="go" value="Search" />
-                    </fieldset>
-                </form>
-            </div>
-            <br class="clear" />
-        </div>
-    </div>
-    <div class="wrapper col3">
-        
-    </div>
-    <div class="wrapper col4">
-       
-            <br class="clear" />
-        </div>
-    </div>
-    <div class="wrapper col6">
-        <div id="footer">
-            <div id="login">
-                <h2>Client Login !</h2>
-                <p>Clients can Login to their accounts here.</p>
-                <form action="#" method="post">
-                    <fieldset>
-                        <legend>Client Login</legend>
-                        <div class="fl_left">
-                            <input type="text" value="Enter email address&hellip;" onfocus="this.value=(this.value=='Enter email address&hellip;')? '' : this.value ;" />
-                            <input type="password" value="Enter password&hellip;" onfocus="this.value=(this.value=='Enter password&hellip;')? '' : this.value ;" />
-                        </div>
-                        <div class="fl_right">
-                            <input type="submit" name="login_go" id="login_go" value="&raquo;" />
-                        </div>
-                    </fieldset>
-                </form>
-                <p><a href="#">&raquo; Lost Your Password</a> | <a href="#">Create An Account &raquo;</a></p>
-            </div>
-            <div class="footbox">
-                <h2>Lacus interdum</h2>
-                <ul>
-                    <li><a href="#">Praesent et eros</a></li>
-                    <li><a href="#">Praesent et eros</a></li>
-                    <li><a href="#">Lorem ipsum dolor</a></li>
-                    <li><a href="#">Suspendisse in neque</a></li>
-                    <li class="last"><a href="#">Praesent et eros</a></li>
-                </ul>
-            </div>
-            <div class="footbox">
-                <h2>Lacus interdum</h2>
-                <ul>
-                    <li><a href="#">Praesent et eros</a></li>
-                    <li><a href="#">Praesent et eros</a></li>
-                    <li><a href="#">Lorem ipsum dolor</a></li>
-                    <li><a href="#">Suspendisse in neque</a></li>
-                    <li class="last"><a href="#">Praesent et eros</a></li>
-                </ul>
-            </div>
-            <div class="footbox">
-                <h2>Lacus interdum</h2>
-                <ul>
-                    <li><a href="#">Praesent et eros</a></li>
-                    <li><a href="#">Praesent et eros</a></li>
-                    <li><a href="#">Lorem ipsum dolor</a></li>
-                    <li><a href="#">Suspendisse in neque</a></li>
-                    <li class="last"><a href="#">Praesent et eros</a></li>
-                </ul>
-            </div>
-            <br class="clear" />
-        </div>
-    </div>
-    <div class="wrapper col7">
-        <div id="copyright">
-            <p class="fl_left">Copyright &copy; 2014 - All Rights Reserved - <a href="#">Domain Name</a></p>
-            <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
-            <br class="clear" />
-        </div>
-    </div>
-
+        </nav>
+    </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - WebApplicationflan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    @RenderSection("IdentityLayout", required: false)
 </body>
 </html>
 

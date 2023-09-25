@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SporC.DAL.Repositories.Abstract
 {
-    public interface ICommentRepository : IBaseRepository<Comment>
+    public interface ICommentRepository : IRepository<Comment>
     {
     }
 }

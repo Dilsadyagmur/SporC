@@ -11,7 +11,7 @@ namespace SporC.BL.Concrete
 {
     public class TeamManager : ManagerBase<Team>, ITeamManager
     {
-        public TeamManager(IBaseRepository<Team> repository) : base(repository)
+        public TeamManager(IRepository<Team> repository) : base(repository)
         {
         }
     }

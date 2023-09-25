@@ -12,9 +12,9 @@ namespace SporC.BL.Concrete
 {
     public class ManagerBase<T> : IManagerBase<T> where T : BaseEntity, new()
     {
-        private readonly IBaseRepository<T> repository;
+        private readonly IRepository<T> repository;
 
-        public ManagerBase(IBaseRepository<T> repository)
+        public ManagerBase(IRepository<T> repository)
         {
             this.repository = repository;
         }
