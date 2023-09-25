@@ -52,6 +52,7 @@ namespace SporC.DAL.Repositories.Concrete
 
         }
 
+     
         public async Task<int> Insert(T input)
         {
             Context.Set<T>().AddAsync(input);

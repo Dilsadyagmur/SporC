@@ -10,8 +10,8 @@ namespace SporC.Web.Models
         public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();   
         public PostcreateDTO PostDTO { get; set; }
-        public string Content { get; internal set; }
-        public string Title { get; internal set; }
-        public int TeamId { get; internal set; }
+        public string Content { get; set; }
+        public string Title { get; set; }
+        public int TeamId { get;  set; }
     }
 }

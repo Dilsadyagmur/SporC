@@ -11,9 +11,11 @@ namespace SporC.BL.Concrete
 {
     public class PostManager : ManagerBase<Post>, IPostManager
     {
+        private readonly IRepository<Post> repository;
+
         public PostManager(IRepository<Post> repository) : base(repository)
         {
-
+            this.repository = repository;
         }
     }
 }

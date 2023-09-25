@@ -11,8 +11,11 @@ namespace SporC.BL.Concrete
 {
     public class CategoryManager : ManagerBase<Category>, ICategoryManager
     {
+        private readonly IRepository<Category> repository;
+
         public CategoryManager(IRepository<Category> repository) : base(repository)
         {
+            this.repository = repository;
         }
     }
 }

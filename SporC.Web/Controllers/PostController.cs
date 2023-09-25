@@ -45,26 +45,6 @@ namespace SporC.Controllers
             return View(viewModel);
         }
 
-        // GET: Post/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // Get the post by id and include related entities
-            var post = await _postRepository.GetByIdInclude(id.Value, p => p.Team, p => p.User, p => p.Comments);
-
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-        }
-
-        // GET: Post/Create
         public async Task<IActionResult> Create()
         {
             // Get all teams for dropdown list
@@ -73,13 +53,13 @@ namespace SporC.Controllers
             // Create a view model to pass data to view
             var viewModel = new PostCreateViewModel
             {
-                Teams = new SelectList(teams, "Id", "Name")
+                Teams = teams
             };
 
             return View(viewModel);
         }
 
-        // POST: Post/Create
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PostCreateViewModel viewModel)
@@ -92,7 +72,7 @@ namespace SporC.Controllers
                     Title = viewModel.Title,
                     Content = viewModel.Content,
                     TeamId = viewModel.TeamId,
-                    UserId = User.Identity.Name, // Get the current user name
+                    UserId = int.Parse(User.Identity.Name), // Get the current user name
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     LikeCount = 0,
@@ -109,7 +89,7 @@ namespace SporC.Controllers
             var teams = await _teamRepository.GetAll();
 
             // Update the view model with teams data
-            viewModel.Teams = new SelectList(teams, "Id", "Name");
+            viewModel.Teams = teams;
 
             return View(viewModel);
         }
@@ -207,35 +187,17 @@ namespace SporC.Controllers
             var teams = await _teamRepository.GetAll();
 
             // Update the view model with teams data
-            viewModel.Teams = new SelectList(teams, "Id", "Name");
+            viewModel.Teams = (SelectList)teams;
 
             return View(viewModel);
         }
 
-        // GET: Post/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        private bool PostExists(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // Get the post by id and include related entities
-            var post = await _postRepository.GetByIdInclude(id.Value, p => p.Team, p => p.User, p => p.Comments);
-
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            // Check if the current user is the owner of the post
-            if (post.UserId != User.Identity.Name)
-            {
-                return Forbid();
-            }
-
-            return View(post);
+            return _postRepository.GetById(id)!=null;
         }
+
+
 
         // POST: Post/Delete/5
         [HttpPost, ActionName("Delete")]
