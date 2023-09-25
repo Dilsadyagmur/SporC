@@ -12,8 +12,8 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20230913131631_mig1")]
-    partial class mig1
+    [Migration("20230923214451_mig2")]
+    partial class mig2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,47 +27,17 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("CategoryPost", b =>
                 {
-                    b.Property<string>("CategoriesId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PostsId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PostsId")
+                        .HasColumnType("int");
 
                     b.HasKey("CategoriesId", "PostsId");
 
                     b.HasIndex("PostsId");
 
                     b.ToTable("CategoryPost");
-                });
-
-            modelBuilder.Entity("CommentPost", b =>
-                {
-                    b.Property<string>("CommentsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PostsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CommentsId", "PostsId");
-
-                    b.HasIndex("PostsId");
-
-                    b.ToTable("CommentPost");
-                });
-
-            modelBuilder.Entity("CommentUser", b =>
-                {
-                    b.Property<string>("CommentsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("CommentsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("CommentUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -205,11 +175,11 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("PostTeam", b =>
                 {
-                    b.Property<string>("PostsId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PostsId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TeamsId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
 
                     b.HasKey("PostsId", "TeamsId");
 
@@ -220,8 +190,8 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("PostUser", b =>
                 {
-                    b.Property<string>("PostsId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PostsId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UsersId")
                         .HasColumnType("nvarchar(450)");
@@ -233,10 +203,13 @@ namespace SporC.DAL.Migrations
                     b.ToTable("PostUser");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.Category", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -245,17 +218,20 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 13, 16, 16, 31, 658, DateTimeKind.Local).AddTicks(2264));
+                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 44, 51, 516, DateTimeKind.Local).AddTicks(1633));
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.Comment", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.Comment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -264,32 +240,39 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 13, 16, 16, 31, 658, DateTimeKind.Local).AddTicks(4194));
+                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 44, 51, 516, DateTimeKind.Local).AddTicks(5525));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PostId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UsersId");
 
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.Post", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.Post", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("CategoryId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -299,38 +282,39 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 13, 16, 16, 31, 658, DateTimeKind.Local).AddTicks(5999));
+                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 44, 51, 516, DateTimeKind.Local).AddTicks(9223));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TeamId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.Team", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.Team", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 13, 16, 16, 31, 658, DateTimeKind.Local).AddTicks(7825));
+                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 44, 51, 517, DateTimeKind.Local).AddTicks(3533));
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()
@@ -340,8 +324,8 @@ namespace SporC.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("categoriesId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("categoriesId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -350,7 +334,7 @@ namespace SporC.DAL.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.User", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -358,8 +342,8 @@ namespace SporC.DAL.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Age")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -398,8 +382,8 @@ namespace SporC.DAL.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeamId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -408,6 +392,9 @@ namespace SporC.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("UserTypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -421,50 +408,42 @@ namespace SporC.DAL.Migrations
 
                     b.HasIndex("TeamId");
 
+                    b.HasIndex("UserTypeId");
+
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("SporC.Entities.Concrete.UserType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserType");
                 });
 
             modelBuilder.Entity("CategoryPost", b =>
                 {
-                    b.HasOne("SporC.Concrete.Category", null)
+                    b.HasOne("SporC.Entities.Concrete.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SporC.Concrete.Post", null)
+                    b.HasOne("SporC.Entities.Concrete.Post", null)
                         .WithMany()
                         .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CommentPost", b =>
-                {
-                    b.HasOne("SporC.Concrete.Comment", null)
-                        .WithMany()
-                        .HasForeignKey("CommentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SporC.Concrete.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CommentUser", b =>
-                {
-                    b.HasOne("SporC.Concrete.Comment", null)
-                        .WithMany()
-                        .HasForeignKey("CommentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SporC.Concrete.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -480,7 +459,7 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SporC.Concrete.User", null)
+                    b.HasOne("SporC.Entities.Concrete.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -489,7 +468,7 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SporC.Concrete.User", null)
+                    b.HasOne("SporC.Entities.Concrete.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -504,7 +483,7 @@ namespace SporC.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SporC.Concrete.User", null)
+                    b.HasOne("SporC.Entities.Concrete.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -513,7 +492,7 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SporC.Concrete.User", null)
+                    b.HasOne("SporC.Entities.Concrete.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -522,13 +501,13 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("PostTeam", b =>
                 {
-                    b.HasOne("SporC.Concrete.Post", null)
+                    b.HasOne("SporC.Entities.Concrete.Post", null)
                         .WithMany()
                         .HasForeignKey("PostsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SporC.Concrete.Team", null)
+                    b.HasOne("SporC.Entities.Concrete.Team", null)
                         .WithMany()
                         .HasForeignKey("TeamsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -537,40 +516,75 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("PostUser", b =>
                 {
-                    b.HasOne("SporC.Concrete.Post", null)
+                    b.HasOne("SporC.Entities.Concrete.Post", null)
                         .WithMany()
                         .HasForeignKey("PostsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SporC.Concrete.User", null)
+                    b.HasOne("SporC.Entities.Concrete.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SporC.Concrete.Team", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.Comment", b =>
                 {
-                    b.HasOne("SporC.Concrete.Category", "categories")
+                    b.HasOne("SporC.Entities.Concrete.Post", "Posts")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SporC.Entities.Concrete.User", "Users")
+                        .WithMany("Comments")
+                        .HasForeignKey("UsersId");
+
+                    b.Navigation("Posts");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SporC.Entities.Concrete.Team", b =>
+                {
+                    b.HasOne("SporC.Entities.Concrete.Category", "categories")
                         .WithMany()
                         .HasForeignKey("categoriesId");
 
                     b.Navigation("categories");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.User", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.User", b =>
                 {
-                    b.HasOne("SporC.Concrete.Team", "team")
+                    b.HasOne("SporC.Entities.Concrete.Team", "team")
                         .WithMany("Users")
                         .HasForeignKey("TeamId");
+
+                    b.HasOne("SporC.Entities.Concrete.UserType", "UserType")
+                        .WithMany()
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
 
                     b.Navigation("team");
                 });
 
-            modelBuilder.Entity("SporC.Concrete.Team", b =>
+            modelBuilder.Entity("SporC.Entities.Concrete.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("SporC.Entities.Concrete.Team", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SporC.Entities.Concrete.User", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

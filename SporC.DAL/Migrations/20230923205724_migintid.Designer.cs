@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SporCDAL.Contexts;
 
@@ -11,9 +12,11 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    partial class SqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230923205724_migintid")]
+    partial class migintid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,7 +218,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 52, 44, 34, DateTimeKind.Local).AddTicks(9565));
+                        .HasDefaultValue(new DateTime(2023, 9, 23, 23, 57, 24, 660, DateTimeKind.Local).AddTicks(9047));
 
                     b.HasKey("Id");
 
@@ -237,7 +240,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 52, 44, 35, DateTimeKind.Local).AddTicks(1419));
+                        .HasDefaultValue(new DateTime(2023, 9, 23, 23, 57, 24, 661, DateTimeKind.Local).AddTicks(991));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -279,7 +282,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 52, 44, 35, DateTimeKind.Local).AddTicks(3463));
+                        .HasDefaultValue(new DateTime(2023, 9, 23, 23, 57, 24, 661, DateTimeKind.Local).AddTicks(2826));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -311,7 +314,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 9, 24, 0, 52, 44, 35, DateTimeKind.Local).AddTicks(5798));
+                        .HasDefaultValue(new DateTime(2023, 9, 23, 23, 57, 24, 661, DateTimeKind.Local).AddTicks(4945));
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()
@@ -390,7 +393,7 @@ namespace SporC.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("UserTypeId")
+                    b.Property<int>("UserTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -422,6 +425,7 @@ namespace SporC.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -559,7 +563,9 @@ namespace SporC.DAL.Migrations
 
                     b.HasOne("SporC.Entities.Concrete.UserType", "UserType")
                         .WithMany()
-                        .HasForeignKey("UserTypeId");
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UserType");
 

@@ -12,8 +12,8 @@ namespace SporC.Entities.Concrete
     {
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public string UserId { get; set; }
-        public string  PostId { get; set; }
+        public int UserId { get; set; }
+        public int  PostId { get; set; }
 
         public virtual User Users { get; set; }
         public virtual Post Posts { get; set; }

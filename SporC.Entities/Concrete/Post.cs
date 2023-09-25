@@ -13,9 +13,9 @@ namespace SporC.Entities.Concrete
         public string  Title { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
-        public string  UserId { get; set; }
-        public string TeamId { get; set; }
-        public string CategoryId { get; set; }
+        public int  UserId { get; set; }
+        public int TeamId { get; set; }
+        public int CategoryId { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Team> Teams { get; set; }

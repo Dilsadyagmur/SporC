@@ -6,13 +6,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SporCDAL.Contexts
 {
-    public class SqlDbContext : IdentityDbContext<User,IdentityRole,string>
+    public class SqlDbContext : IdentityDbContext<User>
     {
-        //public DbSet<User> Users { get; set; }
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Comment> Comments { get; set; }    
+     
 
         public SqlDbContext()
         {
@@ -37,7 +33,10 @@ namespace SporCDAL.Contexts
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 		}
 
-        
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
     }
 }

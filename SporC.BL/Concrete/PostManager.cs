@@ -13,6 +13,7 @@ namespace SporC.BL.Concrete
     {
         public PostManager(IBaseRepository<Post> repository) : base(repository)
         {
+
         }
     }
 }
