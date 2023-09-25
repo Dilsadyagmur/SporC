@@ -73,7 +73,7 @@ namespace SporC.Controllers
                     Content = viewModel.Content,
                     TeamId = viewModel.TeamId,
                     UserId = int.Parse(User.Identity.Name), // Get the current user name
-                    CreatedDate = DateTime.Now,
+                    CreateDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     LikeCount = 0,
                     CommentCount = 0

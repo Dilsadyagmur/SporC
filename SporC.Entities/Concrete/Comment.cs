@@ -11,7 +11,7 @@ namespace SporC.Entities.Concrete
     public class Comment: BaseEntity
     {
         public string Content { get; set; }
-        public DateTime Date { get; set; }
+        
         public int UserId { get; set; }
         public int  PostId { get; set; }
 

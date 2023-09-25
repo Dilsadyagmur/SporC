@@ -16,8 +16,7 @@ namespace SporC.Entities.Concrete
         public int TeamId { get; set; }
         public int LikeCount  { get; set; }
         public int CommentCount { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+       
 
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Team> Teams { get; set; }

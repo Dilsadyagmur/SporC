@@ -36,7 +36,7 @@ namespace SporC.DAL.Repositories.Concrete
 
         public async Task<IQueryable<T>> GetAllInclude(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[]? include)
         {
-            IQueryable<T> query;
+            IQueryable<T> query=null;
             if (filter != null)
             {
                 query = Context.Set<T>().Where(filter);
