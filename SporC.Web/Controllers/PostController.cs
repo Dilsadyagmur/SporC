@@ -197,34 +197,40 @@ namespace SporC.Controllers
             return _postRepository.GetById(id)!=null;
         }
 
+        // GET: Post/Delete/5
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            // Get the post by id and check if it exists and belongs to the current user
+            var post = await _postRepository.GetById(id ?? 0);
+            if (post == null || post.UserId.ToString() != User.Identity.Name)
+            {
+                return NotFound();
+            }
 
+            return View(post);
+        }
 
         // POST: Post/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Get the post by id
+            // Get the post by id and check if it exists and belongs to the current user
             var post = await _postRepository.GetById(id);
-
-            if (post == null)
+            if (post == null || post.UserId.ToString() != User.Identity.Name)
             {
                 return NotFound();
             }
 
-            // Check if the current user is the owner of the post
-            if (post.UserId.ToString() != User.Identity.Name)
-            {
-                return Forbid();
-            }
-
-            // Delete the post from the database
+            // Delete the post from the database and redirect to Index function
             await _postRepository.Delete(post);
-
-            // Redirect to Index function
             return RedirectToAction(nameof(Index));
         }
 
-       
+
+
+
+
     }
 }
