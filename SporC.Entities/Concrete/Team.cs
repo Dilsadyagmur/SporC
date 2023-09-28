@@ -16,7 +16,7 @@ namespace SporC.Entities.Concrete
 
         public string LogoUrl { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }    
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<User?> Users { get; set; }    
+        public virtual ICollection<Post?> Posts { get; set; }
     }
 }

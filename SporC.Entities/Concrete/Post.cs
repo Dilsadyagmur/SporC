@@ -14,14 +14,14 @@ namespace SporC.Entities.Concrete
         public string Content { get; set; }
         public int  UserId { get; set; }
         public int TeamId { get; set; }
-        public int LikeCount  { get; set; }
-        public int CommentCount { get; set; }
+        public int? LikeCount  { get; set; }
+        public int? CommentCount { get; set; }
        
 
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Team> Teams { get; set; }
         
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment?> Comments { get; set; }
 
     }
 }

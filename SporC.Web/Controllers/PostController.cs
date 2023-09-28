@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SporC.DAL.Repositories.Abstract;
+using SporC.DAL.Repositories.Concrete;
 using SporC.Entities.Concrete;
 
 using SporC.Web.Models;
+using SporCDAL.Contexts;
 
 namespace SporC.Controllers
 {
@@ -23,6 +25,7 @@ namespace SporC.Controllers
         {
             _postRepository = postRepository;
             _teamRepository = teamRepository;
+           
         }
 
         // GET: Post
@@ -59,7 +62,7 @@ namespace SporC.Controllers
             return View(viewModel);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PostCreateViewModel viewModel)
@@ -194,7 +197,7 @@ namespace SporC.Controllers
 
         private bool PostExists(int id)
         {
-            return _postRepository.GetById(id)!=null;
+            return _postRepository.GetById(id) != null;
         }
 
         // GET: Post/Delete/5

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SporC.Entities.Concrete;
 
 namespace SporCDAL.Contexts;
 
-public class SqlDbContext : IdentityDbContext<IdentityUser>
+public class AppDbContext : IdentityDbContext<IdentityUser>
 {
-    public SqlDbContext(DbContextOptions<SqlDbContext> options)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
@@ -18,4 +19,5 @@ public class SqlDbContext : IdentityDbContext<IdentityUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+   
 }

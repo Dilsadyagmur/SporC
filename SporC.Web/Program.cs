@@ -7,6 +7,7 @@ using SporC.DAL.Repositories.Abstract;
 using SporC.DAL.Repositories.Concrete;
 using SporC.Web.AutoMapper;
 using SporC.Web.Extensions;
+using SporC.Entities.Concrete;
 
 namespace SporC.Web
 {
@@ -17,9 +18,9 @@ namespace SporC.Web
             var builder = WebApplication.CreateBuilder(args);
             var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<SqlDbContext>(options =>
-            options.UseSqlServer(connectionstring));
+            options.UseSqlServer(builder.Configuration.GetConnectionString(connectionstring)));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SqlDbContext>();
+            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SqlDbContext>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(SporCMapper));
