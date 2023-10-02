@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using SporC.BL.Abstract;
 using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
 using SporC.Entities.Concrete;
+using SporC.Web.Models;
 
 namespace SporC.Web.Controllers
 {
@@ -10,20 +14,21 @@ namespace SporC.Web.Controllers
     {
         private readonly IRepository<User> _repository;
 
-        public UserController(IRepository<User> _repository) 
+        public UserController(IRepository<User> repository) 
         {
-            this._repository = _repository;
+            repository = _repository;
         }
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Login(User user)
+        public  async Task<IActionResult> Login(LoginViewModel model)
         {
-            User user = _repository.GetAll();
-
-        }
-
+            // _repository servisini kullanarak kullanıcı adına ve şifreye göre bir kullanıcı bulun
+            User appuser = (await _repository.GetAllInclude(u => u.UserName == model.UserName && u.Password == model.Password)).Include(u => u.UserType).First();
+            
     }
+
+}
 }
