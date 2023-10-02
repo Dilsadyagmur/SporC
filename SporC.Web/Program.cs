@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SporCDAL.Contexts;
-using Microsoft.AspNetCore.Identity;
+
 using SporC.BL.Abstract;
 using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
@@ -20,7 +20,6 @@ namespace SporC.Web
             builder.Services.AddDbContext<SqlDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString(connectionstring)));
 
-            builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SqlDbContext>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(SporCMapper));
@@ -56,7 +55,7 @@ namespace SporC.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.MapRazorPages();
+            
             app.Run();
         }
     }

@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SporC.BL.Abstract;
 using SporC.Entities.Concrete;
@@ -16,9 +16,9 @@ namespace SporC.Web.Controllers
         private readonly IPostManager postManager;
         private readonly ICategoryManager categoryManager;
         private readonly ICommentManager commentManager;
-        private readonly UserManager<User> userManager;
+       
 
-        public PosttController1(SqlDbContext dbContext, IMapper mapper, ITeamManager teamManager, IPostManager postManager, ICategoryManager categoryManager, ICommentManager commentManager, UserManager<User> userManager) 
+        public PosttController1(SqlDbContext dbContext, IMapper mapper, ITeamManager teamManager, IPostManager postManager, ICategoryManager categoryManager, ICommentManager commentManager) 
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
@@ -26,7 +26,7 @@ namespace SporC.Web.Controllers
             this.postManager = postManager;
             this.categoryManager = categoryManager;
             this.commentManager = commentManager;
-            this.userManager = userManager;
+           
         }
 
         

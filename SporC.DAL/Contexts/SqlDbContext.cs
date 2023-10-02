@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SporC.Entities.Concrete;
 using System.Reflection;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using System.Reflection.Emit;
 
 namespace SporCDAL.Contexts
 {
-    public class SqlDbContext : IdentityDbContext<User>
+    public class SqlDbContext : DbContext
     {
      
 
@@ -34,8 +32,8 @@ namespace SporCDAL.Contexts
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
         }
-       
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
