@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SporC.BL.Abstract
 {
-    public interface ICommentManager : IRepository<Comment> 
+    public interface ICommentManager : IManagerBase<Comment> 
     {
     }
 }

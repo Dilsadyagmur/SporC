@@ -30,19 +30,9 @@ namespace SporC.DAL.Repositories.Concrete
             return await _context.SaveChangesAsync();
         }
 
-
-        public async Task<ICollection<T>> GetAll(Expression<Func<T, bool>>? filter = null)
+        public  IQueryable<T> GetAll(Expression<Func<T, bool>> filter)
         {
-            
-            if (filter == null)
-            {
-                return await _dbset.ToListAsync();
-            }
-            else
-            {
-                return await _dbset.Where(filter).ToListAsync();
-
-            }
+            return  _dbset.Where(x => x.IsDeleted == false).Where(filter);
         }
 
         public async Task<IQueryable<T>> GetAllInclude(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[]? include)
@@ -70,10 +60,18 @@ namespace SporC.DAL.Repositories.Concrete
             return await _context.SaveChangesAsync();
         }
 
+        public void Save()
+        {
+            _context.SaveChanges();
+
+        }
+
         public async Task<int> Update(T input)
         {
             _dbset.Update(input);
             return await _context.SaveChangesAsync();
         }
+
+       
     }
 }

@@ -1,38 +1,33 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
-using SporC.BL.Abstract;
-using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
 using SporC.Entities.Concrete;
-using SporC.Web.Models;
 using System.Data;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
-namespace SporC.Web.Controllers
+namespace SporC.Web.Areas.Dashboard.Controllers
 {
-    public class UserController : Controller
+    public class AdminController : Controller
     {
         private readonly IRepository<User> _repository;
 
-        public UserController(IRepository<User> repository) 
+        public AdminController(IRepository<User> repository)
         {
             _repository = repository;
         }
-     
+
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public   IActionResult Login(User user)
+        public IActionResult Login(User user)
         {
-            
-            User appuser = _repository.GetAll(u=>u.UserName==user.UserName && u.Password==user.Password).Include(u=>u.UserType).FirstOrDefault();  
+
+            User appuser = _repository.GetAll(u => u.UserName == user.UserName && u.Password == user.Password).Include(u => u.UserType).FirstOrDefault();
             if (appuser != null)
             {
                 List<Claim> claims = new List<Claim>();
@@ -43,7 +38,7 @@ namespace SporC.Web.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties {IsPersistent = true });
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties { IsPersistent = true });
 
                 return Ok();
             }
@@ -62,7 +57,7 @@ namespace SporC.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult GetAll()
         {
-            return Json(new { data = _repository.GetAllInclude(u => u.UserType.Id==1, u=>u.UserType) });
+            return Json(new { data = _repository.GetAllInclude(u => u.UserType.Id == 1, u => u.UserType) });
         }
 
         [HttpPost]
@@ -73,7 +68,6 @@ namespace SporC.Web.Controllers
             _repository.Save();
 
             return Ok();
-
         }
 
 

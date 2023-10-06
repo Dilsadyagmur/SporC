@@ -37,18 +37,16 @@ namespace SporC.BL.Concrete
         {
             return await repository.GetById(id);
         }
-        public async virtual Task<ICollection<T>>? GetAll(Expression<Func<T, bool>>? filter)
-        {
-            return await repository.GetAll(filter);
-        }
+        
 
         public async virtual Task<IQueryable<T>>? GetAllInclude(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[]? include)
         {
             return await repository.GetAllInclude(filter, include);
         }
 
-
-
-
+        public Task<IQueryable<T>> GetAll(Expression<Func<T, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

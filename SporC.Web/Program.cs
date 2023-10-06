@@ -8,6 +8,7 @@ using SporC.DAL.Repositories.Concrete;
 using SporC.Web.AutoMapper;
 using SporC.Web.Extensions;
 using SporC.Entities.Concrete;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace SporC.Web
 {
@@ -24,7 +25,11 @@ namespace SporC.Web
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(SporCMapper));
             builder.Services.AddSporCServices();
-
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.AccessDeniedPath = null;
+                options.LoginPath = "/User/Login";
+            });
             
             var app = builder.Build();
 

@@ -1,0 +1,79 @@
+﻿<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>SporC Website</title>
+
+
+</head>
+
+<body>
+
+
+
+    <div class="signin">
+
+        <div class="content">
+
+            <h2>GİRİŞ YAP</h2>
+
+            <div class="form">
+
+                <div class="inputBox">
+
+                    <input id="txtUsername" type="text" required> <i>Kullanıcı Adı</i>
+
+                </div>
+
+                <div class="inputBox">
+
+                    <input id="txtPassword" type="password" required> <i>Şifre</i>
+
+                </div>
+
+
+
+                <div class="inputBox">
+
+                    <input id="btnLogin" type="submit" value="Giriş Yap">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#btnLogin").click(function () {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Dashboard/Admin/Login',
+                data: {
+                    username: $("#txtUsername").val(),
+                    password: $("#txtPassword").val()
+                },
+                error: function () {
+                    alert("giriş başarısız !");
+                },
+                success: function () {
+                    location.href = '/Dashboard/Admin/Index';
+                }
+            });
+
+
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>

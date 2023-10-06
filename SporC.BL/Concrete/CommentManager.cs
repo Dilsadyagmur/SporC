@@ -13,11 +13,11 @@ namespace SporC.BL.Concrete
 {
     public class CommentManager : ManagerBase<Comment>, ICommentManager
     {
-        public CommentManager(IRepository<Comment> repository) : base(repository)
+        private readonly IRepository<Comment> repository;
+
+        public CommentManager(IRepository<Comment> repository) : base (repository)
         {
-
-        }
-
-       
+            this.repository = repository;
+        } 
     }
 }
