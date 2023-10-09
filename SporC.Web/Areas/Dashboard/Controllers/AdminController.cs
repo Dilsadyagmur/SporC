@@ -24,6 +24,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
+        [Route("Dashboard/Admin/Login/")]
         public IActionResult Login(User user)
         {
 
@@ -49,18 +50,21 @@ namespace SporC.Web.Areas.Dashboard.Controllers
 
         }
         [Authorize(Roles = "Admin")]
+        [Route("Dashboard/Admin/Index")]
         public IActionResult Index()
         {
             return View();
         }
 
         [Authorize(Roles = "Admin")]
+        [Route("Dashboard/Admin/Login/GetAll")]
         public IActionResult GetAll()
         {
             return Json(new { data = _repository.GetAllInclude(u => u.UserType.Id == 1, u => u.UserType) });
         }
 
         [HttpPost]
+        [Route("Dashboard/Admin/Login/Delete")]
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(User Appuser)
         {
@@ -72,6 +76,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
 
 
         [HttpPost]
+        [Route("Dashboard/Admin/Login/Add")]
         [Authorize(Roles = "Admin")]
         public IActionResult Add(User appUser)
         {
@@ -81,6 +86,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
+        [Route("Dashboard/Admin/Login/Update")]
         [Authorize(Roles = "Admin")]
         public IActionResult Update(User appUser)
         {

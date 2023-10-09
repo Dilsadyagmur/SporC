@@ -48,19 +48,26 @@ namespace SporC.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
-            
+
+            app.MapAreaControllerRoute(
+    name: "Dashboard",
+    areaName: "Dashboard",
+    pattern: "Dashboard/{controller=Home}/{action=Index}/{id?}"
+);
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                  name: "areas",
-                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                endpoints.MapAreaControllerRoute(
+                    name: "Dashboard",
+                    areaName: "Dashboard",
+                    pattern: "Dashboard/{controller=Admin}/{action=Login}/{id?}"
                 );
-                app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            
+
+
             app.Run();
         }
     }
