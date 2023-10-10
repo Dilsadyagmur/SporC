@@ -11,21 +11,27 @@ namespace SporC.Web.Controllers
 {
     public class PostController : Controller
     {
-      private readonly IRepository<Post> _postRepository;
+        private readonly IRepository<Post> _Repository;
 
-        public PostController(IRepository<Post> postRepository)
+        public PostController(IRepository<Post> Repository)
         {
-            _postRepository = postRepository;
+            _Repository = Repository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
         public IActionResult Create(Post post)
         {
-            var 
+            var posts = _Repository.Insert(post);
+            return View(Index);
         }
     }
 }

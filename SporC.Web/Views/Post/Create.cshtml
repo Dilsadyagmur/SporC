@@ -1,3 +1,24 @@
-﻿@model PostCreateViewModel
+﻿@model Post
+<head>
+	<title> Gönderi Oluştur</title>
+	
+</head>
 
-<h1>hghfhhg</h1>
+<body>
+	<h2> Gönderi Oluştur</h2>
+
+	<div class="card-body">
+		<form asp-action="create" method="post" asp-controller="Post" >
+			<div class="mb-3">
+				<label asp-for="@Model.Content" class="form-label"> </label>
+				<input type="text" class="form-control" asp-for="@Model.Content" placeholder="Gönderi oluştur.">
+				<div class="mb-3">
+					<button class="btn btn-success" type="submit">Kaydet</button>
+				</div>
+			</div>
+				
+
+		</form>
+	</div>
+</body>
+</html>
