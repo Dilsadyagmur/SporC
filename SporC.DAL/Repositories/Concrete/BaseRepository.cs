@@ -56,7 +56,7 @@ namespace SporC.DAL.Repositories.Concrete
      
         public async Task<int> Insert(T input)
         {
-            _dbset.AddAsync(input);
+            await _dbset.AddAsync(input);
             return await _context.SaveChangesAsync();
         }
 

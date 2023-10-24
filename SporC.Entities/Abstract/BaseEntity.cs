@@ -1,7 +1,10 @@
-﻿namespace SporC.Entities.Abstract
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SporC.Entities.Abstract
 {
     public abstract class BaseEntity
     {
+        [Key]
         public int Id { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
         

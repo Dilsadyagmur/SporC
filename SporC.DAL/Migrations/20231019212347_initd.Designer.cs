@@ -12,8 +12,8 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20231003001622_nullable")]
-    partial class nullable
+    [Migration("20231019212347_initd")]
+    partial class initd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,10 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 3, 3, 16, 22, 78, DateTimeKind.Local).AddTicks(2703));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(6546));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -95,7 +98,10 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 3, 3, 16, 22, 78, DateTimeKind.Local).AddTicks(5047));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(8374));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -137,12 +143,15 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 3, 3, 16, 22, 78, DateTimeKind.Local).AddTicks(6915));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 23, 47, 78, DateTimeKind.Local).AddTicks(161));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("LikeCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -174,7 +183,10 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 3, 3, 16, 22, 78, DateTimeKind.Local).AddTicks(8967));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 23, 47, 78, DateTimeKind.Local).AddTicks(2038));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LogoUrl")
                         .IsRequired()
@@ -209,7 +221,12 @@ namespace SporC.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(4536));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -247,6 +264,9 @@ namespace SporC.DAL.Migrations
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

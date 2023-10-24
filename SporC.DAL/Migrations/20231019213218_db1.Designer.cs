@@ -12,8 +12,8 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20231005155402_isdeleted")]
-    partial class isdeleted
+    [Migration("20231019213218_db1")]
+    partial class db1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(436));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(6713));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -98,7 +98,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(2368));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(9056));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -143,7 +143,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(4395));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 32, 18, 128, DateTimeKind.Local).AddTicks(1515));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -151,7 +151,7 @@ namespace SporC.DAL.Migrations
                     b.Property<int?>("LikeCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -183,7 +183,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(6558));
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 32, 18, 128, DateTimeKind.Local).AddTicks(4032));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -221,7 +221,9 @@ namespace SporC.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(3891));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

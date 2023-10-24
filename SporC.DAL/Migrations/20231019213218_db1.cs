@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SporC.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class mig4 : Migration
+    public partial class db1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,49 +16,50 @@ namespace SporC.DAL.Migrations
                 table: "Users",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 104, DateTimeKind.Local).AddTicks(6392),
+                defaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(3891),
                 oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+                oldType: "datetime2",
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(4536));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Teams",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 105, DateTimeKind.Local).AddTicks(4335),
+                defaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 128, DateTimeKind.Local).AddTicks(4032),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(6558));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 78, DateTimeKind.Local).AddTicks(2038));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Posts",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 105, DateTimeKind.Local).AddTicks(2358),
+                defaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 128, DateTimeKind.Local).AddTicks(1515),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(4395));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 78, DateTimeKind.Local).AddTicks(161));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Comments",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 105, DateTimeKind.Local).AddTicks(504),
+                defaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(9056),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(2368));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(8374));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Categories",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 104, DateTimeKind.Local).AddTicks(8699),
+                defaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(6713),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(436));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(6546));
         }
 
         /// <inheritdoc />
@@ -69,49 +70,50 @@ namespace SporC.DAL.Migrations
                 table: "Users",
                 type: "datetime2",
                 nullable: false,
+                defaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(4536),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 104, DateTimeKind.Local).AddTicks(6392));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(3891));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Teams",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(6558),
+                defaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 78, DateTimeKind.Local).AddTicks(2038),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 105, DateTimeKind.Local).AddTicks(4335));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 128, DateTimeKind.Local).AddTicks(4032));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Posts",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(4395),
+                defaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 78, DateTimeKind.Local).AddTicks(161),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 105, DateTimeKind.Local).AddTicks(2358));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 128, DateTimeKind.Local).AddTicks(1515));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Comments",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(2368),
+                defaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(8374),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 105, DateTimeKind.Local).AddTicks(504));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(9056));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Categories",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 10, 5, 18, 54, 2, 706, DateTimeKind.Local).AddTicks(436),
+                defaultValue: new DateTime(2023, 10, 20, 0, 23, 47, 77, DateTimeKind.Local).AddTicks(6546),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 10, 16, 21, 38, 37, 104, DateTimeKind.Local).AddTicks(8699));
+                oldDefaultValue: new DateTime(2023, 10, 20, 0, 32, 18, 127, DateTimeKind.Local).AddTicks(6713));
         }
     }
 }

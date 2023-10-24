@@ -20,8 +20,13 @@ namespace SporC.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            // Veritabanından Post verilerini al
+            IQueryable<Post> queryablePosts = _Repository.GetAll(x => true);
+            List<Post> posts = queryablePosts.ToList();
+            return View(posts);
         }
+
+
         [HttpGet]
         public async Task< IActionResult> Create()
         {
@@ -34,29 +39,28 @@ namespace SporC.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Veriyi veritabanına eklemek için Repository kullanımı
+                   
                     var addedPost = _Repository.Insert(post);
+                   
 
                     if (addedPost != null)
                     {
-                        // Veri başarıyla eklenirse kullanıcıyı Index eylemine yönlendirin
+                       
                         return RedirectToAction("Index","Home");
                     }
                     else
                     {
-                        // Veritabanına eklenemedi, hata durumunu ele alabilirsiniz.
+                       
                         ModelState.AddModelError(string.Empty, "Veri eklenemedi.");
                     }
                 }
-                return View(post); // Model durumu geçerli değilse, Create görünümünü tekrar gösterin.
+                return View(post); 
             }
             catch (Exception ex)
             {
-                // Hata durumunu ele alın veya günlüğe kaydedin.
-                // Örneğin, hata mesajını hata günlüğüne kaydetmek:
-                // _logger.LogError(ex, "Veri eklenirken hata oluştu.");
+                
                 ModelState.AddModelError(string.Empty, "Bir hata oluştu.");
-                return View(post); // Hata durumunda, Create görünümünü tekrar gösterin.
+                return View(post); 
             }
         }
 

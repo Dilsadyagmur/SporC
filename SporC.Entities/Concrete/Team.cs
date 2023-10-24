@@ -12,7 +12,7 @@ namespace SporC.Entities.Concrete
 	{
         public string TeamName { get; set; }
 
-        public Category? categories { get; set; }
+      
 
         public string LogoUrl { get; set; }
 

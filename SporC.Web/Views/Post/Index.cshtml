@@ -1,0 +1,24 @@
+﻿@model List<Post>
+
+<table class="table table-hower">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+         
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+
+                <td>@post.Title</td>
+                <td>@post.Content</td>
+            
+             
+            </tr>
+        }
+    </tbody>
+
+</table>
+ 
