@@ -1,5 +1,6 @@
 ﻿using SporC.BL.Abstract;
 using SporC.DAL.Repositories.Abstract;
+using SporC.DAL.Repositories.Concrete;
 using SporC.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,13 @@ namespace SporC.BL.Concrete
 {
     public class UserManager : ManagerBase<User>, IUserManager
     {
-        private readonly IRepository<User> repository;
+        private readonly IRepository<User> _userRepository;
 
         public UserManager(IRepository<User> repository) : base(repository)
         {
-            this.repository = repository;
+            _userRepository = repository;
         }
-    }
+
+		
+	}
 }

@@ -1,4 +1,4 @@
-﻿@model SporC.Entities.Concrete.Post
+﻿@model BlogPostViewModel
 
 <head>
 	<title> Gönderi Oluştur</title>
@@ -12,19 +12,19 @@
 		<form asp-action="create" method="post" asp-controller="Post" >
 			<div class="mb-3">
 				
-				<label asp-for="@Model.Content" class="form-label"> </label>
-				<input type="text" class="form-control" asp-for="@Model.Content" placeholder="Gönderi oluştur.">
+				<label asp-for="@Model.post.Content" class="form-label"> </label>
+				<input type="text" class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur.">
 				
 			</div>
 			<div class="mb-3">
-				<label asp-for="@Model.Title" class="form-label"> </label>
-				<input type="text" class="form-control" asp-for="@Model.Title" placeholder="Konu başlığı girin.">
+				<label asp-for="@Model.post.Title" class="form-label"> </label>
+				<input type="text" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin.">
 			</div>
 			<div class="mb-3">
 				<button class="btn btn-success" type="submit">Kaydet</button>
 			</div>
 
-		</form>z
+		</form>
 	</div>
 </body>
 </html>

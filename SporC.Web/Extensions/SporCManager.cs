@@ -19,8 +19,10 @@ namespace SporC.Web.Extensions
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<ICommentRepository, CommentRepository>();
             Services.AddScoped<ITeamRepository, TeamRepository>();
+			Services.AddScoped<IUserManager, UserManager>();
 
-            Services.AddScoped<IRepository<Post>, PostRepository>();
+
+			Services.AddScoped<IRepository<Post>, PostRepository>();
             Services.AddScoped<IRepository<Category>, CategoryRepository>();
             Services.AddScoped<IRepository<Comment>, CommentRepository>();
             Services.AddScoped<IRepository<Team>, TeamRepository>();

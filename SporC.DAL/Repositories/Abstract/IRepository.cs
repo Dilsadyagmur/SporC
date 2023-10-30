@@ -18,6 +18,7 @@ namespace SporC.DAL.Repositories.Abstract
         Task<T> GetById(int id);
         IQueryable<T> GetAll(Expression<Func<T, bool>> filter);
         Task<IQueryable<T>> GetAllInclude(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[]? include);
-        
+		IQueryable<T> GetAll();
+        void DeleteById(int id);
     }
 }

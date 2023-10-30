@@ -1,11 +1,15 @@
 ﻿
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SporC.BL.Abstract;
+using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
 using SporC.Entities.Concrete;
 using SporC.Web.Models;
 using SporCDAL.Contexts;
+using SporC.Entities;
+using System.Security.Claims;
 
 namespace SporC.Web.Controllers
 {
@@ -13,56 +17,95 @@ namespace SporC.Web.Controllers
     {
         private readonly IRepository<Post> _Repository;
 
+
         public PostController(IRepository<Post> Repository)
         {
             _Repository = Repository;
+
         }
 
         public async Task<IActionResult> Index()
         {
             // Veritabanından Post verilerini al
-            IQueryable<Post> queryablePosts = _Repository.GetAll(x => true);
-            List<Post> posts = queryablePosts.ToList();
-            return View(posts);
+            List<Post> queryablePosts = _Repository.GetAll(x=>x.IsDeleted==false).ToList();
+            BlogPostViewModel vm = new BlogPostViewModel();
+            vm.posts = queryablePosts;
+            return View(vm);
         }
 
 
         [HttpGet]
-        public async Task< IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Post post)
+        public async Task<IActionResult> Create(BlogPostViewModel bpwm)
         {
+            bpwm.post.UserId = int.Parse(User.FindFirstValue((ClaimTypes.NameIdentifier)));
             try
             {
                 if (ModelState.IsValid)
                 {
-                   
-                    var addedPost = _Repository.Insert(post);
-                   
+
+
+
+
+                    var addedPost = _Repository.Insert(bpwm.post);
+
+
 
                     if (addedPost != null)
                     {
-                       
-                        return RedirectToAction("Index","Home");
+
+                        return RedirectToAction("Index", "Post");
                     }
                     else
                     {
-                       
+
                         ModelState.AddModelError(string.Empty, "Veri eklenemedi.");
                     }
                 }
-                return View(post); 
+                return View(bpwm);
             }
             catch (Exception ex)
             {
-                
+
                 ModelState.AddModelError(string.Empty, "Bir hata oluştu.");
-                return View(post); 
+                return View(bpwm.post);
             }
+        }
+       
+        public  async Task<IActionResult> Delete(BlogPostViewModel bpwm)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+
+
+                _Repository.DeleteById(bpwm.post.UserId);
+
+
+
+               
+            }
+            return View(bpwm);
+
+        }
+        public async Task<IActionResult> PostDetail(int id)
+        {
+            var post = await _Repository.GetById(id);
+
+            var pd = new BlogPostViewModel
+            {
+                post = post
+                
+            };
+            return View(pd);
         }
 
     }
 }
+
+

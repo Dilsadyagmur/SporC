@@ -1,4 +1,5 @@
-﻿using SporC.BL.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using SporC.BL.Abstract;
 using SporC.DAL.Repositories.Abstract;
 using SporC.Entities.Abstract;
 using System;
@@ -48,5 +49,10 @@ namespace SporC.BL.Concrete
         {
             throw new NotImplementedException();
         }
-    }
+
+		public async virtual  Task<IQueryable<T>> GetAll()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

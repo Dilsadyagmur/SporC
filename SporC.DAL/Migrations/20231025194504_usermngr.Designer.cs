@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SporCDAL.Contexts;
 
@@ -11,9 +12,11 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    partial class SqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231025194504_usermngr")]
+    partial class usermngr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace SporC.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryPost", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "PostsId");
-
-                    b.HasIndex("PostsId");
-
-                    b.ToTable("CategoryPost");
-                });
 
             modelBuilder.Entity("PostTeam", b =>
                 {
@@ -67,13 +55,10 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 496, DateTimeKind.Local).AddTicks(8356));
+                        .HasDefaultValue(new DateTime(2023, 10, 25, 22, 45, 4, 695, DateTimeKind.Local).AddTicks(6535));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -98,7 +83,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 497, DateTimeKind.Local).AddTicks(20));
+                        .HasDefaultValue(new DateTime(2023, 10, 25, 22, 45, 4, 695, DateTimeKind.Local).AddTicks(8351));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -143,7 +128,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 497, DateTimeKind.Local).AddTicks(1737));
+                        .HasDefaultValue(new DateTime(2023, 10, 25, 22, 45, 4, 696, DateTimeKind.Local).AddTicks(196));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -167,6 +152,8 @@ namespace SporC.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
@@ -183,7 +170,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 497, DateTimeKind.Local).AddTicks(3543));
+                        .HasDefaultValue(new DateTime(2023, 10, 25, 22, 45, 4, 696, DateTimeKind.Local).AddTicks(2095));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -218,7 +205,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 496, DateTimeKind.Local).AddTicks(6384));
+                        .HasDefaultValue(new DateTime(2023, 10, 25, 22, 45, 4, 695, DateTimeKind.Local).AddTicks(4332));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -274,21 +261,6 @@ namespace SporC.DAL.Migrations
                     b.ToTable("UserTypes");
                 });
 
-            modelBuilder.Entity("CategoryPost", b =>
-                {
-                    b.HasOne("SporC.Entities.Concrete.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SporC.Entities.Concrete.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PostTeam", b =>
                 {
                     b.HasOne("SporC.Entities.Concrete.Post", null)
@@ -325,6 +297,10 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("SporC.Entities.Concrete.Post", b =>
                 {
+                    b.HasOne("SporC.Entities.Concrete.Category", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("SporC.Entities.Concrete.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
@@ -345,6 +321,11 @@ namespace SporC.DAL.Migrations
                         .HasForeignKey("UserTypeId");
 
                     b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("SporC.Entities.Concrete.Category", b =>
+                {
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("SporC.Entities.Concrete.Post", b =>

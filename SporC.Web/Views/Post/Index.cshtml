@@ -1,24 +1,51 @@
-﻿@model List<Post>
+﻿@model BlogPostViewModel
+<form asp-action="Create" method="post" asp-controller="Post" class="form">
+    <div class="mb-3">
+        <label asp-for="@Model.post.Title" class="form-label">Konu Başlığı</label>
+        <input type="text" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.post.Content" class="form-label">Gönderi İçeriği</label>
+        <textarea class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Gönderi Oluştur</button>
+    </div>
+</form>
 
-<table class="table table-hower">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Content</th>
-         
-    </thead>
-    <tbody>
-        @foreach (var post in Model)
-        {
-            <tr>
+<style>
+    .post-card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+    }
 
-                <td>@post.Title</td>
-                <td>@post.Content</td>
-            
-             
-            </tr>
+        .post-card h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
         }
-    </tbody>
 
-</table>
- 
+        .post-card p {
+            font-size: 14px;
+        }
+</style>
+
+<div class="post-container">
+    @foreach (var post in Model.posts)
+    {
+        <div class="post-card">
+            <!-- Post başlığı -->
+            <h3>
+                <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@post.Id">
+                    @post.Title
+                </a>
+            </h3>
+
+            <p>@post.Content</p>
+        </div>
+    }
+</div>
+
+
+

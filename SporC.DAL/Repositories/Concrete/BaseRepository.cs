@@ -30,12 +30,25 @@ namespace SporC.DAL.Repositories.Concrete
             return await _context.SaveChangesAsync();
         }
 
+        public void DeleteById(int id)
+        {
+            T entity = _dbset.Find(id);
+            entity.IsDeleted = true;    
+            _dbset.Update(entity);
+                
+        }
+
         public  IQueryable<T> GetAll(Expression<Func<T, bool>> filter)
         {
             return  _dbset.Where(x => x.IsDeleted == false).Where(filter);
         }
 
-        public async Task<IQueryable<T>> GetAllInclude(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[]? include)
+		public IQueryable<T> GetAll()
+		{
+			return _dbset.Where(ı=>ı.IsDeleted==false);
+		}
+
+		public async Task<IQueryable<T>> GetAllInclude(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[]? include)
         {
             IQueryable<T> query;
             if (filter != null)

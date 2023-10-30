@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SporCDAL.Contexts;
 
@@ -11,9 +12,11 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    partial class SqlDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030094945_ctgry")]
+    partial class ctgry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,13 +70,10 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 496, DateTimeKind.Local).AddTicks(8356));
+                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 49, 45, 166, DateTimeKind.Local).AddTicks(1919));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -98,7 +98,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 497, DateTimeKind.Local).AddTicks(20));
+                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 49, 45, 166, DateTimeKind.Local).AddTicks(4264));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -129,9 +129,6 @@ namespace SporC.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CommentCount")
                         .HasColumnType("int");
 
@@ -143,7 +140,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 497, DateTimeKind.Local).AddTicks(1737));
+                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 49, 45, 166, DateTimeKind.Local).AddTicks(7168));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -183,7 +180,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 497, DateTimeKind.Local).AddTicks(3543));
+                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 49, 45, 167, DateTimeKind.Local).AddTicks(1009));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -218,7 +215,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 56, 36, 496, DateTimeKind.Local).AddTicks(6384));
+                        .HasDefaultValue(new DateTime(2023, 10, 30, 12, 49, 45, 165, DateTimeKind.Local).AddTicks(9126));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
