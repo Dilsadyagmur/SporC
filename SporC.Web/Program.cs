@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SporCDAL.Contexts;
+using Microsoft.AspNetCore.Mvc;
 
 using SporC.BL.Abstract;
 using SporC.BL.Concrete;
@@ -25,6 +26,8 @@ namespace SporC.Web
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(SporCMapper));
             builder.Services.AddSporCServices();
+            
+
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.AccessDeniedPath = null;
@@ -44,6 +47,7 @@ namespace SporC.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+           
 
             app.UseRouting();
             app.UseAuthentication();

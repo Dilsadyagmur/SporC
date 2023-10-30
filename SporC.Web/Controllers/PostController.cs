@@ -27,7 +27,7 @@ namespace SporC.Web.Controllers
         public async Task<IActionResult> Index()
         {
             // Veritabanından Post verilerini al
-            List<Post> queryablePosts = _Repository.GetAll(x=>x.IsDeleted==false).ToList();
+            List<Post> queryablePosts = _Repository.GetAll(x => !x.IsDeleted).ToList();
             BlogPostViewModel vm = new BlogPostViewModel();
             vm.posts = queryablePosts;
             return View(vm);
@@ -75,24 +75,34 @@ namespace SporC.Web.Controllers
                 return View(bpwm.post);
             }
         }
-       
-        public  async Task<IActionResult> Delete(BlogPostViewModel bpwm)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var post = await _Repository.GetById(id);
+            var viewModel = new BlogPostViewModel
+            {
+                post = post
+            };
+            return View(viewModel);
+
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (ModelState.IsValid)
             {
-
-
-
-
-                _Repository.DeleteById(bpwm.post.UserId);
-
-
-
-               
+                // Silme işlemini gerçekleştir
+                _Repository.DeleteById(id);
+                return RedirectToAction("Index");
             }
-            return View(bpwm);
-
+            else
+            {
+                // Eğer ModelState geçerli değilse, gerekli hata işlemleri burada yapılmalıdır
+                return View("Index"); // Hatayı düzgün bir şekilde ele alarak bir view gösterme
+            }
         }
+
         public async Task<IActionResult> PostDetail(int id)
         {
             var post = await _Repository.GetById(id);

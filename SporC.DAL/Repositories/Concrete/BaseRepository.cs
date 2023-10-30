@@ -33,9 +33,17 @@ namespace SporC.DAL.Repositories.Concrete
         public void DeleteById(int id)
         {
             T entity = _dbset.Find(id);
-            entity.IsDeleted = true;    
-            _dbset.Update(entity);
-                
+            if (entity != null)
+            {
+                entity.IsDeleted = true;
+                _dbset.Update(entity);
+            }
+            else
+            {
+                // Silinmesi gereken post bulunamadı, kullanıcıya hata mesajı döndürün.
+                throw new Exception("Silinmesi gereken post bulunamadı.");
+            }
+
         }
 
         public  IQueryable<T> GetAll(Expression<Func<T, bool>> filter)

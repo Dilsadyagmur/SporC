@@ -32,19 +32,20 @@
 </style>
 
 <div class="post-container">
-    @foreach (var post in Model.posts)
+    @foreach (var post in Model.posts.Where(p => !p.IsDeleted))
     {
         <div class="post-card">
-            <!-- Post başlığı -->
             <h3>
                 <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@post.Id">
                     @post.Title
                 </a>
             </h3>
-
             <p>@post.Content</p>
+            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-danger">Sil</a>
         </div>
     }
+
+    
 </div>
 
 
