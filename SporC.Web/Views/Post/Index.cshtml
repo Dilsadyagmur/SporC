@@ -34,6 +34,7 @@
 <div class="post-container">
     @foreach (var post in Model.posts.Where(p => !p.IsDeleted))
     {
+        
         <div class="post-card">
             <h3>
                 <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@post.Id">
@@ -41,8 +42,14 @@
                 </a>
             </h3>
             <p>@post.Content</p>
-            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-danger">Sil</a>
+
+            <form asp-controller="Post" asp-action="DeleteById" asp-route-id="@post.Id" method="post" onsubmit="return confirm('Bu gönderiyi silmek istediğinizden emin misiniz?');">
+                <button type="submit" class="btn btn-danger">Sil</button>
+            </form>
+
+               
         </div>
+        
     }
 
     

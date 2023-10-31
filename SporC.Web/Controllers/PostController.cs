@@ -26,12 +26,13 @@ namespace SporC.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Veritabanından Post verilerini al
+           
             List<Post> queryablePosts = _Repository.GetAll(x => !x.IsDeleted).ToList();
             BlogPostViewModel vm = new BlogPostViewModel();
             vm.posts = queryablePosts;
             return View(vm);
         }
+     
 
 
         [HttpGet]
@@ -53,7 +54,7 @@ namespace SporC.Web.Controllers
 
                     var addedPost = _Repository.Insert(bpwm.post);
 
-
+                    
 
                     if (addedPost != null)
                     {
@@ -62,7 +63,7 @@ namespace SporC.Web.Controllers
                     }
                     else
                     {
-
+                        
                         ModelState.AddModelError(string.Empty, "Veri eklenemedi.");
                     }
                 }
@@ -74,35 +75,18 @@ namespace SporC.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Bir hata oluştu.");
                 return View(bpwm.post);
             }
-        }
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var post = await _Repository.GetById(id);
-            var viewModel = new BlogPostViewModel
-            {
-                post = post
-            };
-            return View(viewModel);
 
         }
-        
+      
+
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteById(int id)
         {
-            if (ModelState.IsValid)
-            {
-                // Silme işlemini gerçekleştir
-                _Repository.DeleteById(id);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                // Eğer ModelState geçerli değilse, gerekli hata işlemleri burada yapılmalıdır
-                return View("Index"); // Hatayı düzgün bir şekilde ele alarak bir view gösterme
-            }
+            _Repository.DeleteById(id);
+            _Repository.Save();
+           
+            return RedirectToAction("Index", "Post");
         }
-
         public async Task<IActionResult> PostDetail(int id)
         {
             var post = await _Repository.GetById(id);
@@ -114,7 +98,36 @@ namespace SporC.Web.Controllers
             };
             return View(pd);
         }
+        [HttpGet]
+        public async Task<IActionResult> UpdatePost()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdatePost(int id, BlogPostViewModel model)
+        {
+            var post = await _Repository.GetById(id);
 
+            if (post == null)
+            {
+                return NotFound();
+            }
+            post.Content = model.post.Content;
+            post.Title = model.post.Title;
+
+            try
+            {
+                await _Repository.Update(post);
+                return RedirectToAction("Index", "Post");
+            }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError("", $"An error was encountered.\nError message: {ex.Message}");
+                return RedirectToAction("Index","Post");
+            }
+
+        }
     }
 }
 

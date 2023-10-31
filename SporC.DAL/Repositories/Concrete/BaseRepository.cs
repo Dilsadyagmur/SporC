@@ -33,22 +33,17 @@ namespace SporC.DAL.Repositories.Concrete
         public void DeleteById(int id)
         {
             T entity = _dbset.Find(id);
-            if (entity != null)
-            {
+
+          
                 entity.IsDeleted = true;
                 _dbset.Update(entity);
-            }
-            else
-            {
-                // Silinmesi gereken post bulunamadı, kullanıcıya hata mesajı döndürün.
-                throw new Exception("Silinmesi gereken post bulunamadı.");
-            }
-
+           
         }
 
-        public  IQueryable<T> GetAll(Expression<Func<T, bool>> filter)
+
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> filter)
         {
-            return  _dbset.Where(x => x.IsDeleted == false).Where(filter);
+            return GetAll().Where(filter); 
         }
 
 		public IQueryable<T> GetAll()
@@ -69,12 +64,16 @@ namespace SporC.DAL.Repositories.Concrete
         }
 
         public async Task<T> GetById(int id)
-        {
+            {
             return await _dbset.FindAsync(id);
 
         }
 
-     
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
+        {
+            return _dbset.FirstOrDefault(filter);
+        }
+
         public async Task<int> Insert(T input)
         {
             await _dbset.AddAsync(input);
