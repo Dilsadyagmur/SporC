@@ -8,6 +8,7 @@
         <label asp-for="@Model.post.Content" class="form-label">Gönderi İçeriği</label>
         <textarea class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
     </div>
+   
     <div class="mb-3">
         <button class="btn btn-primary" type="submit">Gönderi Oluştur</button>
     </div>
@@ -32,7 +33,7 @@
 </style>
 
 <div class="post-container">
-    @foreach (var post in Model.posts.Where(p => !p.IsDeleted))
+    @foreach (var post in Model.posts.Where(p => !p.IsDeleted)) 
     {
         
         <div class="post-card">
@@ -42,11 +43,21 @@
                 </a>
             </h3>
             <p>@post.Content</p>
-
+           
             <form asp-controller="Post" asp-action="DeleteById" asp-route-id="@post.Id" method="post" onsubmit="return confirm('Bu gönderiyi silmek istediğinizden emin misiniz?');">
                 <button type="submit" class="btn btn-danger">Sil</button>
             </form>
-
+            <a asp-action="UpdatePost" asp-controller="Post" asp-route-id="@post.Id" class="btn btn-primary">Güncelle</a>
+            <form asp-controller="Comment" asp-action="CreateComment" method="post" class="form">
+                <input type="hidden" asp-for="@Model.post.Comments." value="@Model.post.Id" />
+                <div class="mb-3">
+                    <textarea class="form-control" asp-for="@Model.comment.Content" placeholder="Yanıtla" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Yanıtla</button>
+                </div>
+            </form>
+			
                
         </div>
         

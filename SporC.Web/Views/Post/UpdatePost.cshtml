@@ -1,18 +1,26 @@
-﻿@model SporC.Web.Models.BlogPostViewModel
+﻿@model BlogPostViewModel
+@{
+    ViewData["Title"] = "Gönderiyi Güncelle";
+}
 
 <h2>Gönderiyi Güncelle</h2>
 
-<form asp-controller="Post" asp-action="UpdatePost" asp-route-id="@Model.post.Id" method="post">
+<form asp-action="UpdatePost" asp-controller="Post" method="post">
+    <input type="hidden" asp-for="post.Id" />
+
     <div class="form-group">
         <label asp-for="post.Title" class="control-label">Konu Başlığı</label>
         <input asp-for="post.Title" class="form-control" />
         <span asp-validation-for="post.Title" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="post.Content" class="control-label">Gönderi İçeriği</label>
         <textarea asp-for="post.Content" class="form-control" rows="4"></textarea>
         <span asp-validation-for="post.Content" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Gönderiyi Güncelle</button>
-</form>
 
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </div>
+</form>

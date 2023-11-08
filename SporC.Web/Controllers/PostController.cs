@@ -106,18 +106,17 @@ namespace SporC.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePost(int id, BlogPostViewModel model)
         {
-            var post = await _Repository.GetById(id);
-
-            if (post == null)
+          
+            var updatedpost = new Post
             {
-                return NotFound();
-            }
-            post.Content = model.post.Content;
-            post.Title = model.post.Title;
-
+                Id = id,
+                Title = model.post.Title,
+                Content = model.post.Content
+            };
+         
             try
             {
-                await _Repository.Update(post);
+                await _Repository.Update(updatedpost);
                 return RedirectToAction("Index", "Post");
             }
             catch (Exception ex)

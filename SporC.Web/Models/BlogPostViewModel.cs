@@ -7,6 +7,7 @@ namespace SporC.Web.Models
     {
      public Post post { get; set; } = new Post();   
      public List<Post>? posts { get; set; }
-     
+     public Comment? comment { get; set; }   
+    public List<Comment>? comments { get; set; } 
     }
 }

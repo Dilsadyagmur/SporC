@@ -16,6 +16,6 @@ namespace SporC.Entities.Concrete
         public int  PostId { get; set; }
 
         public virtual User Users { get; set; }
-        public virtual Post Posts { get; set; }
+        public virtual Post? Posts { get; set; }
     }
 }
