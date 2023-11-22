@@ -8,7 +8,7 @@ using SporC.DAL.Repositories.Abstract;
 using SporC.DAL.Repositories.Concrete;
 using SporC.Web.AutoMapper;
 using SporC.Web.Extensions;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace SporC.Web

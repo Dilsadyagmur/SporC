@@ -2,7 +2,7 @@
 using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
 using SporC.DAL.Repositories.Concrete;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 
 namespace SporC.Web.Extensions
 {

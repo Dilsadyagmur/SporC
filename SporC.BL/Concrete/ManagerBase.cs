@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SporC.BL.Abstract;
 using SporC.DAL.Repositories.Abstract;
-using SporC.Entities.Abstract;
+using SporC.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

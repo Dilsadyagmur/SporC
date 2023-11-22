@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 using SporC.DAL.Repositories.Abstract;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using SporC.Web.Models;
 using System.Security.Claims;
 

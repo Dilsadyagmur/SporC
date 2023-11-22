@@ -1,5 +1,5 @@
 ﻿using SporC.DAL.Repositories.Abstract;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using SporCDAL.Contexts;
 using System;
 using System.Collections.Generic;

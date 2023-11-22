@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SporC.DAL.Repositories.Abstract;
-using SporC.Entities.Concrete;
 using System.Data;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using SporC.Entities;
 
 namespace SporC.Web.Areas.Dashboard.Controllers
 {

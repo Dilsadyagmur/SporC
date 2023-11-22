@@ -48,15 +48,7 @@
                 <button type="submit" class="btn btn-danger">Sil</button>
             </form>
             <a asp-action="UpdatePost" asp-controller="Post" asp-route-id="@post.Id" class="btn btn-primary">Güncelle</a>
-            <form asp-controller="Comment" asp-action="CreateComment" method="post" class="form">
-                <input type="hidden" asp-for="@Model.post.Comments." value="@Model.post.Id" />
-                <div class="mb-3">
-                    <textarea class="form-control" asp-for="@Model.comment.Content" placeholder="Yanıtla" rows="4"></textarea>
-                </div>
-                <div class="mb-3">
-                    <button class="btn btn-primary" type="submit">Yanıtla</button>
-                </div>
-            </form>
+           
 			
                
         </div>

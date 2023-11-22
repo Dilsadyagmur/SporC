@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -22,7 +22,7 @@ namespace SporCDAL.Contexts
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-            optionsBuilder.UseSqlServer(@"Server=tcp:dilsadygmr.database.windows.net,1433;Initial Catalog=SporC;Persist Security Info=False;User ID=admindilsad;Password=Dilsad123-123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SporC;Trusted_Connection=True;");
 
 		}
 

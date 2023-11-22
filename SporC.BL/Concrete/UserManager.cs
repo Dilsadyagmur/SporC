@@ -1,7 +1,7 @@
 ﻿using SporC.BL.Abstract;
 using SporC.DAL.Repositories.Abstract;
 using SporC.DAL.Repositories.Concrete;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

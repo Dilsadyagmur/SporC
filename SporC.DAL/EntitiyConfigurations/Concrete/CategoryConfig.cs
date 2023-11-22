@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using SporCDAL.EntitiyConfigurations.Abstract;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SporCDAL.EntitiyConfigurations.Concrete
 {
-	public class CategoryConfig : BaseConfig<Category> 
+    public class CategoryConfig : BaseConfig<Category> 
 	{
 		public void Configure(EntityTypeBuilder<Category> builder)
 		{

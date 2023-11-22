@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using SporC.Web.Models.DTO_s;
 
 namespace SporC.Web.AutoMapper

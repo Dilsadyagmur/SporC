@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using SporCDAL.EntitiyConfigurations.Abstract;
 using System;
 using System.Collections.Generic;

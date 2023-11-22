@@ -1,4 +1,4 @@
-﻿using SporC.Entities.Concrete;
+﻿using SporC.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace SporC.Web.Models.DTO_s

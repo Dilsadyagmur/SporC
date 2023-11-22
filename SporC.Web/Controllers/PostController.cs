@@ -5,23 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 using SporC.BL.Abstract;
 using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
-using SporC.Entities.Concrete;
 using SporC.Web.Models;
 using SporCDAL.Contexts;
 using SporC.Entities;
 using System.Security.Claims;
+using NuGet.Packaging.Rules;
 
 namespace SporC.Web.Controllers
 {
     public class PostController : Controller
     {
         private readonly IRepository<Post> _Repository;
+        private readonly ICommentRepository _cmntrepo;
 
-
-        public PostController(IRepository<Post> Repository)
+        public PostController(IRepository<Post> Repository, ICommentRepository commentRepository)
         {
             _Repository = Repository;
-
+            _cmntrepo= commentRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -43,7 +43,14 @@ namespace SporC.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BlogPostViewModel bpwm)
         {
+            var user = bpwm.post.User;
+            if (user == null)
+            {
+                return BadRequest();
+            }
             bpwm.post.UserId = int.Parse(User.FindFirstValue((ClaimTypes.NameIdentifier)));
+            
+          
             try
             {
                 if (ModelState.IsValid)
@@ -126,6 +133,26 @@ namespace SporC.Web.Controllers
                 return RedirectToAction("Index","Post");
             }
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateComment(int PostId, string content)
+        {
+           var post = _Repository.GetById(PostId);
+            if (post==null)
+            {
+                return NotFound();
+            }
+            var newComment = new Comment
+            {
+                Content = content,
+                PostId = PostId,
+                UserId = int.Parse(User.FindFirstValue((ClaimTypes.NameIdentifier)))
+
+             };
+             _cmntrepo.Insert(newComment);
+
+            return RedirectToAction("PostDetail","Post");
+    
         }
     }
 }

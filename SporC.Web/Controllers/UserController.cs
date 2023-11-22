@@ -8,7 +8,7 @@ using NuGet.Protocol.Core.Types;
 using SporC.BL.Abstract;
 using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
-using SporC.Entities.Concrete;
+using SporC.Entities;
 using SporC.Web.Models;
 using System.Data;
 using System.Security.Claims;
