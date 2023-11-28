@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SporC.DAL\SporC.DAL.csproj" />
     <ProjectReference Include="..\SporC.Entities\SporC.Entities.csproj" />
   </ItemGroup>

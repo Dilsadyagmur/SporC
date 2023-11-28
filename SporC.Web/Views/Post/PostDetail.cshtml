@@ -1,34 +1,122 @@
 ﻿@model BlogPostViewModel
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.post.Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .post-detail {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-detail h2 {
+            color: #1da1f2;
+        }
+
+        .post-detail p {
+            color: #333;
+        }
+
+        #comment-container {
+            margin-top: 20px;
+        }
+
+        .comment-card {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-card p {
+            color: #333;
+        }
+
+        .comment-actions {
+            margin-top: 10px;
+        }
+
+        .comment-actions button {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #1da1f2;
+            border-color: #1da1f2;
+        }
+
+        .btn-primary:hover {
+            background-color: #0f91e6;
+            border-color: #0f91e6;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #bd2130;
+            border-color: #bd2130;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="post-detail">
                     <h2>@Model.post.Title</h2>
                     <p>@Model.post.Content</p>
 
-                    <form asp-controller="Post" asp-action="CreateComment" method="post" class="form">
-                        <input type="hidden" asp-for="comment.PostId" value="@Model.post.Id" />
-                        <div class="mb-3">
-                            <textarea class="form-control" asp-for="comment.Content" placeholder="Yanıtla" rows="4"></textarea>
+                    <div id="comment-container">
+                        <input type="hidden" id="comment_PostId" value="@Model.post.Id" />
+                        <div class="form-group">
+                            <textarea class="form-control" id="comment_Content" placeholder="Yanıtla" rows="4"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <button class="btn btn-primary" type="submit">Yanıtla</button>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="sendComment()">Yanıtla</button>
                         </div>
-                    </form>
+                    </div>
+
+                    <div id="post-container" class="post-container">
+                        @foreach (var comment in Model.comments.Where(p => !p.IsDeleted))
+                        {
+
+                            <div class="post-card">
+
+                                <p>@comment.Content</p>
+                                <p><em>Oluşturulma Tarihi: @comment.CreateDate.ToString("dd.MM.yyyy HH:mm")</em></p>
+                                <form asp-controller="Post" asp-action="DeleteComment" asp-route-id="@comment.Id" method="post" onsubmit="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');">
+                                    <button type="submit" class="btn btn-danger">Sil</button>
+                                </form>
+                                <form asp-action="UpdateComment" asp-controller="Post" asp-route-id="@comment.Id" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                                </form>
 
 
 
+                            </div>
 
-                    <a asp-controller="Post" asp-action="Index" class="btn btn-primary">Tüm Gönderilere Geri Dön</a>              
+                        }
+                    </div>
 
+                    <a asp-controller="Post" asp-action="Index" class="btn btn-primary">Tüm Gönderilere Geri Dön</a>
                 </div>
             </div>
         </div>

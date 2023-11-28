@@ -9,5 +9,6 @@ namespace SporC.DAL.Repositories.Abstract
 {
     public interface ICommentRepository : IRepository<Comment>
     {
+
     }
 }

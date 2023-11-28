@@ -28,6 +28,10 @@ namespace SporC.Web.Extensions
             Services.AddScoped<IRepository<Team>, TeamRepository>();
             Services.AddScoped<IRepository<User>, BaseRepository<User>>();
 
+            Services.AddAuthentication();
+            Services.AddHttpContextAccessor();
+
+            
             return Services;
         }
     }

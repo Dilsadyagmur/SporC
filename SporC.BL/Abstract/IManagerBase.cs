@@ -10,12 +10,16 @@ namespace SporC.BL.Abstract
 {
     public interface IManagerBase<T> where T : BaseEntity
     {
-        Task<int> Insert(T entity);
-        Task<int> Update(T entity);
-        Task<int> Delete(T entity);
+        Task<int> Insert(T input);
+        Task<int> Update(T input);
+        Task<int> Delete(T input);
+        void Save();
         Task<T> GetById(int id);
-        Task<IQueryable<T>> GetAll(Expression<Func<T, bool>> filter);
-        Task<IQueryable<T>>? GetAllInclude(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[]? include);
-		Task<IQueryable<T>> GetAll();
-	}
+        IQueryable<T> GetAll(Expression<Func<T, bool>> filter);
+        Task<IQueryable<T>> GetAllInclude(Expression<Func<T, bool>>? filter = null, params Expression<Func<T, object>>[]? include);
+        IQueryable<T> GetAll();
+        void DeleteById(int id);
+        T GetFirstOrDefault(Expression<Func<T, bool>> filter);
+        IQueryable<T> GetByIdforInc(int id);
+    }
 }

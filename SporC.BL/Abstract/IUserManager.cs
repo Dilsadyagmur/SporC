@@ -9,8 +9,8 @@ namespace SporC.BL.Abstract
 {
     public interface IUserManager : IManagerBase<User>
     {
-		
 
-		
-	}
+        Task<int> GetCurrentUserIdAsync();
+
+    }
 }

@@ -20,9 +20,9 @@ namespace SporC.Entities
         public int? CategoryId { get; set; }
         public int? LikeCount { get; set; }
         public int? CommentCount { get; set; }
-
-
-        public User User { get; set; }
+        public int CommentID { get; set; }
+        public string? PostUserName { get; set; }    
+        public User? User { get; set; }
 
         public virtual ICollection<Team>? Teams { get; set; } = new List<Team>();
 

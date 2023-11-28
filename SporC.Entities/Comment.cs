@@ -10,10 +10,10 @@ namespace SporC.Entities
     {
         public string Content { get; set; }
 
-        public int UserId { get; set; }
         public int PostId { get; set; }
 
-        public virtual User Users { get; set; }
+        public string? CommentUser { get; set; }
+
         public virtual Post? Posts { get; set; }
     }
 }

@@ -21,5 +21,7 @@ namespace SporC.DAL.Repositories.Abstract
 		IQueryable<T> GetAll();
         void DeleteById(int id);
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
+        IQueryable<T> GetByIdforInc(int id);
+      
     }
 }

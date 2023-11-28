@@ -26,7 +26,7 @@ namespace SporC.Web
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(SporCMapper));
             builder.Services.AddSporCServices();
-            
+           
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {

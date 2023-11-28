@@ -69,6 +69,13 @@ namespace SporC.DAL.Repositories.Concrete
 
         }
 
+        public IQueryable<T> GetByIdforInc(int id)
+        {
+            var query = _dbset.Where(a => a.Id == id && a.IsDeleted==false);
+           
+            return query;
+        }
+      
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
             return _dbset.FirstOrDefault(filter);
