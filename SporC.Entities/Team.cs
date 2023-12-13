@@ -9,9 +9,6 @@ namespace SporC.Entities
     public class Team : BaseEntity
     {
         public string TeamName { get; set; }
-
-
-
         public string LogoUrl { get; set; }
 
         public virtual ICollection<User?> Users { get; set; }

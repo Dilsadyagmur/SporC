@@ -12,6 +12,8 @@ namespace SporC.Entities
 
         public int PostId { get; set; }
 
+        
+
         public string? CommentUser { get; set; }
 
         public virtual Post? Posts { get; set; }

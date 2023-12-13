@@ -23,10 +23,19 @@ namespace SporC.BL.Concrete
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<User> FindByEmailOrUsernameAsync(string emailOrUsername)
+        {
+            return  _userRepository.GetFirstOrDefault(u => u.Email == emailOrUsername || u.UserName == emailOrUsername);
+        }
+
+        
+
         public async  Task<int> GetCurrentUserIdAsync()
         {
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             return await Task.FromResult(userId);
         }
+
+      
     }
 }

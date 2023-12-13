@@ -15,23 +15,20 @@ namespace SporC.Web.Extensions
             Services.AddScoped<ICategoryManager, CategoryManager>();
             Services.AddScoped<ICommentManager, CommentManager>();
             Services.AddScoped<ITeamManager, TeamManager>();
-            Services.AddScoped<IPostRepository, PostRepository>();
-            Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            Services.AddScoped<ICommentRepository, CommentRepository>();
-            Services.AddScoped<ITeamRepository, TeamRepository>();
+            Services.AddScoped<IPictureManager, PictureManager>();  
 			Services.AddScoped<IUserManager, UserManager>();
 
 
-			Services.AddScoped<IRepository<Post>, PostRepository>();
-            Services.AddScoped<IRepository<Category>, CategoryRepository>();
-            Services.AddScoped<IRepository<Comment>, CommentRepository>();
-            Services.AddScoped<IRepository<Team>, TeamRepository>();
-            Services.AddScoped<IRepository<User>, BaseRepository<User>>();
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             Services.AddAuthentication();
             Services.AddHttpContextAccessor();
+            Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            });
 
-            
             return Services;
         }
     }

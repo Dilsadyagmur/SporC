@@ -14,8 +14,8 @@ namespace SporCDAL.EntitiyConfigurations.Concrete
         public override void Configure(EntityTypeBuilder<Post> builder)
         {
             base.Configure(builder); 
-            builder.Property(p=>p.Title).HasMaxLength(20);
-            builder.Property(p=>p.Content).HasMaxLength(1000);
+            builder.Property(p=>p.Title).HasMaxLength(100);
+            builder.Property(p=>p.Content).HasMaxLength(10000);
 
         }
     }

@@ -14,15 +14,20 @@ namespace SporC.Entities
     {
         public string Title { get; set; }
         public string Content { get; set; }
-
-        public int UserId { get; set; }
         public int? TeamId { get; set; }
         public int? CategoryId { get; set; }
         public int? LikeCount { get; set; }
         public int? CommentCount { get; set; }
         public int CommentID { get; set; }
-        public string? PostUserName { get; set; }    
+        public string? PostUserName { get; set; }
+
+
+        public int UserId { get; set; }
         public User? User { get; set; }
+
+        public int? PictureId { get; set; }
+
+        public virtual Picture? picture{ get; set; }
 
         public virtual ICollection<Team>? Teams { get; set; } = new List<Team>();
 

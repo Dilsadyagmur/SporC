@@ -16,6 +16,9 @@ using System.Xml.Linq;
 using System.Text.Json;
 using SporC.DAL.Repositories.Concrete;
 using Microsoft.Identity.Client;
+using SporC.Web.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 
 namespace SporC.Web.Controllers
 {
@@ -24,83 +27,107 @@ namespace SporC.Web.Controllers
         private readonly IPostManager postManager;
         private readonly ICommentManager commentManager;
         private readonly IUserManager userManager;
+        private readonly IPictureManager picmanager;
 
-        public PostController(IPostManager postManager, ICommentManager commentManager, IUserManager userManager)
+        public PostController(IPostManager postManager, ICommentManager commentManager, IUserManager userManager, IPictureManager picmanager)
         {
            
             this.postManager = postManager;
             this.commentManager = commentManager;
             this.userManager = userManager;
+            this.picmanager = picmanager;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
 
-            List<Post> queryablePosts = postManager.GetAll(x => !x.IsDeleted).ToList();
+            List<Post> queryablePosts = postManager.GetAll(x => !x.IsDeleted)
+            .Include(p => p.picture) 
+            .ToList();
+
+
             BlogPostViewModel vm = new BlogPostViewModel();
             vm.posts = queryablePosts;
-            ViewBag.CurrentUserId = await userManager.GetCurrentUserIdAsync();
 
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                ViewBag.CurrentUserId = await userManager.GetCurrentUserIdAsync();
+            }
+           
+            
             return View(vm);
         }
-
-        
-
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
         }
+
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(BlogPostViewModel bpwm)
+        public async Task<IActionResult> Create(BlogPostViewModel bpwm, [FromServices] IWebHostEnvironment webHostEnvironment)
         {
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-           
             var user = await userManager.GetById(userId);
 
-          
-           
-
-          
-            
             if (user != null)
             {
-
-                   bpwm.post.PostUserName = user.UserName;
-                   bpwm.post.UserId = user.Id;
+                bpwm.post.PostUserName = user.UserName;
+                bpwm.post.UserId = user.Id;
             }
-
-
+            else
+            {
+                
+            }
 
             try
             {
                 if (ModelState.IsValid)
                 {
-
-
-
-
                     var addedPost = await postManager.Insert(bpwm.post);
-
-
 
                     if (addedPost != null)
                     {
+                        if (bpwm.imgFile != null && bpwm.imgFile.Length > 0)
+                        {
+                           
+                                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "uploads");
+                                string uniqueFileName = Guid.NewGuid().ToString() + "_" + bpwm.imgFile.FileName;
+                                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                                {
+                                    await bpwm.imgFile.CopyToAsync(fileStream);
+                                }
+
+                              
+                                var picture = new Picture 
+                                {
+                                    FileName = uniqueFileName,
+                                    FilePath = filePath,
+                                   Post = bpwm.post
+                                };
+
+                         
+
+                           
+                            picmanager.Insert(picture);
+                            
+                        }
 
                         return RedirectToAction("Index", "Post");
                     }
                     else
                     {
-
                         ModelState.AddModelError(string.Empty, "Veri eklenemedi.");
                     }
                 }
+
                 foreach (var modelStateEntry in ModelState)
                 {
-                    var key = modelStateEntry.Key;  
-                    var errors = modelStateEntry.Value.Errors.Select(e => e.ErrorMessage);  
+                    var key = modelStateEntry.Key;
+                    var errors = modelStateEntry.Value.Errors.Select(e => e.ErrorMessage);
 
-                   
                     Console.WriteLine($"Property: {key}, Errors: {string.Join(", ", errors)}");
                 }
 
@@ -108,12 +135,11 @@ namespace SporC.Web.Controllers
             }
             catch (Exception ex)
             {
-
                 ModelState.AddModelError(string.Empty, "Bir hata oluştu.");
                 return View(bpwm.post);
             }
-
         }
+
 
 
         [HttpPost]
@@ -123,7 +149,7 @@ namespace SporC.Web.Controllers
 
             if (post != null && post.UserId== await userManager.GetCurrentUserIdAsync())
             {
-                await postManager.GetById(id);
+                
                 postManager.DeleteById(id);
                  postManager.Save();
                  return RedirectToAction("Index","Post");
@@ -135,6 +161,7 @@ namespace SporC.Web.Controllers
 
 
         }
+       
         [HttpPost]
         public async Task<IActionResult> DeleteComment(int id)
         {
@@ -195,7 +222,8 @@ namespace SporC.Web.Controllers
             }
 
         }
-        //[HttpPost]
+        [Authorize(Roles = "User,Admin")]
+        [HttpPost]
         public async Task<IActionResult> CreateComment(int PostId, string content)
         {
             #region     eski kod

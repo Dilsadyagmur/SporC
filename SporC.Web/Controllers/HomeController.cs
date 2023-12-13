@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SporC.Web.Models;
+using SporC.Web.Models.ViewModel;
 using System.Diagnostics;
 
 

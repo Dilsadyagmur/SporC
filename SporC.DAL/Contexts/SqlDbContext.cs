@@ -39,6 +39,6 @@ namespace SporCDAL.Contexts
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserType> UserTypes { get; set; }  
-        
+        public DbSet<Picture> Pictures { get; set; }    
     }
 }

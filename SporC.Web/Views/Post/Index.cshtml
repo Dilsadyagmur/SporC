@@ -1,65 +1,72 @@
-﻿@model BlogPostViewModel
-<form asp-action="Create" method="post" asp-controller="Post" class="form">
-    <div class="mb-3">
-        <label asp-for="@Model.post.Title" class="form-label">Konu Başlığı</label>
-        <input type="text" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="@Model.post.Content" class="form-label">Gönderi İçeriği</label>
-        <textarea class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
-    </div>
-   
-    <div class="mb-3">
-        <button class="btn btn-primary" type="submit">Gönderi Oluştur</button>
-    </div>
-</form>
+﻿@using Microsoft.AspNetCore.Html;
+@model SporC.Web.Models.ViewModel.BlogPostViewModel
 
-<style>
-    .post-card {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        margin: 10px 0;
-    }
+@{
+    Layout = "_Layout";
+}
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+< <script src="~/js/site.js"></script>
+<body>
 
-        .post-card h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
+    <div class="container">
+        @for (int i = 0; i < Model.posts.Count; i += 3)
+        {
+            <div class="row mb-4">
+                @foreach (var post in Model.posts.Skip(i).Take(3).Where(p => !p.IsDeleted))
+                {
+                    <div class="col-md-4">
+                        <div class="single-most-populer-item" data-aos="fade-up">
+                            <div class="post-wrapper">
+                                <a href="@post.picture.FilePath" class="most-populer-thum">
+                                    <img src="@post.picture.FilePath" alt="Post IMG">
+                                </a>
+
+                                <div class="most-populer-content text-center">
+                                    <div class="most-populer-post-author">
+                                        @@@post.PostUserName
+                                    </div>
+                                    <p id="title" class="title">
+                                        <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@post.Id">
+                                            @Html.Raw(post.Title)
+                                        </a>
+                                    </p>
+                                    <p id="content" class="dec mt-2">
+                                        @{
+                                            var content = @Html.Raw(post.Content).ToString();
+                                            var maxLength = 200;
+
+                                            if (content.Length > maxLength)
+                                            {
+                                               
+                                                var truncatedContent = new HtmlString(content.Substring(0, maxLength) + "...");
+                                                @truncatedContent
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw(content)
+                                            }
+                                        }
+                                    </p>
+
+                                    <div class="most-populer-post-meta">
+                                        <span class="post-date">
+                                            @post.CreateDate
+                                        </span>
+                                        <span>10 min read</span>
+                                    </div>
+                                    @if (post.UserId == ViewBag.CurrentUserId)
+                                    {
+                                        <form asp-controller="Post" asp-action="DeletePost" asp-route-id="@post.Id" method="post" onsubmit="return confirm('Bu gönderiyi silmek istediğinizden emin misiniz?');">
+                                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                                        </form>
+                                        <a asp-action="UpdatePost" asp-controller="Post" asp-route-id="@post.Id" class="btn btn-primary btn-sm">Güncelle</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         }
-
-        .post-card p {
-            font-size: 14px;
-        }
-</style>
-
-<div class="post-container">
-    @foreach (var post in Model.posts.Where(p => !p.IsDeleted)) 
-    {
-        
-        <div class="post-card">
-            <h3>
-                <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@post.Id">
-                    @post.Title
-                </a>
-            </h3>
-            <p>@post.Content</p>
-           <p>@post.PostUserName</p>
-            @if (post.UserId == ViewBag.CurrentUserId)
-            {
-                <form asp-controller="Post" asp-action="DeletePost" asp-route-id="@post.Id" method="post" onsubmit="return confirm('Bu gönderiyi silmek istediğinizden emin misiniz?');">
-                    <button type="submit" class="btn btn-danger">Sil</button>
-                </form>
-                <a asp-action="UpdatePost" asp-controller="Post" asp-route-id="@post.Id" class="btn btn-primary">Güncelle</a>
-            }
-           
-			
-               
-        </div>
-        
-    }
-
-    
-</div>
-
-
-
+    </div>
+</body>

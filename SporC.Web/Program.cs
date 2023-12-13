@@ -30,10 +30,14 @@ namespace SporC.Web
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
-                options.AccessDeniedPath = null;
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.LoginPath = "/User/Login";
+                options.AccessDeniedPath = "/Post/Index";
+                options.SlidingExpiration = true;
             });
-            
+
+          
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -68,7 +72,7 @@ namespace SporC.Web
                 );
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Post}/{action=Index}/{id?}");
             });
 
 

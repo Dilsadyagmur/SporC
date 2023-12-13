@@ -1,30 +1,54 @@
-﻿@model BlogPostViewModel
+﻿@using SporC.Web.Models.ViewModel;
+@model BlogPostViewModel
 
-<head>
-	<title> Gönderi Oluştur</title>
-	
-</head>
+@{
+    Layout = "_Layout";
+}
 
-<body>
-	<h2> Gönderi Oluştur</h2>
+<title> Gönderi Oluştur</title>
 
-	<div class="card-body">
-		<form asp-action="create" method="post" asp-controller="Post" >
-			<div class="mb-3">
-				
-				<label asp-for="@Model.post.Content" class="form-label"> </label>
-				<input type="text" class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur.">
-				
-			</div>
-			<div class="mb-3">
-				<label asp-for="@Model.post.Title" class="form-label"> </label>
-				<input type="text" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin.">
-			</div>
-			<div class="mb-3">
-				<button class="btn btn-success" type="submit">Kaydet</button>
-			</div>
+<body class="theme-color-two">
+    <!-- Diğer body içeriği... -->
 
-		</form>
-	</div>
+    <div class="container">
+        <div class="mb-3">
+            @if (Context.User.Identity.IsAuthenticated)
+            {
+                <form asp-action="Create" method="post" asp-controller="Post" class="form" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label asp-for="@Model.post.Title" class="form-label">Konu Başlığı</label>
+                        <!-- İlk CKEditor -->
+                        <textarea id="editorTitle" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin" rows="4"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.post.Content" class="form-label">Gönderi İçeriği</label>
+                        <!-- İkinci CKEditor -->
+                        <textarea id="editorContent" class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="@Model.imgFile" class="form-label">Gönderi Resmi</label>
+                        <input type="file" class="form-control" asp-for="@Model.imgFile" />
+                    </div>
+                    <button class="btn btn-primary" type="submit">Gönderi Oluştur</button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <!-- Diğer body içeriği... -->
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editorTitle'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#editorContent'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
 </body>
-</html>
