@@ -17,5 +17,12 @@ namespace SporC.BL.Concrete
         {
             this.repository = repository;
         }
+
+     
+
+        IQueryable<Team> ITeamManager.GetAllTeams()
+        {
+            return repository.GetAll();   
+        }
     }
 }

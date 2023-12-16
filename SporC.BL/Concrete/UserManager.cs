@@ -6,6 +6,8 @@ using SporC.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +38,31 @@ namespace SporC.BL.Concrete
             return await Task.FromResult(userId);
         }
 
-      
+        public static bool SendMail(string mailtol)
+        {
+            try
+            {
+
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                SmtpClient sc = new SmtpClient();
+                sc.Port = 587;
+                sc.Host = "smtp-relay.brevo.com";
+                sc.EnableSsl = true;
+                sc.Credentials = new NetworkCredential("dilsadygmur@gmail.com", " CT075VPAFSyKLjOt"); 
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("dilsadygmur@gmail.com", "test");
+                mail.To.Add(mailtol);
+                mail.Subject = "test"; mail.IsBodyHtml = true; mail.Body = "şifre sıfırlama cart vutr";
+                sc.Send(mail);
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
     }
 }

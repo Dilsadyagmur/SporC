@@ -13,6 +13,6 @@ namespace SporC.Entities
         public string FilePath { get; set; }
 
        public virtual Post? Post { get; set; }   
-
+       public virtual User User { get; set; }   
     }
 }

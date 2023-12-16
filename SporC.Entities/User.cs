@@ -13,13 +13,16 @@ namespace SporC.Entities
         public int? Age { get; set; }
         public string Email { get; set; }
 
-        public int? PostId { get; set; }
+       
         public virtual ICollection<Post>? Posts { get; set; }
+     
 
         public int? UserTypeId { get; set; }
         public virtual UserType? UserType { get; set; }
       
 
+        public int? PictureId { get; set; } 
+        public virtual Picture? Picture { get; set; }   
 
 
 

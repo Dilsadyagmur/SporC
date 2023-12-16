@@ -12,9 +12,10 @@ namespace SporC.Web.Models.ViewModel
         public Comment? comment { get; set; }
         public List<Comment>? comments { get; set; }
 
+        public Picture? picture { get; set; }    
          public IFormFile? imgFile { get; set; }
 
-
+        public Team? Team { get; set; }
 
     }
 

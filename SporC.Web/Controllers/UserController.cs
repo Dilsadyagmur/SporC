@@ -117,65 +117,68 @@ namespace SporC.Web.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public IActionResult Profile()
         {
             return View();
         }
 
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult GetAll()
-        {
-            return Json(new { data = userManager.GetAllInclude(u => u.UserType.Id==1, u=>u.UserType) });
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Delete(User Appuser)
-        {
-            userManager.Delete(Appuser);
-            userManager.Save();
-
-            return Ok();
-
-        }
 
 
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Add(User appUser)
-        {
-            userManager.Insert(appUser);
-            userManager.Save();
-            return Ok();
-        }
 
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Update(User appUser)
-        {
-            userManager.Update(appUser);
-            userManager.Save();
-            return Ok();
-        }
+
+
+
+
+
+
+
+
+
+
+
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
+
+
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult GetAll()
+        //{
+        //    return Json(new { data = userManager.GetAllInclude(u => u.UserType.Id==1, u=>u.UserType) });
+        //}
+
+        //[HttpPost]
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Delete(User Appuser)
+        //{
+        //    userManager.Delete(Appuser);
+        //    userManager.Save();
+
+        //    return Ok();
+
+        //}
+
+
+        //[HttpPost]
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Add(User appUser)
+        //{
+        //    userManager.Insert(appUser);
+        //    userManager.Save();
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //[Authorize(Roles = "Admin")]
+        //public IActionResult Update(User appUser)
+        //{
+        //    userManager.Update(appUser);
+        //    userManager.Save();
+        //    return Ok();
+        //}
        
     }
 }

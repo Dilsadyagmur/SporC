@@ -27,7 +27,7 @@ namespace SporC.Entities
 
         public int? PictureId { get; set; }
 
-        public virtual Picture? picture{ get; set; }
+        public virtual Picture? Picture{ get; set; }
 
         public virtual ICollection<Team>? Teams { get; set; } = new List<Team>();
 

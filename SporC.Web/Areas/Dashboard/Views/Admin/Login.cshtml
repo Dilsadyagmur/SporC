@@ -1,77 +1,73 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html lang="en">
+@{
+    Layout = null;
+}
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 
-    <title>SporC Website</title>
-
+    <!-- Bootstrap CSS Link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/Login.css">
+    <link rel="stylesheet" href="~/css/Signup.css">
+    <!-- Custom Styles -->
 
 </head>
 
 <body>
 
-
-
-    <div class="signin">
-
-        <div class="content">
-
-            <h2>GİRİŞ YAP</h2>
-
-            <div class="form">
-
-                <div class="inputBox">
-
-                    <input id="txtUsername" type="text" required> <i>Kullanıcı Adı</i>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="logo-container">
+                    <img src="https://i.hizliresim.com/ooa69d4.png" alt="Logo">
                 </div>
+                <div class="card p-5">
+                    <h2 class="card-title mb-4">Admin Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-login" onclick="login()">Login</button>
 
-                <div class="inputBox">
-
-                    <input id="txtPassword" type="password" required> <i>Şifre</i>
-
+                       
+                    </form>
                 </div>
-
-
-
-                <div class="inputBox">
-
-                    <input id="btnLogin" type="submit" value="Giriş Yap">
-
-                </div>
-
             </div>
-
         </div>
-
     </div>
 
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        $("#btnLogin").click(function () {
+    <!-- Bootstrap JS CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script>
+        function login() {
             $.ajax({
                 type: 'POST',
-                url: 'Dashboard/Admin/Login',
+                url: '/Dashboard/Admin/Login',
                 data: {
-                    username: $("#txtUsername").val(),
-                    password: $("#txtPassword").val()
+                    username: $("#username").val(),
+                    password: $("#password").val()
                 },
                 error: function () {
-                    alert("giriş başarısız !");
+                    alert("Login failed!");
                 },
                 success: function () {
-                    location.href = '/Home/Index';
+                    location.href = '/Dashboard/admin/index';
                 }
             });
-
-
-        })
-
-
-
+        }
     </script>
 
 </body>

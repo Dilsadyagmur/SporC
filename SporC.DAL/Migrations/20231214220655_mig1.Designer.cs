@@ -12,8 +12,8 @@ using SporCDAL.Contexts;
 namespace SporC.DAL.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20231129142604_mig3")]
-    partial class mig3
+    [Migration("20231214220655_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(903));
+                        .HasDefaultValue(new DateTime(2023, 12, 15, 1, 6, 55, 853, DateTimeKind.Local).AddTicks(7784));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -104,7 +104,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(2778));
+                        .HasDefaultValue(new DateTime(2023, 12, 15, 1, 6, 55, 853, DateTimeKind.Local).AddTicks(9500));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -120,6 +120,36 @@ namespace SporC.DAL.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("SporC.Entities.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("SporC.Entities.Post", b =>
@@ -141,18 +171,21 @@ namespace SporC.DAL.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(10000)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(4678));
+                        .HasDefaultValue(new DateTime(2023, 12, 15, 1, 6, 55, 854, DateTimeKind.Local).AddTicks(1200));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int?>("LikeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PictureId")
                         .HasColumnType("int");
 
                     b.Property<string>("PostUserName")
@@ -163,8 +196,8 @@ namespace SporC.DAL.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -173,6 +206,10 @@ namespace SporC.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PictureId")
+                        .IsUnique()
+                        .HasFilter("[PictureId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -190,7 +227,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(6725));
+                        .HasDefaultValue(new DateTime(2023, 12, 15, 1, 6, 55, 854, DateTimeKind.Local).AddTicks(3127));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -225,7 +262,7 @@ namespace SporC.DAL.Migrations
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 11, 29, 17, 26, 4, 327, DateTimeKind.Local).AddTicks(8775));
+                        .HasDefaultValue(new DateTime(2023, 12, 15, 1, 6, 55, 853, DateTimeKind.Local).AddTicks(5942));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -237,9 +274,6 @@ namespace SporC.DAL.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
@@ -331,6 +365,10 @@ namespace SporC.DAL.Migrations
 
             modelBuilder.Entity("SporC.Entities.Post", b =>
                 {
+                    b.HasOne("SporC.Entities.Picture", "picture")
+                        .WithOne("Post")
+                        .HasForeignKey("SporC.Entities.Post", "PictureId");
+
                     b.HasOne("SporC.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
@@ -338,6 +376,8 @@ namespace SporC.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+
+                    b.Navigation("picture");
                 });
 
             modelBuilder.Entity("SporC.Entities.User", b =>
@@ -351,6 +391,11 @@ namespace SporC.DAL.Migrations
                         .HasForeignKey("UserTypeId");
 
                     b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("SporC.Entities.Picture", b =>
+                {
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("SporC.Entities.Post", b =>

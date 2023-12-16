@@ -57,24 +57,20 @@ namespace SporC.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapAreaControllerRoute(
-    name: "Dashboard",
-    areaName: "Dashboard",
-    pattern: "Dashboard/{controller=Home}/{action=Index}/{id?}"
-);
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=post}/{action=Index}/{id?}");
+
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapAreaControllerRoute(
+                    endpoints.MapAreaControllerRoute(
                     name: "Dashboard",
                     areaName: "Dashboard",
-                    pattern: "Dashboard/{controller=Admin}/{action=Login}/{id?}"
+                    pattern: "Dashboard/{controller=Admin}/{action=Index}/{id?}"
                 );
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Post}/{action=Index}/{id?}");
             });
-
 
             app.Run();
         }

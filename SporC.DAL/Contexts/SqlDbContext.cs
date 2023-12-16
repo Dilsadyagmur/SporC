@@ -30,7 +30,8 @@ namespace SporCDAL.Contexts
 		{
 			base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            
+          
+
         }
 
         public DbSet<User> Users { get; set; }

@@ -11,35 +11,47 @@ namespace SporC.DAL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Pictures_Posts_PostId",
+                table: "Pictures");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Pictures_PostId",
+                table: "Pictures");
+
+            migrationBuilder.DropColumn(
+                name: "PostId",
+                table: "Pictures");
+
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Users",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(361),
+                defaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(995),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 327, DateTimeKind.Local).AddTicks(8775));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(2104));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Teams",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 771, DateTimeKind.Local).AddTicks(1863),
+                defaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(7851),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(6725));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(9840));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Posts",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(8602),
+                defaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(6105),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(4678));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(7841));
 
             migrationBuilder.AddColumn<int>(
                 name: "PictureId",
@@ -52,48 +64,33 @@ namespace SporC.DAL.Migrations
                 table: "Comments",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(5408),
+                defaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(4459),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(2778));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(5869));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Categories",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(3475),
+                defaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(2855),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(903));
-
-            migrationBuilder.CreateTable(
-                name: "Picture",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Picture", x => x.Id);
-                });
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(4078));
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_PictureId",
                 table: "Posts",
-                column: "PictureId");
+                column: "PictureId",
+                unique: true,
+                filter: "[PictureId] IS NOT NULL");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_Picture_PictureId",
+                name: "FK_Posts_Pictures_PictureId",
                 table: "Posts",
                 column: "PictureId",
-                principalTable: "Picture",
+                principalTable: "Pictures",
                 principalColumn: "Id");
         }
 
@@ -101,11 +98,8 @@ namespace SporC.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Posts_Picture_PictureId",
+                name: "FK_Posts_Pictures_PictureId",
                 table: "Posts");
-
-            migrationBuilder.DropTable(
-                name: "Picture");
 
             migrationBuilder.DropIndex(
                 name: "IX_Posts_PictureId",
@@ -120,50 +114,70 @@ namespace SporC.DAL.Migrations
                 table: "Users",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 327, DateTimeKind.Local).AddTicks(8775),
+                defaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(2104),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(361));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(995));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Teams",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(6725),
+                defaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(9840),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 771, DateTimeKind.Local).AddTicks(1863));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(7851));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Posts",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(4678),
+                defaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(7841),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(8602));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(6105));
+
+            migrationBuilder.AddColumn<int>(
+                name: "PostId",
+                table: "Pictures",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Comments",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(2778),
+                defaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(5869),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(5408));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(4459));
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreateDate",
                 table: "Categories",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 11, 29, 17, 26, 4, 328, DateTimeKind.Local).AddTicks(903),
+                defaultValue: new DateTime(2023, 12, 15, 3, 14, 16, 365, DateTimeKind.Local).AddTicks(4078),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 11, 30, 5, 24, 52, 770, DateTimeKind.Local).AddTicks(3475));
+                oldDefaultValue: new DateTime(2023, 12, 15, 3, 27, 5, 453, DateTimeKind.Local).AddTicks(2855));
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pictures_PostId",
+                table: "Pictures",
+                column: "PostId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Pictures_Posts_PostId",
+                table: "Pictures",
+                column: "PostId",
+                principalTable: "Posts",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

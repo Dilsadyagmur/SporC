@@ -9,5 +9,6 @@ namespace SporC.BL.Abstract
 {
     public interface ITeamManager : IManagerBase<Team> 
     {
+        IQueryable<Team> GetAllTeams();
     }
 }

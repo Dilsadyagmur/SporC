@@ -17,5 +17,12 @@ namespace SporC.BL.Concrete
         {
             this.repository = repository;
         }
+
+        public IQueryable<Category> GetAllCategories()
+        {
+            return repository.GetAll();
+        }
+
+
     }
 }

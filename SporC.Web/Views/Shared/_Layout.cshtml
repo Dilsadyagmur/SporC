@@ -19,7 +19,7 @@
     <meta property="og:image" content="" />
     <!-- Favicon -->
     <script src="~/CKEditor/Build/ckeditor.js"></script>
-    <script src="~/js/site.js"></script>
+  
     <!-- CSS
         ============================================ -->
     <!-- Bootstrap CSS -->
@@ -65,7 +65,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2 col-md-3 col-5">
                         <div class="logo">
-                            <a href="javascript:void(0);" onclick="reloadPage();">
+                            <a href="/Post/index" onclick="reloadPage();">
                                 <img src="https://i.hizliresim.com/ooa69d4.png" alt="Logo">
                             </a>
                         </div>
@@ -74,8 +74,8 @@
                         <div class="main-menu-area text-center">
                             <nav class="navigation-menu navigation-menu-white ">
                                 <ul>
-                                    <li>
-                                        <a href="javascript:void(0);" onclick="reloadPage();">
+                                    <li class="has-children">
+                                        <a href="/post/index" onclick="reloadPage();">
                                             <span>Home</span>
                                         </a>
                                     </li>
@@ -92,8 +92,10 @@
                                     <li class="has-children">
                                         <a href="category.html"><span>Category</span></a>
                                         <ul class="submenu">
-                                            <li><a href="category.html"><span>Category List</span></a> </li>
-                                            <li><a href="category-grid.html"><span>Category Grid</span></a> </li>
+                                            <li><a href="category.html"><span>Scouting</span></a> </li>
+                                            <li><a href="category-grid.html"><span>Transfer</span></a> </li>
+                                            <li><a href="category-grid.html"><span>Match Analysis</span></a> </li>
+                                            <li><a href="category-grid.html"><span>Other News</span></a> </li>
                                         </ul>
                                     </li>
                                     <li class="has-children">

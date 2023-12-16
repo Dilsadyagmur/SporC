@@ -9,5 +9,6 @@ namespace SporC.BL.Abstract
 {
     public interface ICategoryManager : IManagerBase<Category> 
     {
+        IQueryable<Category> GetAllCategories();
     }
 }

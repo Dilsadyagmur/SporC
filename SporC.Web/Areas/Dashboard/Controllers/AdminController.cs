@@ -7,16 +7,18 @@ using System.Data;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SporC.Entities;
+using SporC.BL.Abstract;
 
 namespace SporC.Web.Areas.Dashboard.Controllers
 {
+    [Area("Dashboard")]
     public class AdminController : Controller
     {
-        private readonly IRepository<User> _repository;
 
-        public AdminController(IRepository<User> repository)
+        private readonly IUserManager userManager;
+        public AdminController(IUserManager userManager)
         {
-            _repository = repository;
+            this.userManager = userManager;
         }
 
         public IActionResult Login()
@@ -28,7 +30,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         public IActionResult Login(User user)
         {
 
-            User appuser = _repository.GetAll(u => u.UserName == user.UserName && u.Password == user.Password).Include(u => u.UserType).FirstOrDefault();
+            User appuser = userManager.GetAll(u => u.UserName == user.UserName && u.Password == user.Password).Include(u => u.UserType).FirstOrDefault();
             if (appuser != null)
             {
                 List<Claim> claims = new List<Claim>();
@@ -50,7 +52,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
 
         }
         [Authorize(Roles = "Admin")]
-        [Route("Dashboard/Admin/Index")]
+        //[Route("/Dashboard/Admin/Index")]
         public IActionResult Index()
         {
             return View();
@@ -60,7 +62,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         [Route("Dashboard/Admin/Login/GetAll")]
         public IActionResult GetAll()
         {
-            return Json(new { data = _repository.GetAllInclude(u => u.UserType.Id == 1, u => u.UserType) });
+            return Json(new { data = userManager.GetAllInclude(u => u.UserType.Id == 1, u => u.UserType) });
         }
 
         [HttpPost]
@@ -68,8 +70,8 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(User Appuser)
         {
-            _repository.Delete(Appuser);
-            _repository.Save();
+            userManager.Delete(Appuser);
+            userManager.Save();
 
             return Ok();
         }
@@ -80,8 +82,9 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Add(User appUser)
         {
-            _repository.Insert(appUser);
-            _repository.Save();
+            userManager.Insert(appUser);
+            userManager.Save();
+
             return Ok();
         }
 
@@ -90,10 +93,14 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Update(User appUser)
         {
-            _repository.Update(appUser);
-            _repository.Save();
+            userManager.Update(appUser);
+            userManager.Save();
             return Ok();
         }
+
+
+
+
 
     }
 }

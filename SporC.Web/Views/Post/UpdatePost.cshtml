@@ -1,27 +1,48 @@
 ﻿@using SporC.Web.Models.ViewModel;
 @model BlogPostViewModel
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Gönderiyi Güncelle";
 }
 
-<h2>Gönderiyi Güncelle</h2>
+<body class="theme-color-two">
+    <div class="container mt-5 mb-5">
+        <h2>Gönderiyi Güncelle</h2>
+        <div class="mb-3">
+            <form asp-action="UpdatePost" asp-controller="Post" method="post">
+                <div class="form-group mb-3">
+                    <label asp-for="post.Title" class="control-label">Konu Başlığı</label>
+                    <textarea id="updateTitle" asp-for="post.Title" class="form-control mb-3"></textarea>
+                    <span asp-validation-for="post.Title" class="text-danger"></span>
+                </div>
 
-<form asp-action="UpdatePost" asp-controller="Post" method="post">
-    <input type="hidden" asp-for="post.Id" />
+                <div class="form-group mb-3">
+                    <label asp-for="post.Content" class="control-label">Gönderi İçeriği</label>
+                    <textarea id="updateContent" asp-for="post.Content" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="post.Content" class="text-danger"></span>
+                </div>
 
-    <div class="form-group">
-        <label asp-for="post.Title" class="control-label">Konu Başlığı</label>
-        <input asp-for="post.Title" class="form-control" />
-        <span asp-validation-for="post.Title" class="text-danger"></span>
+          
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                </div>
+               
+            </form>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="post.Content" class="control-label">Gönderi İçeriği</label>
-        <textarea asp-for="post.Content" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="post.Content" class="text-danger"></span>
-    </div>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#updateTitle'))
+            .catch(error => {
+                console.error(error);
+            });
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Güncelle</button>
-    </div>
-</form>
+        ClassicEditor
+            .create(document.querySelector('#updateContent'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>

@@ -6,122 +6,234 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.post.Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
      <script src="~/js/comment.js" ></script>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            margin-top: 50px;
-        }
-
-        .post-detail {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-detail h2 {
-            color: #1da1f2;
-        }
-
-        .post-detail p {
-            color: #333;
-        }
-
-        #comment-container {
-            margin-top: 20px;
-        }
-
-        .comment-card {
-            background-color: #ffffff;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .comment-card p {
-            color: #333;
-        }
-
-        .comment-actions {
-            margin-top: 10px;
-        }
-
-        .comment-actions button {
-            margin-right: 10px;
-        }
-
-        .btn-primary {
-            background-color: #1da1f2;
-            border-color: #1da1f2;
-        }
-
-        .btn-primary:hover {
-            background-color: #0f91e6;
-            border-color: #0f91e6;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background-color: #bd2130;
-            border-color: #bd2130;
-        }
-    </style>
-</head>
+ </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="post-detail">
-                    <h2>@Model.post.Title</h2>
-                    <p>@Model.post.Content</p>
-
-                    <div id="comment-container">
-                        <input type="hidden" id="comment_PostId" value="@Model.post.Id" />
-                        <div class="form-group">
-                            <textarea class="form-control" id="comment_Content" placeholder="Yanıtla" rows="4"></textarea>
+    <div class="blog-details-wrapper section-space--ptb_80">
+        <div class="container">
+            <div class="row row--17">
+                <div class="blog-details-col-8">
+                    <!-- blog details Post Start -->
+                    <div class="blog-details-post-wrap">
+                        <div class="blog-details-thum">
+                            <a href="/post/Postdetail?id=@Model.post.Id" class="most-populer-thum">
+                                <img src="/uploads/@Model.post.Picture.FileName" alt="Post IMG">
+                            </a>
                         </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary" onclick="sendComment()">Yanıtla</button>
-                        </div>
-                    </div>
+                        <div class="blog-details-post-content">
+                            <div class="blog-details-meta-box">
+                                <div class="post-meta-left-side mb-2">
+                                    <div class="trending-blog-post-category">
+                                        <a> Analiz</a>
+                                    </div>
 
-                    <div id="post-container" class="post-container">
-                        @foreach (var comment in Model.comments.Where(p => !p.IsDeleted))
-                        {
+                                  
+                                    <div class="following-blog-post-author">
+                                          <a>@Model.post.PostUserName</a>
+                                    </div>
+                                </div>
 
-                            <div class="post-card">
+                                <div class="post-mid-side mb-2">
+                                    <span class="post-meta-left-side">
+                                        <span class="post-date">
+                                            <i class="icofont-ui-calendar"></i>
+                                               @Model.post.CreateDate
+                                        </span>
+                                    </span>
+                                    <span>10 min read</span>
+                                </div>
 
-                                <p>@comment.Content</p>
-                                <p><em>@comment.CreateDate.ToString("dd.MM.yyyy HH:mm")</em></p>
-                                <form asp-controller="Post" asp-action="DeleteComment" asp-route-id="@comment.Id" method="post" onsubmit="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');">
-                                    <button type="submit" class="btn btn-danger">Sil</button>
-                                </form>
-                                <form asp-action="UpdateComment" asp-controller="Post" asp-route-id="@comment.Id" class="btn btn-primary">
-                                    <button type="submit" class="btn btn-primary">Güncelle</button>
-                                </form>
+                                <div class="post-meta-right-side mb-2">
+                                    <a href="#"><img src="assets/images/icons/small-bookmark.png" alt="" /></a>
+                                    <a href="#"><img src="assets/images/icons/heart.png" alt="" /></a>
+                                </div>
+                            </div>
+                            <h3 class="following-blog-post-title">
+                                 <p id="title" class="title">
+                                <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@Model.post.Id">
+                                @Html.Raw(@Model.post.Title)
+                                </a>
+                                </p>
+                            </h3>
 
-
-
+                            <div class="post-details-text">
                             </div>
 
-                        }
+                            <!-- Comment Area Start -->
+                            <div class="comment-area section-space--pt_60">
+                                <div class="section-title">
+                                    <h3 class="title">Leave a comment</h3>
+                                </div>
+                                <form action="#" class="comment-form-area">
+                                    <div class="row">
+
+                                        <div class="col-lg-12">
+                                            <div class="single-input">
+                                                
+                                                <div id="comment-container">
+                                                <input type="hidden" id="comment_PostId" value="@Model.post.Id" />
+                                                <div class="form-group">
+                                                <textarea class="form-control" id="comment_Content" placeholder="Yanıtla" rows="4"></textarea>
+                                                </div>                                           
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="submit-button text-center">
+                                                <button type="button" class="btn btn-primary" onclick="sendComment()">Comment</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Comment Area End -->
+
+
+
+
+                            <div id="post-container" class="post-container">
+                                @foreach (var comment in Model.comments.Where(p => !p.IsDeleted))
+                                {
+
+                                    <div class="post-card">
+                                        <p> @@@comment.CommentUser</p>
+                                        <p>@comment.Content</p>
+                                        <p><em>@comment.CreateDate.ToString("dd.MM.yyyy HH:mm")</em></p>
+
+
+                                        @if (comment.CommentUser == ViewBag.CurrentUserName)
+                                        {
+                                            <div class="comment-buttons" style="display: flex; gap: 10px;">
+                                                <form asp-controller="Post" asp-action="DeleteComment" asp-route-id="@comment.Id" method="post" onsubmit="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');">
+                                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                                </form>
+                                                <form asp-action="UpdateComment" asp-controller="Post" asp-route-id="@comment.Id" method="get">
+                                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                                </form>
+                                            </div>
+
+                                        }
+
+                                       
+
+
+
+                                    </div>
+
+                                }
+                            </div>
+
+                            <!-- Related Post Area Start -->
+                            <div class="related-post-area section-space--pt_60">
+                                <div class="row">
+                                    <div class="col-lg-8 col-7">
+                                        <div class="section-title mb-30">
+                                            <h3 class="title">Related Post</h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-5">
+                                        <div class="related-post-slider-navigation text-end">
+                                            <div class="related-post-button-prev navigation-button"><i class="icofont-long-arrow-left"></i></div>
+                                            <div class="related-post-button-next navigation-button"><i class="icofont-long-arrow-right"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Swiper -->
+                                <div class="swiper-container related-post-slider-active">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <!-- Single Following Post Start -->
+                                            <div class="single-related-post">
+                                                son postları listeleme
+
+                                            </div><!-- Single Following Post End -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Related Post Area End -->
+
+                          
+
+                            <a asp-controller="Post" asp-action="Index" class="btn btn-primary">Tüm Gönderilere Geri Dön</a>
+                        </div>
+                    </div><!-- blog details Post End -->
+                </div>
+                <div class="blog-details-col-4">
+                    <div class="following-author-area">
+                        <div class="author-image">
+                            <img src="assets/images/author/author-01.png" alt="">
+                        </div>
+                        <div class="author-title">
+                            <h4><a href="#">Antonio Lucas</a></h4>
+                            <p>Author</p>
+                        </div>
+                        <div class="author-details">
+                            <p>
+                                Lorem psum has been industry
+                                standard dumy text since the when
+                                and scrambled make specimen
+                                book has survived.
+                            </p>
+
+                            <div class="author-post-share">
+                                <ul class="social-share-area">
+                                    <li><a href="#"><i class="icofont-facebook"></i></a></li>
+                                    <li><a href="#"><i class="icofont-skype"></i></a></li>
+                                    <li><a href="#"><i class="icofont-twitter"></i></a></li>
+                                    <li><a href="#"><i class="icofont-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+
+                            <div class="button-box">
+                                <a href="#" class="btn">View Profile <i class="icofont-long-arrow-right"></i></a>
+                            </div>
+                        </div>
                     </div>
 
-                    <a asp-controller="Post" asp-action="Index" class="btn btn-primary">Tüm Gönderilere Geri Dön</a>
+                    <!-- Hero Category Area Start -->
+                    <div class="blog-details-category-area mt-5">
+                        <a class="single-hero-category-item">
+                            <img src="assets/images/catagory/technology.jpg" alt="">
+                            <div class="hero-category-inner-box">
+                                <h3 class="title">Business</h3>
+                                <i class="icon icofont-long-arrow-right"></i>
+                            </div>
+                        </a>
+                        <a class="single-hero-category-item">
+                            <img src="assets/images/catagory/travel.jpg" alt="">
+                            <div class="hero-category-inner-box">
+                                <h3 class="title">Travel</h3>
+                                <i class="icon icofont-long-arrow-right"></i>
+                            </div>
+                        </a>
+                        <a class="single-hero-category-item">
+                            <img src="assets/images/catagory/medical.jpg" alt="">
+                            <div class="hero-category-inner-box">
+                                <h3 class="title">Food</h3>
+                                <i class="icon icofont-long-arrow-right"></i>
+                            </div>
+                        </a>
+                        <a class="single-hero-category-item">
+                            <img src="assets/images/catagory/web.jpg" alt="">
+                            <div class="hero-category-inner-box">
+                                <h3 class="title">Tech</h3>
+                                <i class="icon icofont-long-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div><!-- Hero Category Area End -->
+
+
+
                 </div>
             </div>
+
         </div>
-    </div>
+    </div> <!-- Blog Details Wrapper End -->
+
+
 </body>
 </html>
