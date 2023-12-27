@@ -28,25 +28,25 @@
                 <div class="card my-2 border-0 shadow rounded-3 overflow-hidden">
                     <div class="card-body p-4 p-sm-5">
                         <h2 class="card-title text-center mb-4">Sign Up</h2>
-                        @using (Html.BeginForm("SignUp", "User", FormMethod.Post, new { @class = "row g-3" }))
+                        @using (Html.BeginForm("SignUp", "User", FormMethod.Post, new { @class = "row g-3", enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             <div class="col-12 mb-2">
-                                @Html.LabelFor(model => model.UserName, new { @class = "form-label" })
-                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Username", required = "required", autofocus = "autofocus" })
-                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model =>model.User.UserName, new { @class = "form-label" })
+                                @Html.TextBoxFor(model => model.User.UserName, new { @class = "form-control", placeholder = "Username", required = "required", autofocus = "autofocus" })
+                                @Html.ValidationMessageFor(model => model.User.UserName, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-12 mb-2">
-                                @Html.LabelFor(model => model.Email, new { @class = "form-label" })
-                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "name@example.com", required = "required" })
-                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.User.Email, new { @class = "form-label" })
+                                @Html.TextBoxFor(model => model.User.Email, new { @class = "form-control", placeholder = "name@example.com", required = "required" })
+                                @Html.ValidationMessageFor(model => model.User.Email, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-12 mb-2">
-                                @Html.LabelFor(model => model.Password, new { @class = "form-label" })
-                                @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password", required = "required" })
-                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model =>model.User.Password, new { @class = "form-label" })
+                                @Html.PasswordFor(model => model.User.Password, new { @class = "form-control", placeholder = "Password", required = "required" })
+                                @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col-12 mb-2">
@@ -55,7 +55,11 @@
                                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                             </div>
 
-
+                            <div class="col-12 mb-2">
+                                @Html.LabelFor(model => model.ProfilePicture, new { @class = "form-label" })
+                                <input type="file" name="ProfilePicture" class="form-control" />
+                                @Html.ValidationMessageFor(model => model.ProfilePicture, "", new { @class = "text-danger" })
+                            </div>
                             <button type="submit" class="btn btn-primary btn-login  ">Sign Up</button>
                             
 

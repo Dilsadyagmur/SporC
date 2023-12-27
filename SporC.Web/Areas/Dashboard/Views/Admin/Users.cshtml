@@ -1,0 +1,187 @@
+﻿@model List<User>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Users</title>
+
+    <!-- Bootstrap CSS Link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- DataTables CSS CDN -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+    <!-- Toastr CSS Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+</head>
+<body>
+
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">          
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card border border-primary">
+                            <div class="card-header bg-transparent border-primary">
+                                <h5 class="my-0 text-primary"><i class="uil uil-user me-3"></i>Users</h5>
+                                <div class="float-end mb-3">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+                                </div>
+                                <div class="table-responsive mb-4">
+                                    <table id="datatable" class="table table-centered datatable dt-responsive nowrap table-card-list" style="border-collapse: collapse; width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>UserID</th>
+                                                <th>Username</th>
+                                                <th>Email</th>
+                                                <th>Date</th>
+                                                <th>UserTypeId</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var user in Model)
+                                            {
+                                                <tr id="userRow_@user.Id">
+                                                    <td>@user.Id</td>
+                                                    <td>@user.UserName</td>
+                                                    <td>@user.Email</td>
+                                                    <td>@user.CreateDate</td>
+                                                    <td>@user.UserTypeId</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
+                                                        <button type="button" class="btn btn-danger btn-soft-danger waves-effect waves-light" onclick="confirmAndDelete('@user.Id')"><i class="uil uil-trash-alt font-size-18"></i></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- end table -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div> <!-- container-fluid -->
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="userName" name="UserName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="Password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userType" class="form-label">User Type</label>
+                            <select class="form-select" id="userType" name="UserTypeId" required>
+                                @foreach (var userType in ViewBag.Usertypes)
+                                {
+                                    <option value="@userType.Value">@userType.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="addUser()">Add User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS CDN -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- Toastr JS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+
+        function confirmAndDelete(userId) {
+            if (confirm("Are you sure you want to delete this user?")) {
+                $.ajax({
+                    url: '/Dashboard/Admin/DeleteUser/' + userId,
+                    type: 'POST',
+                    success: function (result) {
+                        console.log('User deleted successfully');
+                        $('#userRow_' + userId).remove();
+                    },
+                    error: function (error) {
+                        console.error('Error deleting user', error);
+                    }
+                });
+            }
+        }
+
+        function addUser() {
+            var formData = $("#addUserForm").serialize();
+
+            $.ajax({
+                url: '/Dashboard/Admin/AddUser',
+                type: 'POST',
+                data: formData,
+                success: function (result) {
+                    toastr.success(result, 'Success');
+                    $('#addUserModal').modal('hide');
+                    updateUserTable();
+                },
+                error: function (error) {
+                    toastr.error(error.responseText, 'Error');
+                    console.error('Error adding user', error.responseText);
+                }
+            });
+        }
+
+        function updateUserTable() {
+            $.ajax({
+                url: '/Dashboard/Admin/GetAllUser',
+                type: 'GET',
+                success: function (newUser) {
+                    var table = $('#datatable').DataTable();
+                    table.row.add([
+                        newUser.Id,
+                        newUser.UserName,
+                        newUser.Email,
+                        newUser.CreateDate,
+                        '<a href="javascript:void(0);" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>' +
+                        '<button type="button" class="btn btn-danger btn-soft-danger waves-effect waves-light" onclick="confirmAndDelete(\'' + newUser.Id + '\')"><i class="uil uil-trash-alt font-size-18"></i></button>'
+                    ]).draw();
+                },
+                error: function (error) {
+                    toastr.error('Error updating user table', 'Error');
+                    console.error('Error updating user table', error);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

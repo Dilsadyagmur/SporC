@@ -12,6 +12,6 @@ namespace SporC.BL.Abstract
 
         Task<int> GetCurrentUserIdAsync();
         Task<User> FindByEmailOrUsernameAsync(string emailOrUsername);
-
+        Task<User> GetUserById();
     }
 }

@@ -6,68 +6,75 @@
 }
 
 <title> Gönderi Oluştur</title>
-
+<script src="~/CKEditor/Build/ckeditor.js"></script>
 <body class="theme-color-two">
     <!-- Diğer body içeriği... -->
-
+      @if (Context.User.Identity.IsAuthenticated)
+                        {
     <div class="container">
-        <div class="mb-3">
-            @if (Context.User.Identity.IsAuthenticated)
-            {
-                <form asp-action="Create" method="post" asp-controller="Post" class="form" enctype="multipart/form-data">
+        <div class="card border border-primary">
+            <div class="card-header bg-transparent border-primary">
                     <div class="mb-3">
-                        <label asp-for="@Model.post.Title" class="form-label">Title</label>
-                        <!-- İlk CKEditor -->
-                        <textarea id="editorTitle" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin" rows="4"></textarea>
+                      
+                            <form asp-action="Create" method="post" asp-controller="Post" class="form" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label asp-for="@Model.post.Title" class="form-label">Title</label>
+                                    <!-- İlk CKEditor -->
+                                    <textarea id="editorTitle" class="form-control" asp-for="@Model.post.Title" placeholder="Konu başlığı girin" rows="4"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="@Model.post.Content" class="form-label">Content</label>
+                                    <!-- İkinci CKEditor -->
+                                    <textarea id="editorContent" class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="@Model.post.TeamId" class="form-label">Select Team</label>  
+
+                                    @{
+                                        var teamsSelectList = ViewBag.Teams as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>());
+                                    }
+
+                                    <select asp-for="@Model.post.TeamId" class="form-control"> //Takım seçmek istemeyen kullanıcılar için null seçeneği
+                                        <option value="0">Null</option>
+
+                                        @foreach (var teamItem in teamsSelectList)
+                                        {
+                                            <option value="@teamItem.Value">@teamItem.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="@Model.post.CategoryId" class="form-label">Select Category</label>
+
+                                    @{
+                                        var categoriesSelectList = ViewBag.Categories as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>());
+                                    }
+
+                                    <select asp-for="@Model.post.CategoryId" class="form-control">
+                                        <option value="0">Null</option>
+
+                                        @foreach (var categoryItem in categoriesSelectList)
+                                        {
+                                            <option value="@categoryItem.Value">@categoryItem.Text</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="@Model.imgFile" class="form-label">Post Image</label>
+                                    <input type="file" class="form-control" asp-for="@Model.imgFile" />
+                                </div>
+                                <button class="btn btn-primary" type="submit">Create Post</button>
+                            </form>
+                      
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="@Model.post.Content" class="form-label">Content</label>
-                        <!-- İkinci CKEditor -->
-                        <textarea id="editorContent" class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
-                    </div>
 
-                    <div class="mb-3">
-                        <label asp-for="@Model.post.TeamId" class="form-label">Select Team</label>  
 
-                        @{
-                            var teamsSelectList = ViewBag.Teams as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>());
-                        }
-
-                        <select asp-for="@Model.post.TeamId" class="form-control"> //Takım seçmek istemeyen kullanıcılar için null seçeneği
-                            <option value="0">Null</option>
-
-                            @foreach (var teamItem in teamsSelectList)
-                            {
-                                <option value="@teamItem.Value">@teamItem.Text</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="@Model.post.CategoryId" class="form-label">Select Category</label>
-
-                        @{
-                            var categoriesSelectList = ViewBag.Categories as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>());
-                        }
-
-                        <select asp-for="@Model.post.CategoryId" class="form-control">
-                            <option value="0">Null</option>
-
-                            @foreach (var categoryItem in categoriesSelectList)
-                            {
-                                <option value="@categoryItem.Value">@categoryItem.Text</option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="@Model.imgFile" class="form-label">Post Image</label>
-                        <input type="file" class="form-control" asp-for="@Model.imgFile" />
-                    </div>
-                    <button class="btn btn-primary" type="submit">Create Post</button>
-                </form>
-            }
+            </div>
         </div>
     </div>
+    }
 
     <!-- Diğer body içeriği... -->
 

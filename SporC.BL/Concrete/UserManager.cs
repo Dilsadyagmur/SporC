@@ -11,6 +11,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace SporC.BL.Concrete
 {
@@ -30,7 +31,7 @@ namespace SporC.BL.Concrete
             return  _userRepository.GetFirstOrDefault(u => u.Email == emailOrUsername || u.UserName == emailOrUsername);
         }
 
-        
+       
 
         public async  Task<int> GetCurrentUserIdAsync()
         {
@@ -62,7 +63,17 @@ namespace SporC.BL.Concrete
             {
                 return false;
             }
+
         }
 
+        public async Task<User> GetUserById()
+        {
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+           var user=  await _userRepository.GetById(userId);
+
+           
+            return user;
+        }
     }
 }

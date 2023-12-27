@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,12 @@ namespace SporC.Web.Controllers
     public class UserController : Controller
     {
         private readonly IUserManager userManager;
+        private readonly IPictureManager pictureManager;
 
-        public UserController(IUserManager userManager) 
+        public UserController(IUserManager userManager, IPictureManager pictureManager) 
         {
             this.userManager = userManager;
+            this.pictureManager = pictureManager;
         }
         [RedirectToHomeIfLoggedIn]
         [AllowAnonymous]
@@ -69,35 +72,67 @@ namespace SporC.Web.Controllers
         }
         [RedirectToHomeIfLoggedIn]
         [HttpPost]
-        public async Task<IActionResult> SignUp(RegisterViewModel user)
+        public async Task<IActionResult> SignUp(RegisterViewModel rwm, [FromServices] IWebHostEnvironment webHostEnvironment)
         {
             if (ModelState.IsValid)
             {
+                if (rwm.User.Password != rwm.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "Please make sure your passwords match.");
+                    return View(rwm);
+                }
                 var newuser = new User
                 {
-                    Email = user.Email,
-                    UserName = user.UserName,
-                    Password = user.Password,
-                    Age = user.Age,
-                    UserTypeId = 1
-                    
+                    Email = rwm.User.Email,
+                    UserName = rwm.User.UserName,
+                    Password = rwm.User.Password,
+                    Age = rwm.User.Age,
+                    UserTypeId = 1,
+                  
                 };
 
-                var existinguser = await userManager.FindByEmailOrUsernameAsync(user.Email);
-
-                if (existinguser != null)
+                if (rwm.ProfilePicture != null && rwm.ProfilePicture.Length > 0)
                 {
-                    TempData["ErrorMessage"] = "User with this email or username already exists.";
-                    return RedirectToAction("SignUp", "User");
+
+                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProfilePic");
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + rwm.ProfilePicture.FileName;
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await rwm.ProfilePicture.CopyToAsync(fileStream);
+                    }
+                    var existingusermail = await userManager.FindByEmailOrUsernameAsync(rwm.User.Email);
+                    var existingusername = await userManager.FindByEmailOrUsernameAsync(rwm.User.UserName);
+                    if (existingusermail != null && existingusername != null)
+                    {
+                        TempData["ErrorMessage"] = "User with this email or username already exists.";
+                        return RedirectToAction("SignUp", "User");
+                    }
+                    
+                    var newpicture = new Picture
+                    {
+
+                        FileName = uniqueFileName,
+                        FilePath = filePath,
+                        PicUser = newuser
+                    };
+                    newuser.Picture = newpicture;
+
+                    var verifieduser = await userManager.Insert(newuser);
+                    if (verifieduser != null)
+                    {
+                        TempData["SuccessMessage"] = "Register created successfully!";
+                        return RedirectToAction("Login", "User");
+                    }
+
                 }
 
-                var verifieduser = await  userManager.Insert(newuser);
 
-                if (verifieduser != null)
-                {
-                    TempData["SuccessMessage"] = "Register created successfully!";
-                    return RedirectToAction("Login", "User");
-                }
+           
             }
 
             return View();
@@ -116,11 +151,22 @@ namespace SporC.Web.Controllers
                 return RedirectToAction("Index", "Post");
             }
         }
-
-        public IActionResult Profile()
+        [HttpGet]
+        public async Task<IActionResult> Profile(int id)
         {
-            return View();
+           var user=  await userManager.GetById(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            if (user.PictureId!=null)
+            {
+                user.Picture = await pictureManager.GetById(user.PictureId);
+            }
+          
+            return View(user);
         }
+        
 
 
 

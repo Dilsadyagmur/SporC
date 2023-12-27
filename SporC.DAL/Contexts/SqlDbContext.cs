@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SporC.Entities;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -23,8 +24,9 @@ namespace SporCDAL.Contexts
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SporC;Trusted_Connection=True;");
+            optionsBuilder.UseLazyLoadingProxies();
 
-		}
+        }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

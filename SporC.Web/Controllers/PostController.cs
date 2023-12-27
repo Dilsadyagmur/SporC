@@ -44,7 +44,7 @@ namespace SporC.Web.Controllers
             this.categoryManager = categoryManager;
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? teamId = null)
+        public async Task<IActionResult> Index(int? teamId = null, int? categoryId=null)
         {
             //var a = UserManager.SendMail("yunusemrekosar2@gmail.com");
             //return Content(a.ToString());
@@ -62,6 +62,14 @@ namespace SporC.Web.Controllers
                 .ToList();
             }
 
+            if (categoryId!= null)
+            {
+                queryablePosts = postManager.GetAll(x=> !x.IsDeleted && x.CategoryId==categoryId)
+                .Include(p => p.Picture)
+                .ToList();
+            }
+           
+
 
             BlogPostViewModel vm = new BlogPostViewModel();
             vm.posts = queryablePosts;
@@ -76,10 +84,11 @@ namespace SporC.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> Create()
         {
             var teams = teamManager.GetAllTeams().ToList();
-            // Takımları yükleme
+           
             ViewBag.Teams = new SelectList(teams, "Id", "TeamName");
 
             var categories = categoryManager.GetAllCategories().ToList();
@@ -98,7 +107,7 @@ namespace SporC.Web.Controllers
 
             if (user != null && bpwm.post.User==null)
             {
-                // Picture nesnesini yükleme
+            
                 bpwm.post.User= await userManager.GetById(bpwm.post.UserId);
             }
             if (user != null)
@@ -173,8 +182,8 @@ namespace SporC.Web.Controllers
             if (post != null && post.UserId == await userManager.GetCurrentUserIdAsync())
             {
 
-                postManager.DeleteById(id);
-                postManager.Save();
+               postManager.DeleteById(id);
+               postManager.Save();
                 return RedirectToAction("Index", "Post");
             }
             else
@@ -198,7 +207,7 @@ namespace SporC.Web.Controllers
 
          
         }
-
+        [HttpGet]
         public async Task<IActionResult> PostDetail(int id, BlogPostViewModel pm)
         {
             var post = await postManager.GetById(id);
@@ -281,7 +290,7 @@ namespace SporC.Web.Controllers
                 }
             }
 
-            // ModelState.IsValid false ise, view'e modeli iletiliyor
+          
             return View(postmodel);
 
         }
@@ -303,12 +312,13 @@ namespace SporC.Web.Controllers
                 {
                     Content = content,
                     PostId = PostId,
-                   CommentUser = user.UserName
+                   CommentUser = user.UserName,
+                   CreateDate = DateTime.Now
                     
                 };
                 await commentManager.Insert(newComment);
                 List<Comment> sortedcomment = new List<Comment>();
-                Post quryableComments = await postManager.GetByIdforInc(PostId).Include(x => x.Comments).FirstOrDefaultAsync();
+                Post quryableComments =  await postManager.GetByIdforInc(PostId).Include(x => x.Comments).OrderByDescending(x=>x.CreateDate).FirstOrDefaultAsync();
                 if (quryableComments != null)
                 {
                     sortedcomment = quryableComments.Comments.OrderByDescending(x => x.CreateDate).ToList();
@@ -317,7 +327,8 @@ namespace SporC.Web.Controllers
                     var json = JsonSerializer.Serialize(new
                     {
                         Id = sortedcomment[0].Id,
-                        Content = sortedcomment[0].Content
+                        Content = sortedcomment[0].Content,
+                        CreatedDate = sortedcomment[0].CreateDate
                     });
                     return Json(json);
                 }

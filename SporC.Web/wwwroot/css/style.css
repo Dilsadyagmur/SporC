@@ -42,7 +42,145 @@
 /*=============================================
 =             01. Default Css                 =
 =============================================*/
+/*forcard*/
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
 
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.card-list {
+    width: 90%;
+    max-width: 400px;
+}
+
+.card {
+    background-color: #FFF;
+    box-shadow: 0 0 0 1px rgba(#000, .05), 0 20px 50px 0 rgba(#000, .1);
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 1.25rem;
+    position: relative;
+    transition: .15s ease-in;
+    &:hover, &:focus-within
+
+{
+    box-shadow: 0 0 0 2px #16C79A, 0 10px 60px 0 rgba(#000, .1);
+    transform: translatey(-5px);
+}
+
+}
+
+.card-image {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    a
+
+{
+    font-weight: 600;
+    font-size: 1.375rem;
+    line-height: 1.25;
+    padding-right: 1rem;
+    text-decoration: none;
+    color: inherit;
+    will-change: transform;
+    &:after
+
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+}
+}
+
+.icon-button {
+    border: 0;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    transition: .25s ease;
+    box-shadow: 0 0 0 1px rgba(#000, .05), 0 3px 8px 0 rgba(#000, .15);
+    z-index: 1;
+    cursor: pointer;
+    color: #565656;
+    svg
+
+{
+    width: 1em;
+    height: 1em;
+}
+
+&:hover, &:focus {
+    background-color: #EC4646;
+    color: #FFF;
+}
+
+}
+
+.card-footer {
+    margin-top: 1.25rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    color: #787878;
+    &:first-child:after
+
+{
+    display: block;
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: currentcolor;
+    margin-left: .75rem;
+    margin-right: .75rem;
+}
+
+svg {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+    margin-right: .25em;
+}
+
+}
+
+
+
+
+/*endcard*/
 *, *::after, *::before {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -61,7 +199,7 @@ body {
   font-family: "Gordita";
   color: #333;
   position: relative;
-  background-color: #ffffff;
+  background-color: #dfdede;
 }
 
 body.no-overflow {
@@ -215,11 +353,11 @@ a:focus {
 
 a:hover {
   text-decoration: none;
-  color: #9b9ea1;
+  color: #ffffff;
 }
 
 .theme-color-two a:hover {
-  color: #9b9ea1;
+  color: #ffffff;
 }
 
 .theme-color-three a:hover {
@@ -283,7 +421,7 @@ ul {
     Default Class
 */
 .text-color-primary {
-  color: #9b9ea1;
+  color: #ffffff;
 }
 
 .text-color-secondary {
@@ -337,7 +475,7 @@ select:focus {
 
 /*------- Defauld Class --------*/
 .text-black {
-  color: #333;
+  color: #ffffff;
 }
 
 .box-shadow-top {
@@ -1742,7 +1880,7 @@ input[type="checkbox"] {
 
 .btn-primary:hover, .btn-primary:focus {
   background: #000000;
-  color: #000000;
+  color: #fff;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -1761,6 +1899,17 @@ input[type="checkbox"] {
   background-color: #a50eff;
   color: #ffffff;
 }
+/* Normal durumda */
+.btn-light {
+    background-color: white;
+    color: black;
+}
+
+    /* Butona hover yapıldığında */
+    .btn-light:hover {
+        background-color: black;
+        color: white;
+    }
 
 .btn-bg-4 {
   background-color: #5974ff;
@@ -2877,6 +3026,7 @@ input[type="checkbox"] {
 
 .header-two-right-side .single-action-item::after {
   bottom: -2px;
+  
 }
 
 .header-two-right-side .single-action-item::before {
@@ -3914,11 +4064,11 @@ input[type="checkbox"] {
 }
 
 .theme-color-two .navigation-menu > ul > li:hover > a:after, .theme-color-two .navigation-menu > ul > li.active > a:after {
-  color: #9b9ea1;
+  color: #ffffff;
 }
 
 .theme-color-two .navigation-menu > ul > li:hover > a span, .theme-color-two .navigation-menu > ul > li.active > a span {
-  color: #9b9ea1;
+  color: #ffffff;
 }
 
 .theme-color-two .submenu {
@@ -3926,7 +4076,7 @@ input[type="checkbox"] {
 }
 
 .theme-color-two .submenu > li.active > a {
-  color: #9b9ea1;
+  color: #000000;
 }
 
 .theme-color-two .submenu > li a > span:after {
@@ -3948,7 +4098,7 @@ input[type="checkbox"] {
 }
 
 .theme-color-two .megamenu--mega > li > ul > li.active > a {
-  color: #9b9ea1;
+  color: #ffffff;
 }
 
 .theme-color-three .navigation-menu > ul > li a {
@@ -7360,19 +7510,31 @@ input[type="checkbox"] {
 }
 
 .following-author-area {
-  border: 1px solid #f3f3f3;
-  border-radius: 10px;
-  text-align: center;
-  padding: 30px 15px;
+    border: 1px solid #f3f3f3;
+    border-radius: 10px;
+    text-align: center;
+    padding: 30px 15px;
 }
 
-.following-author-area .author-image {
-  border: 1px solid #f3f3f3;
-  display: inline-block;
-  border-radius: 50000px;
-  padding: 11px;
-  margin-bottom: 25px;
-}
+    .following-author-area .author-image {
+        border: 1px solid #f3f3f3;
+        display: inline-block;
+        border-radius: 50%; /* Yuvarlak şekil için border radius */
+        overflow: hidden; /* Taşan kısımları gizlemek için */
+        padding: 11px;
+        margin-bottom: 25px;
+        width: 150px; /* Dilediğiniz genişlik */
+        height: 150px; /* Dilediğiniz yükseklik */
+    }
+
+        .following-author-area .author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Resmi çerçevenin içine tam olarak doldurma */
+            border-radius: 50%; /* Yuvarlak şekil için border radius */
+        }
+
+   
 
 .following-author-area .author-title {
   margin-bottom: 20px;
@@ -7388,6 +7550,30 @@ input[type="checkbox"] {
 
 .following-add-banner {
   margin-top: 40px;
+}
+
+
+
+/*userp profile*/
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-profile-image {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 /*==================================

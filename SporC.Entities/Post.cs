@@ -23,7 +23,7 @@ namespace SporC.Entities
 
 
         public int UserId { get; set; }
-        public User? User { get; set; }
+        public virtual User? User { get; set; }
 
         public int? PictureId { get; set; }
 
@@ -33,7 +33,7 @@ namespace SporC.Entities
 
         public virtual ICollection<Comment>? Comments { get; set; } = new List<Comment>();
 
-        public virtual ICollection<Category>? Category { get; set; }
+        public virtual ICollection<Category>? Category { get; set; } = new List<Category>();
 
     }
 }

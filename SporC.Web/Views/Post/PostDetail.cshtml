@@ -45,8 +45,8 @@
                                 </div>
 
                                 <div class="post-meta-right-side mb-2">
-                                    <a href="#"><img src="assets/images/icons/small-bookmark.png" alt="" /></a>
-                                    <a href="#"><img src="assets/images/icons/heart.png" alt="" /></a>
+                                    <a href="#"><img src="/images/icons/small-bookmark.png" alt="" /></a>
+                                    <a href="#"><img src="/images/icons/heart.png" alt="" /></a>
                                 </div>
                             </div>
                             <h3 class="following-blog-post-title">
@@ -54,6 +54,9 @@
                                 <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@Model.post.Id">
                                 @Html.Raw(@Model.post.Title)
                                 </a>
+                                </p>
+                                <p id="content" class="dec mt-2">
+                                    @Html.Raw(@Model.post.Content)
                                 </p>
                             </h3>
 
@@ -165,18 +168,15 @@
                 <div class="blog-details-col-4">
                     <div class="following-author-area">
                         <div class="author-image">
-                            <img src="assets/images/author/author-01.png" alt="">
+                            <img src="/ProfilePic/@Model.post.User.Picture.FileName" alt="">
                         </div>
                         <div class="author-title">
-                            <h4><a href="#">Antonio Lucas</a></h4>
+                            <h4>@@@Model.post.User.UserName</h4>
                             <p>Author</p>
                         </div>
                         <div class="author-details">
                             <p>
-                                Lorem psum has been industry
-                                standard dumy text since the when
-                                and scrambled make specimen
-                                book has survived.
+                               @Model.post.User.Description
                             </p>
 
                             <div class="author-post-share">
@@ -189,42 +189,12 @@
                             </div>
 
                             <div class="button-box">
-                                <a href="#" class="btn">View Profile <i class="icofont-long-arrow-right"></i></a>
+                                <a href="/User/Profile?id=@Model.post.User.Id" class="btn">View Profile <i class="icofont-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Hero Category Area Start -->
-                    <div class="blog-details-category-area mt-5">
-                        <a class="single-hero-category-item">
-                            <img src="assets/images/catagory/technology.jpg" alt="">
-                            <div class="hero-category-inner-box">
-                                <h3 class="title">Business</h3>
-                                <i class="icon icofont-long-arrow-right"></i>
-                            </div>
-                        </a>
-                        <a class="single-hero-category-item">
-                            <img src="assets/images/catagory/travel.jpg" alt="">
-                            <div class="hero-category-inner-box">
-                                <h3 class="title">Travel</h3>
-                                <i class="icon icofont-long-arrow-right"></i>
-                            </div>
-                        </a>
-                        <a class="single-hero-category-item">
-                            <img src="assets/images/catagory/medical.jpg" alt="">
-                            <div class="hero-category-inner-box">
-                                <h3 class="title">Food</h3>
-                                <i class="icon icofont-long-arrow-right"></i>
-                            </div>
-                        </a>
-                        <a class="single-hero-category-item">
-                            <img src="assets/images/catagory/web.jpg" alt="">
-                            <div class="hero-category-inner-box">
-                                <h3 class="title">Tech</h3>
-                                <i class="icon icofont-long-arrow-right"></i>
-                            </div>
-                        </a>
-                    </div><!-- Hero Category Area End -->
+                  
 
 
 

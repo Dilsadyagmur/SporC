@@ -1,1 +1,71 @@
-﻿
+﻿@using Microsoft.AspNetCore.Html;
+@model SporC.Entities.User
+
+@{
+    Layout = "_Layout";
+}
+<html>
+
+
+    <div class="following-author-area">
+        <div class="author-image">
+                <img src="/ProfilePic/@Model.Picture.FileName" alt="Profile Picture"  style="">
+        </div>
+
+        <div class="author-title">
+            <h4> @@@Model.UserName</h4>
+     
+        </div>
+        <div class="author-details">
+            <p>
+                @Model.Description
+            </p>
+
+     
+      
+        </div>
+  
+        <div id="main-wrapper">
+            <div class="site-wrapper-reveal">
+                <div class="hero-area-two-wrapper">
+                <h2> @Model.UserName 's Posts</h2>
+                @if (Model.Posts != null)
+                {
+                         <div class="row mb-4">
+                                @foreach (var post in Model.Posts)
+                                {
+                                   
+                                            <div class="single-most-populer-item" data-aos="fade-up">
+                                                <a href="blog-details.html" >
+                                    <img src="/uploads/@post.Picture.FileName" alt="" style="width: 700px;height: 500px;" />
+                                                </a>
+                                                <div class="most-populer-content">
+                                                    <div class="most-populer-post-author">
+                                                        @post.PostUserName
+                                                    </div>
+                                                <p id="title" class="title">
+                                                    <a asp-controller="Post" asp-action="PostDetail" asp-route-id="@post.Id">
+                                                        <h3>@Html.Raw(post.Title)</h3>
+                                                    </a>
+                                                </p>    
+                                                    <div class="most-populer-post-meta">
+                                                        <span class="post-date">
+                                                            @post.CreateDate
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        
+                                    <!-- Single Most Populer Item End -->
+                                }
+                                </div>
+        }
+        </div>
+        </div>
+        </div>
+    </div>
+    
+
+</html>

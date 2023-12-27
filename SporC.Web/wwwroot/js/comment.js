@@ -1,12 +1,14 @@
 ﻿function sendComment() {
     var PostId = $("#comment_PostId").val();
     var Content = $("#comment_Content").val();
-    $.post('/post/createcomment/', { PostId, Content }).done(function (response) {
+    var CreateDate = $("#comment_CreateDate").val();
+    $.post('/post/createcomment/', { PostId, Content, CreateDate }).done(function (response) {
         var data = JSON.parse(response);
 
         var newPostCardHtml = `<div class="post-card">
             <p>${data.Content}</p>
-            <form action="/Post/DeleteById/${data.Id}" method="post" onsubmit="return confirm('Bu yorumu silmek         istediğinizden emin misiniz?');">
+            <p>${data.CreateDate}</p>
+            <form action="/Post/DeleteById/${data.Id}" method="post" onsubmit="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');">
                 <button type="submit" class="btn btn-danger">Sil</button>
             </form>
             <a href="/Post/UpdatePost/${data.Id}" class="btn btn-primary">Güncelle</a>

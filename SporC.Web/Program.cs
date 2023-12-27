@@ -48,6 +48,7 @@ namespace SporC.Web
                 app.UseHsts();
             }
           
+            app.UseStatusCodePagesWithReExecute("/Error/Error404","?code={0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
