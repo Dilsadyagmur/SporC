@@ -14,7 +14,9 @@ using SporC.Web.Filters;
 using SporC.Web.Models;
 using SporC.Web.Models.ViewModel;
 using System.Data;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace SporC.Web.Controllers
 {
@@ -74,6 +76,16 @@ namespace SporC.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(RegisterViewModel rwm, [FromServices] IWebHostEnvironment webHostEnvironment)
         {
+			string regexPattern = @"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[-_!@#$%^&*+=<>?]).{8,12}$";
+
+
+			Regex regex = new Regex(regexPattern);
+            if (!regex.IsMatch(rwm.User.Password))
+            {
+				ViewBag.ErrorMessage = "*Please enter a password that is between 8 and 12 characters long and includes at least one digit, one letter, and one special character.";
+				return View(rwm);
+            }
+
             if (ModelState.IsValid)
             {
                 if (rwm.User.Password != rwm.ConfirmPassword)
@@ -154,21 +166,85 @@ namespace SporC.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile(int id)
         {
+
+
            var user=  await userManager.GetById(id);
             if (user == null)
             {
                 return BadRequest();
             }
+            var userpictureid = user.PictureId ?? 0;
             if (user.PictureId!=null)
             {
-                user.Picture = await pictureManager.GetById(user.PictureId);
+                user.Picture = await pictureManager.GetById(userpictureid);
             }
           
             return View(user);
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateProfile()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(int id, [FromForm] UpdateUserViewModel userpp, [FromServices] IWebHostEnvironment webHostEnvironment)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingUser = await userManager.GetById(id);
+
+                    if (existingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                 
+                   
+                    existingUser.Description = userpp.Description;
+                  
+
+                  
+                    if (userpp.ProfilePicture != null && userpp.ProfilePicture.Length > 0)
+                    {
+                        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProfilePic");
+
+                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + userpp.ProfilePicture.FileName;
+
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
 
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await userpp.ProfilePicture.CopyToAsync(fileStream);
+                        }
+
+                        existingUser.Picture = new Picture
+                        {
+                            FileName = uniqueFileName,
+                            FilePath = filePath,
+                            PicUser = existingUser
+                        };
+                    }
+
+                 
+
+                    await userManager.Update(existingUser);
+
+                  
+                    return RedirectToAction("Profile", "User", new { id = existingUser.Id });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error was encountered.\nError message: {ex.Message}");
+                    return View(userpp);
+                }
+            }
+
+            return View(userpp);
+        }
 
 
 
@@ -225,6 +301,6 @@ namespace SporC.Web.Controllers
         //    userManager.Save();
         //    return Ok();
         //}
-       
+
     }
 }

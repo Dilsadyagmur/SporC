@@ -44,44 +44,55 @@ namespace SporC.Web.Controllers
             this.categoryManager = categoryManager;
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? teamId = null, int? categoryId=null)
+        public async Task<IActionResult> Index(int? teamId = null, int? categoryId = null)
         {
-            //var a = UserManager.SendMail("yunusemrekosar2@gmail.com");
-            //return Content(a.ToString());
-            List<Post> queryablePosts = new();
-            if (teamId != null)
+           
+            ViewBag.Teams = new SelectList(teamManager.GetAllTeams(), "Id", "TeamName");
+            ViewBag.Categories = new SelectList(categoryManager.GetAllCategories(), "Id", "CategoryName");
+
+            List<Post> queryablePosts = new List<Post>();
+
+            if (teamId != null && categoryId != null)
             {
-                queryablePosts = postManager.GetAll(x => !x.IsDeleted && x.TeamId == teamId)
-                .Include(p => p.Picture)
-                .ToList();
+               
+                queryablePosts = postManager.GetAll(x => x.TeamId == teamId && x.CategoryId == categoryId)
+                    .Include(p => p.Picture)
+                    .ToList();
+            }
+            else if (teamId != null)
+            {
+                queryablePosts = postManager.GetAll(x=>x.TeamId == teamId)
+                    .Include(p => p.Picture)
+                    .ToList();
+            }
+            else if (categoryId != null)
+            {
+               
+                queryablePosts = postManager.GetAll(x => x.CategoryId == categoryId)
+                    .Include(p => p.Picture)
+                    .ToList();
             }
             else
             {
-                queryablePosts = postManager.GetAll(x => !x.IsDeleted)
-                .Include(p => p.Picture)
-                .ToList();
+              
+                queryablePosts = postManager.GetAll()
+                    .Include(p => p.Picture)
+                    .ToList();
             }
 
-            if (categoryId!= null)
+            BlogPostViewModel vm = new BlogPostViewModel
             {
-                queryablePosts = postManager.GetAll(x=> !x.IsDeleted && x.CategoryId==categoryId)
-                .Include(p => p.Picture)
-                .ToList();
-            }
-           
-
-
-            BlogPostViewModel vm = new BlogPostViewModel();
-            vm.posts = queryablePosts;
+                posts = queryablePosts
+            };
 
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 ViewBag.CurrentUserId = await userManager.GetCurrentUserIdAsync();
             }
 
-
             return View(vm);
         }
+
 
         [HttpGet]
         [Authorize(Roles = "User,Admin")]
@@ -103,13 +114,13 @@ namespace SporC.Web.Controllers
         {
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var user = await userManager.GetById(userId);
+            var teamid = bpwm.post.TeamId ?? 0;
 
 
-            if (user != null && bpwm.post.User==null)
-            {
-            
-                bpwm.post.User= await userManager.GetById(bpwm.post.UserId);
-            }
+
+            var team = await teamManager.GetById(teamid);
+            bpwm.post.PostTeamName = team.TeamName;
+
             if (user != null)
             {
                 bpwm.post.PostUserName = user.UserName;
@@ -124,7 +135,14 @@ namespace SporC.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var lastMinute = DateTime.Now.AddMinutes(-1);
+                    var userPostsCount = await postManager.CountUserPostsAsync(user.Id, lastMinute);
 
+                    if (userPostsCount >= 1)
+                    {
+                        ViewBag.PostLimitError = "You can create up to 1 post in 1 minute.";
+                        return View(bpwm);
+                    }
                     if (bpwm.imgFile != null && bpwm.imgFile.Length > 0)
                     {
 
@@ -202,7 +220,8 @@ namespace SporC.Web.Controllers
                 commentManager.DeleteById(id);
                 commentManager.Save();
 
-                return RedirectToAction("Index", "Post");
+                var postid = comment.PostId;
+                return RedirectToAction("PostDetail", "Post", new {id = postid});
            
 
          
@@ -211,6 +230,7 @@ namespace SporC.Web.Controllers
         public async Task<IActionResult> PostDetail(int id, BlogPostViewModel pm)
         {
             var post = await postManager.GetById(id);
+            List<Post> queryablePosts = postManager.GetAll(y => y.IsDeleted == false).ToList();
 
             if (post!=null&& post.User==null && HttpContext.User.Identity.IsAuthenticated)
             {
@@ -224,6 +244,7 @@ namespace SporC.Web.Controllers
               
                 post.Picture = await picmanager.GetById(post.PictureId.Value);
             }
+
 
 
             if (post == null)
@@ -247,7 +268,8 @@ namespace SporC.Web.Controllers
             var pd = new BlogPostViewModel
             {
                 post = post,
-                comments = quryableComments
+                comments = quryableComments,
+                posts =  queryablePosts
                 
             };
 
@@ -275,7 +297,7 @@ namespace SporC.Web.Controllers
                         return NotFound();
                     }
 
-                    // Varolan gönderiyi güncelle
+               
                     existingPost.Title = postmodel.post.Title;
                     existingPost.Content = postmodel.post.Content;
 
@@ -328,8 +350,9 @@ namespace SporC.Web.Controllers
                     {
                         Id = sortedcomment[0].Id,
                         Content = sortedcomment[0].Content,
-                        CreatedDate = sortedcomment[0].CreateDate
-                    });
+						CreatedDate = sortedcomment[0].CreateDate.ToString("dd-MM-yyyy HH:mm"),
+                        username = sortedcomment[0].CommentUser    
+					});
                     return Json(json);
                 }
                 return Content("null hatası");

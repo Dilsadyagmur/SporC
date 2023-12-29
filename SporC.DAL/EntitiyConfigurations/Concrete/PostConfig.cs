@@ -16,7 +16,7 @@ namespace SporCDAL.EntitiyConfigurations.Concrete
             base.Configure(builder); 
             builder.Property(p=>p.Title).HasMaxLength(100);
             builder.Property(p=>p.Content).HasMaxLength(10000);
-
+            
         }
     }
 }

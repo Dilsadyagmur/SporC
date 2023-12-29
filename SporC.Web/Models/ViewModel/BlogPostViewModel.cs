@@ -1,5 +1,5 @@
 ﻿using SporC.Entities;
-using SporC.Web.Models.DTO_s;
+
 using System.Security.Claims;
 
 namespace SporC.Web.Models.ViewModel
@@ -7,7 +7,7 @@ namespace SporC.Web.Models.ViewModel
     public class BlogPostViewModel
     {
 
-        public Post post { get; set; } = new Post();
+        public Post? post { get; set; } = new Post();
         public List<Post>? posts { get; set; }
         public Comment? comment { get; set; }
         public List<Comment>? comments { get; set; }
@@ -17,6 +17,8 @@ namespace SporC.Web.Models.ViewModel
 
         public Team? Team { get; set; }
 
+        public int? TeamId { get; set; }
+        public int? CategoryId { get; set; }
     }
 
 }

@@ -14,8 +14,11 @@
 
         <div class="author-title">
             <h4> @@@Model.UserName</h4>
-     
-        </div>
+     @*   @if (Model.Id == ViewBag.CurrentUserId)
+        {
+            <a type="button" class="btn"href="/user/updateprofile">Update MyProfile</a>
+        }*@
+    </div>
         <div class="author-details">
             <p>
                 @Model.Description
@@ -32,7 +35,7 @@
                 @if (Model.Posts != null)
                 {
                          <div class="row mb-4">
-                                @foreach (var post in Model.Posts)
+                                @foreach (var post in Model.Posts.Where(p=>p.IsDeleted!=true))
                                 {
                                    
                                             <div class="single-most-populer-item" data-aos="fade-up">

@@ -7,25 +7,24 @@
 <script src="~/CKEditor/Build/ckeditor.js"></script>
 <body class="theme-color-two">
     <div class="container mt-5 mb-5">
-        <h2>Gönderiyi Güncelle</h2>
+        <h2>Edit Post</h2>
         <div class="mb-3">
             <form asp-action="UpdatePost" asp-controller="Post" method="post">
                 <div class="form-group mb-3">
-                    <label asp-for="post.Title" class="control-label">Konu Başlığı</label>
+                    <label asp-for="post.Title" class="control-label">Title</label>
                     <textarea id="updateTitle" asp-for="post.Title" class="form-control mb-3"></textarea>
                     <span asp-validation-for="post.Title" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="post.Content" class="control-label">Gönderi İçeriği</label>
+                    <label asp-for="post.Content" class="control-label">Content</label>
                     <textarea id="updateContent" asp-for="post.Content" class="form-control" rows="4"></textarea>
                     <span asp-validation-for="post.Content" class="text-danger"></span>
                 </div>
 
-          
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
                
             </form>

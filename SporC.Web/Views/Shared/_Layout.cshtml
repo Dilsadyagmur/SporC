@@ -1,8 +1,9 @@
-﻿@using SporC.Web.Filters
+﻿@using SporC.BL.Abstract;
+@using SporC.Web.Filters
 
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
-
+@inject IUserManager manager
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +41,15 @@
 
     <!-- AOS CSS -->
     <link rel="stylesheet" href="/css/plugins/aos.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from avobe) -->
     <!-- <link rel="stylesheet" href="/css/vendor/vendor.min.css">
@@ -48,6 +57,11 @@
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="/css/style.css">
     @await RenderSectionAsync("Scripts", required: false)
+    <style>
+
+
+
+</style>
 </head>
 
 
@@ -58,13 +72,18 @@
 
 
 
+
     <!--========  header area =========-->
     <header class="header-two position--absolute">
-
+       
         <div class="header-bottom-area">
+
             <div class="container">
+
                 <div class="row align-items-center">
+
                     <div class="col-lg-2 col-md-3 col-5">
+
                         <div class="logo">
                             <a href="/Post/index" onclick="reloadPage();">
                                 <img src="https://i.hizliresim.com/ooa69d4.png" alt="Logo">
@@ -76,6 +95,7 @@
                         <div class="main-menu-area text-center">
                             <nav class="navigation-menu navigation-menu-white ">
                                 <ul>
+                                   
                                     <li>
                                         <a href="/post/index" onclick="reloadPage();">
                                             <span>Home</span>
@@ -89,7 +109,7 @@
                                             <li><a href="/Post/index?TeamId=3"><span>Beşiktaş JK</span></a></li>
                                             <li><a href="/Post/index?TeamId=4"><span>Konyaspor</span></a></li>
                                             <li><a href="/Post/index?TeamId=5"><span>Rizespor</span></a></li>
-                                            <li><a href="/Post/index?TeamId=6"><span>HataySpor</span></a></li>
+                                            <li><a href="/Post/index?TeamId=6"><span>Hatayspor</span></a></li>
                                             <li><a href="/Post/index?TeamId=7"><span>Alanyaspor</span></a></li>
                                             <li><a href="/Post/index?TeamId=8"><span>Kayserispor</span></a></li>
                                             <li><a href="/Post/index?TeamId=9"><span>Antalyaspor</span></a></li>
@@ -117,20 +137,23 @@
                                             <li><a href="/Post/index?CategoryId=5"><span>Other News</span></a> </li>
                                         </ul>
                                     </li>
-                                    <li class="has-children">
-                                        <a href="#"><span>Pages</span></a>
-                                        <ul class="submenu">
-                                            <li><a href="blog-details.html"><span>Blog Details</span></a> </li>
-                                            <li><a href="blog-details-two.html"><span>Blog Details Two</span></a> </li>
-                                            <li><a href="error-404.html"><span>Error 404</span></a> </li>
-                                            <li><a href="faq.html"><span>FAQ's</span></a> </li>
-                                            <li><a href="author-post.html"><span>Author post</span></a> </li>
-                                            <li><a href="register.html"><span>Register</span></a> </li>
-                                            <li><a href="write-post.html"><span>Write Post</span></a> </li>
-                                        </ul>
+                                    <li>
+                                        @if (Context.User.Identity.IsAuthenticated)
+                                        {
+                                            
+                                             var userid = await manager.GetCurrentUserIdAsync();
+                                           
+                                            <a href="/User/Profile/@userid">
+                                                
+                                                <!-- Update this line with the correct URL -->
+                                                <span>MyProfile</span>
+                                            </a>
+                                        }
+                                      
                                     </li>
-                                    <li><a href="contact-us.html"><span>Contact </span></a></li>
+                                   
                                 </ul>
+                             
                             </nav>
                         </div>
                     </div>
@@ -201,171 +224,19 @@
                     </div>
                 </div><!-- Hero Area End -->
 
-                <div class="hero-two-banner-text">
-                    <img src="/images/banners/hero-text-banner.png" alt="">
-               </div>
+               
         </div>
-           
-          
+
+        <div class="hero-two-banner-text">
+            <img src="/images/banners/hero-text-banner.png" alt="">
+        </div>
             <!-- Recent Article Area Start -->
             <div class="recent-article-area section-space--pb_120">
                  @RenderBody()
             </div>
             <!-- Recent Article Area End -->
           
-            <!-- Special For Beginner Area Start -->
-            <div class="special-for-beginner-area section-space--ptb_120">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="section-title-two">
-                                <h2 class="title">Special For Beginner</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-7">
-                            <div class="special-banner-image mb-20" data-aos="fade-up">
-                                <img src="/images/banners/special-banner.jpg" alt="">
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="special-banner-blog-post">
-                                <!-- Single-special-banner-post Start -->
-                                <div class="single-special-banner-post" data-aos="fade-up">
-                                    <div class="most-populer-content">
-                                        <div class="most-populer-post-author">
-                                            By <a href="#">Andrew Hoffman</a>
-                                        </div>
-                                        <h3 class="title">
-                                            <a href="blog-details.html">
-                                                All of these amazing features
-                                                come at an affordable price!
-                                            </a>
-                                        </h3>
-                                        <p class="dec mt-2">
-                                            Lorem Ipsum is simply dummy text themes print
-                                            industry orem psum has been them industry spa
-                                            also the loep into type setting.
-                                        </p>
-                                        <div class="most-populer-post-meta">
-                                            <span class="post-date">
-                                                <a href="#">03 April, 2021</a>
-                                            </span>
-                                            <span>10 min read</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single-special-banner-post End -->
-                                <!-- Single-special-banner-post Start -->
-                                <div class="single-special-banner-post" data-aos="fade-up">
-                                    <div class="most-populer-content">
-                                        <div class="most-populer-post-author">
-                                            By <a href="#">Andrew Hoffman</a>
-                                        </div>
-                                        <h3 class="title">
-                                            <a href="blog-details.html">
-                                                All of these amazing features
-                                                come at an affordable price!
-                                            </a>
-                                        </h3>
-                                        <p class="dec mt-2">
-                                            Lorem Ipsum is simply dummy text themes print
-                                            industry orem psum has been them industry spa
-                                            also the loep into type setting.
-                                        </p>
-                                        <div class="most-populer-post-meta">
-                                            <span class="post-date">
-                                                <a href="#">03 April, 2021</a>
-                                            </span>
-                                            <span>10 min read</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single-special-banner-post End -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row--30">
-                        <div class="col-lg-4">
-                            <!-- Single Most Populer Item Start -->
-                            <div class="single-most-populer-item" data-aos="fade-up">
-                                <a href="blog-details.html" class="most-populer-thum">
-                                    <img src="/images/banners/02-special-banner.jpg" alt="" />
-                                </a>
-                                <div class="most-populer-content">
-                                    <div class="most-populer-post-author">
-                                        By <a href="#">Andrew Hoffman</a>
-                                    </div>
-                                    <h3 class="title">
-                                        <a href="blog-details.html">
-                                            All of these amazing features
-                                            come at an affordable price!
-                                        </a>
-                                    </h3>
-                                    <div class="most-populer-post-meta">
-                                        <span class="post-date">
-                                            <a href="#">03 April, 2021</a>
-                                        </span>
-                                        <span>10 min read</span>
-                                    </div>
-                                </div>
-                            </div><!-- Single Most Populer Item End -->
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- Single Most Populer Item Start -->
-                            <div class="single-most-populer-item" data-aos="fade-up">
-                                <a href="blog-details.html" class="most-populer-thum">
-                                    <img src="/images/banners/03-special-banner.jpg" alt="" />
-                                </a>
-                                <div class="most-populer-content">
-                                    <div class="most-populer-post-author">
-                                        By <a href="#">Andrew Hoffman</a>
-                                    </div>
-                                    <h3 class="title">
-                                        <a href="blog-details.html">
-                                            WooCommerce comes with an
-                                            intuitive drag-and-drop...
-                                        </a>
-                                    </h3>
-                                    <div class="most-populer-post-meta">
-                                        <span class="post-date">
-                                            <a href="#">03 April, 2021</a>
-                                        </span>
-                                        <span>10 min read</span>
-                                    </div>
-                                </div>
-                            </div><!-- Single Most Populer Item End -->
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- Single Most Populer Item Start -->
-                            <div class="single-most-populer-item" data-aos="fade-up">
-                                <a href="blog-details.html" class="most-populer-thum">
-                                    <img src="/images/banners/04-special-banner.jpg" alt="" />
-                                </a>
-                                <div class="most-populer-content">
-                                    <div class="most-populer-post-author">
-                                        By <a href="#">Andrew Hoffman</a>
-                                    </div>
-                                    <h3 class="title">
-                                        <a href="blog-details.html">
-                                            Create beautiful designs that
-                                            will help convert more...
-                                        </a>
-                                    </h3>
-                                    <div class="most-populer-post-meta">
-                                        <span class="post-date">
-                                            <a href="#">03 April, 2021</a>
-                                        </span>
-                                        <span>10 min read</span>
-                                    </div>
-                                </div>
-                            </div><!-- Single Most Populer Item End -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Special For Beginner Area End -->
+          
 
         </div>
     </div>
@@ -387,58 +258,42 @@
                                 </a>
 
                             </div>
-                            <p>
-                                Lorem Ipsum is simply dummy text
-                                the printing and typesetting industry
-                                has been the industry's standard
-                                text ever since.
-                            </p>
-                            <ul class="footer-socail-share">
-                                <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                                <li><a href="#"><i class="icofont-skype"></i></a></li>
-                                <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                                <li><a href="#"><i class="icofont-linkedin"></i></a></li>
-                            </ul>
+                         
+                          
                             <div class="button-right-box mt-30">
-                                <a href="#!" class="btn-primary btn-bg-2 btn-large">Share your thinking <i class="icofont-long-arrow-right"></i></a>
+                                <a asp-controller="Post" asp-action="Create" class="btn btn-primary">Share your thinking</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-6  order-lg-2 order-3">
                         <div class="footer-menu-widget">
+                        
                             <div class="single-footer-menu">
                                 <div class="footer-widget-title">
-                                    <h4 class="title">Company</h4>
+                                    <h4 class="title">Teams</h4>
                                 </div>
                                 <ul class="footer-widget-menu-list">
-                                    <li><a href="#!">Privacy Policy</a></li>
-                                    <li><a href="#!">Discussion</a></li>
-                                    <li><a href="#!">Terms & Conditions</a></li>
-                                    <li><a href="#!">Customer Support</a></li>
-                                    <li><a href="#!">Course FAQ’s</a></li>
-                                    <li><a href="#!">About Us</a></li>
-                                    <li><a href="#!">Contact Us</a></li>
-                                    <li><a href="#!">Local Print Ads</a></li>
-                                    <li><a href="#!">FAQ’s</a></li>
-                                    <li><a href="#!">Careers</a></li>
-                                </ul>
-                            </div>
-                            <div class="single-footer-menu">
-                                <div class="footer-widget-title">
-                                    <h4 class="title">Explore More</h4>
-                                </div>
-                                <ul class="footer-widget-menu-list">
-                                    <li><a href="#!">WordPress Page Builder</a></li>
-                                    <li><a href="#!"> WordPress Booking Plugin</a></li>
-                                    <li><a href="#!">WordPress Plugins</a></li>
-                                    <li><a href="#!">WordPress Themes</a></li>
-                                    <li><a href="#!">Free WordPress Plugins</a></li>
-                                    <li><a href="#!">Free WordPress Themes</a></li>
-                                    <li><a href="#!">WooCommerce Templates</a></li>
-                                    <li><a href="#!">Elementor Addons</a></li>
-                                    <li><a href="#!">Secure hosting</a></li>
-                                    <li><a href="#!">Free migrations</a></li>
+                                    <li><a href="/Post/index?TeamId=1"><span>Galatasaray</span></a></li>
+                                    <li><a href="/Post/index?TeamId=2"><span>Trabzonspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=3"><span>Beşiktaş JK</span></a></li>
+                                    <li><a href="/Post/index?TeamId=4"><span>Konyaspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=5"><span>Rizespor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=6"><span>HataySpor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=7"><span>Alanyaspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=8"><span>Kayserispor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=9"><span>Antalyaspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=10"><span>Adana Demirspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=11"><span>Sivasspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=12"><span>Kasımpaşa</span></a></li>
+                                    <li><a href="/Post/index?TeamId=13"><span>Karagümrük</span></a></li>
+                                    <li><a href="/Post/index?TeamId=14"><span>Pendikspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=15"><span>Samsunspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=16"><span>Başakşehir</span></a></li>
+                                    <li><a href="/Post/index?TeamId=17"><span>İstanbulspor</span></a></li>
+                                    <li><a href="/Post/index?TeamId=18"><span>Gaziantep FK</span></a></li>
+                                    <li><a href="/Post/index?TeamId=19"><span>Ankaragücü</span></a></li>
+                                    <li><a href="/Post/index?TeamId=20"><span>Fenerbahçe</span></a></li>
                                 </ul>
                             </div>
                             <div class="single-footer-menu">
@@ -446,38 +301,15 @@
                                     <h4 class="title">Category</h4>
                                 </div>
                                 <ul class="footer-widget-menu-list">
-                                    <li><a href="#!">Basic Features</a></li>
-                                    <li><a href="#!">Advanced Features</a></li>
-                                    <li><a href="#!">Enterprise Hosting</a></li>
-                                    <li><a href="#!">Agency Hosting</a></li>
-                                    <li><a href="#!">Multisite Hosting</a></li>
-                                    <li><a href="#!">WordPress Hosting</a></li>
-                                    <li><a href="#!">Magento Hosting</a></li>
-                                    <li><a href="#!">Laravel Hosting</a></li>
-                                    <li><a href="#!">Joomla Hosting</a></li>
-                                    <li><a href="#!">PrestaShop Hosting</a></li>
+                                    <li><a href="/Post/index?CategoryId=2"><span>Scouting</span></a> </li>
+                                    <li><a href="/Post/index?CategoryId=3"><span>Transfer</span></a> </li>
+                                    <li><a href="/Post/index?CategoryId=4"><span>Match Analysis</span></a> </li>
+                                    <li><a href="/Post/index?CategoryId=5"><span>Other News</span></a> </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 order-lg-3 order-2">
-                        <div class="footer-widget footer-subscribe-area">
-                            <div class="footer-widget-title">
-                                <h4 class="title">Subscribe</h4>
-                            </div>
-                            <div class="footer-subscribe-wrap">
-                                <div class="single-input">
-                                    <input type="text" placeholder="Your Name">
-                                </div>
-                                <div class="single-input">
-                                    <input type="email" placeholder="Email Address">
-                                </div>
-                                <div class="button-box">
-                                    <button class="btn-primary btn-bg-2 btn-large" type="submit">Subscribe Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -510,7 +342,7 @@
                             <!-- logo -->
                             <div class="logo">
                                 <a href="index.html">
-                                    <img src="/images/logo/logo.png" class="img-fluid" alt="">
+                                    <img src="https://i.hizliresim.com/ooa69d4.png" class="img-fluid" alt="">
                                 </a>
                             </div>
                         </div>
@@ -526,22 +358,40 @@
             <div class="mobile-menu-overlay__body">
                 <nav class="offcanvas-navigation">
                     <ul>
-                        <li class="has-children">
-                            <a href="index.html">Home</a>
-                            <ul class="sub-menu">
-                                <li><a href="index-2.html"><span>Home Two</span></a></li>
-                                <li><a href="index-3.html"><span>Home Three</span></a></li>
-                                <li><a href="index-4.html"><span>Home Four</span></a></li>
-                                <li><a href="index-5.html"><span>Home Five</span></a></li>
-                                <li><a href="index-6.html"><span>Home Six</span></a></li>
-                            </ul>
-                        </li>
+                      
                         <li><a href="about-us.html"><span>About</span></a></li>
                         <li class="has-children">
-                            <a href="#">Category</a>
+                            <a >Teams</a>
                             <ul class="sub-menu">
-                                <li><a href="category.html"><span>Category List</span></a> </li>
-                                <li><a href="category-grid.html"><span>Category Grid</span></a> </li>
+                                <li><a href="/Post/index?TeamId=1"><span>Galatasaray</span></a></li>
+                                <li><a href="/Post/index?TeamId=2"><span>Trabzonspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=3"><span>Beşiktaş JK</span></a></li>
+                                <li><a href="/Post/index?TeamId=4"><span>Konyaspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=5"><span>Rizespor</span></a></li>
+                                <li><a href="/Post/index?TeamId=6"><span>HataySpor</span></a></li>
+                                <li><a href="/Post/index?TeamId=7"><span>Alanyaspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=8"><span>Kayserispor</span></a></li>
+                                <li><a href="/Post/index?TeamId=9"><span>Antalyaspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=10"><span>Adana Demirspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=11"><span>Sivasspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=12"><span>Kasımpaşa</span></a></li>
+                                <li><a href="/Post/index?TeamId=13"><span>Karagümrük</span></a></li>
+                                <li><a href="/Post/index?TeamId=14"><span>Pendikspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=15"><span>Samsunspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=16"><span>Başakşehir</span></a></li>
+                                <li><a href="/Post/index?TeamId=17"><span>İstanbulspor</span></a></li>
+                                <li><a href="/Post/index?TeamId=18"><span>Gaziantep FK</span></a></li>
+                                <li><a href="/Post/index?TeamId=19"><span>Ankaragücü</span></a></li>
+                                <li><a href="/Post/index?TeamId=20"><span>Fenerbahçe</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="has-children">
+                            <a >Category</a>
+                            <ul class="sub-menu">
+                                <li><a href="/Post/index?CategoryId=2"><span>Scouting</span></a> </li>
+                                <li><a href="/Post/index?CategoryId=3"><span>Transfer</span></a> </li>
+                                <li><a href="/Post/index?CategoryId=4"><span>Match Analysis</span></a> </li>
+                                <li><a href="/Post/index?CategoryId=5"><span>Other News</span></a> </li>
                             </ul>
                         </li>
                         <li class="has-children">
@@ -556,7 +406,7 @@
                                 <li><a href="write-post.html"><span>Write Post</span></a> </li>
                             </ul>
                         </li>
-                        <li><a href="contact-us.html"><span>Contact </span></a></li>
+                      
                     </ul>
                 </nav>
             </div>
@@ -567,7 +417,7 @@
     ============================================ -->
     <!-- Modernizer JS -->
     <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
-
+   
     <!-- jQuery JS -->
     <script src="/js/vendor/jquery-3.5.1.min.js"></script>
     <script src="/js/vendor/jquery-migrate-3.3.0.min.js"></script>
@@ -601,7 +451,7 @@
     <script src="/js/plugins/plugins.min.js"></script> -->
     <!-- Main JS -->
     <script src="/js/main.js"></script>
-
+  
 
 </body>
 

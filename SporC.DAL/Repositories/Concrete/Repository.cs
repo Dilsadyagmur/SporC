@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NHibernate.Criterion;
 using SporC.DAL.Repositories.Abstract;
 using SporC.Entities;
 using SporCDAL.Contexts;
@@ -43,7 +44,17 @@ namespace SporC.DAL.Repositories.Concrete
 
         public IQueryable<T> GetAll(Expression<Func<T, bool>> filter)
         {
-            return GetAll().Where(filter); 
+
+            var parameter = filter.Parameters.Single();
+            var isActiveCheckExpression = System.Linq.Expressions.Expression.Equal(
+                System.Linq.Expressions.Expression.Property(parameter, "IsDeleted"),
+                System.Linq.Expressions.Expression.Constant(false)
+            );
+
+            var combinedExpression = System.Linq.Expressions.Expression.AndAlso(filter.Body, isActiveCheckExpression);
+            var lambda = System.Linq.Expressions.Expression.Lambda<Func<T, bool>>(combinedExpression, parameter);
+
+            return GetAll().Where(lambda); 
         }
 
 		public IQueryable<T> GetAll()
@@ -98,7 +109,10 @@ namespace SporC.DAL.Repositories.Concrete
             _dbset.Update(input);
             return await _context.SaveChangesAsync();
         }
+        public async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().CountAsync(predicate);
+        }
 
-       
     }
 }

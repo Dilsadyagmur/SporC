@@ -1,4 +1,6 @@
-﻿//post create js
+﻿
+
+//post create js
     ClassicEditor
     .create(document.querySelector('#editorTitle'))
         .then(editor => {
@@ -17,7 +19,7 @@
         console.error(error);
         });
 
-
+}
 
     function reloadPage() {
         window.location.reload();
@@ -39,4 +41,8 @@ CKEDITOR.replace('editor', {
 // Post içeriğini CKEditor'e yükleyin
 CKEDITOR.instances.editor.setData('@Html.Raw(post.Content)');
 
-
+$(document).ready(function () {
+    $("#filterDropdownBtn").click(function () {
+        $(".dropdown-menu").toggle(); // Dropdown'ı göster/gizle
+    });
+});

@@ -26,16 +26,19 @@
                                     <label asp-for="@Model.post.Content" class="form-label">Content</label>
                                     <!-- İkinci CKEditor -->
                                     <textarea id="editorContent" class="form-control" asp-for="@Model.post.Content" placeholder="Gönderi oluştur" rows="4"></textarea>
+                                <div class="text-danger">
+                                    @Html.ValidationMessageFor(model => model.post.Content)
+                                </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label asp-for="@Model.post.TeamId" class="form-label">Select Team</label>  
+                                    <label asp-for="@Model.post.TeamId?" class="form-label">Select Team</label>  
 
                                     @{
                                         var teamsSelectList = ViewBag.Teams as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>());
                                     }
 
-                                    <select asp-for="@Model.post.TeamId" class="form-control"> //Takım seçmek istemeyen kullanıcılar için null seçeneği
+                                    <select asp-for="@Model.post.TeamId?" class="form-control"> //Takım seçmek istemeyen kullanıcılar için null seçeneği
                                         <option value="0">Null</option>
 
                                         @foreach (var teamItem in teamsSelectList)
@@ -66,6 +69,13 @@
                                     <input type="file" class="form-control" asp-for="@Model.imgFile" />
                                 </div>
                                 <button class="btn btn-primary" type="submit">Create Post</button>
+
+                            @if (!string.IsNullOrEmpty(ViewBag.PostLimitError))
+                            {
+                                <div class="alert alert-danger">
+                                    @ViewBag.PostLimitError
+                                </div>
+                            }
                             </form>
                       
                     </div>

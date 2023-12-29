@@ -47,6 +47,12 @@
                                 @Html.LabelFor(model =>model.User.Password, new { @class = "form-label" })
                                 @Html.PasswordFor(model => model.User.Password, new { @class = "form-control", placeholder = "Password", required = "required" })
                                 @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
+                                <div class="error-message">
+                                    @if (ViewData["ErrorMessage"] != null)
+                                    {
+                                        <p>@ViewData["ErrorMessage"]</p>
+                                    }
+                                </div>
                             </div>
 
                             <div class="col-12 mb-2">

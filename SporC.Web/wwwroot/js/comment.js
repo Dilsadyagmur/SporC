@@ -1,18 +1,25 @@
 ﻿function sendComment() {
     var PostId = $("#comment_PostId").val();
     var Content = $("#comment_Content").val();
-    var CreateDate = $("#comment_CreateDate").val();
-    $.post('/post/createcomment/', { PostId, Content, CreateDate }).done(function (response) {
+    $.post('/post/createcomment/', { PostId, Content }).done(function (response) {
         var data = JSON.parse(response);
 
-        var newPostCardHtml = `<div class="post-card">
-            <p>${data.Content}</p>
-            <p>${data.CreateDate}</p>
-            <form action="/Post/DeleteById/${data.Id}" method="post" onsubmit="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');">
-                <button type="submit" class="btn btn-danger">Sil</button>
-            </form>
-            <a href="/Post/UpdatePost/${data.Id}" class="btn btn-primary">Güncelle</a>
-        </div>`;
+
+
+        var newPostCardHtml = `<div id="post-container" class="post-container">
+							<div class="post-card">
+							<p>@${data.username}</p>
+                            <p>${data.Content}</p>
+                            <p>${data.CreatedDate}</p>
+									<div class="comment-buttons" style="display: flex; gap: 10px;">
+										<form method="post" onsubmit="return confirm('Bu yorumu silmek istediğinizden emin misiniz?');" action="/Post/DeleteComment/${data.Id}">
+											<button type="submit" class="btn btn-primary">Delete</button>
+										</form>
+										
+									</div>
+							</div>
+							</div>`
+
 
         var container = document.getElementById("post-container");
         var newDiv = document.createElement("div");
@@ -21,7 +28,7 @@
         $("#comment_Content").val("");
 
     });
-    
+
 
 
 }

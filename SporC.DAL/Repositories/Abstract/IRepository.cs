@@ -14,6 +14,7 @@ namespace SporC.DAL.Repositories.Abstract
         Task<int> Insert(T input);
         Task<int> Update(T input);
         Task<int> Delete(T input);
+        Task<int> CountAsync(Expression<Func<T, bool>> predicate);
         void Save();
         Task<T> GetById(int id);
         IQueryable<T> GetAll(Expression<Func<T, bool>> filter);

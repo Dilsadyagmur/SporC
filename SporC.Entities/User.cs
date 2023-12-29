@@ -34,7 +34,7 @@ namespace SporC.Entities
         public virtual UserType? UserType { get; set; }
       
 
-        public int PictureId { get; set; } 
+        public int? PictureId { get; set; } 
         public virtual Picture? Picture { get; set; }
 
       

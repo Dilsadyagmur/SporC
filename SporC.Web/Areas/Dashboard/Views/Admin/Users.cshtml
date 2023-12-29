@@ -55,7 +55,7 @@
                                                     <td>@user.CreateDate</td>
                                                     <td>@user.UserTypeId</td>
                                                     <td>
-                                                        <a href="javascript:void(0);" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
+                                                       
                                                         <button type="button" class="btn btn-danger btn-soft-danger waves-effect waves-light" onclick="confirmAndDelete('@user.Id')"><i class="uil uil-trash-alt font-size-18"></i></button>
                                                     </td>
                                                 </tr>
@@ -131,8 +131,12 @@
                     url: '/Dashboard/Admin/DeleteUser/' + userId,
                     type: 'POST',
                     success: function (result) {
-                        console.log('User deleted successfully');
-                        $('#userRow_' + userId).remove();
+                        if (result === "success") {
+                            console.log('User deleted successfully');
+                            $('#userRow_' + userId).remove();
+                        } else {
+                            console.error('Error deleting user. Server response:', result);
+                        }
                     },
                     error: function (error) {
                         console.error('Error deleting user', error);
@@ -151,7 +155,30 @@
                 success: function (result) {
                     toastr.success(result, 'Success');
                     $('#addUserModal').modal('hide');
-                    updateUserTable();
+
+                  
+                    var user = {
+                        Id: result.Id, 
+                        UserName: $('#userName').val(),
+                        Email: $('#email').val(),
+                        CreateDate: result.CreateDate, 
+                        UserTypeId: $('#userType').val()
+                    };
+
+                    var userRowHtml = '<tr id="userRow_' + user.Id + '">' +
+                        '<td>' + user.Id + '</td>' +
+                        '<td>' + user.UserName + '</td>' +
+                        '<td>' + user.Email + '</td>' +
+                        '<td>' + user.CreateDate + '</td>' +
+                        '<td>' + user.UserTypeId + '</td>' +
+                        '<td>' +
+                       
+                        '<button type="button" class="btn btn-danger btn-soft-danger waves-effect waves-light" onclick="confirmAndDelete(\'' + user.Id + '\')"><i class="uil uil-trash-alt font-size-18"></i></button>' +
+                        '</td>' +
+                        '</tr>';
+
+                    $('#datatable tbody').append(userRowHtml);
+             
                 },
                 error: function (error) {
                     toastr.error(error.responseText, 'Error');
@@ -159,29 +186,10 @@
                 }
             });
         }
+     
 
-        function updateUserTable() {
-            $.ajax({
-                url: '/Dashboard/Admin/GetAllUser',
-                type: 'GET',
-                success: function (newUser) {
-                    var table = $('#datatable').DataTable();
-                    table.row.add([
-                        newUser.Id,
-                        newUser.UserName,
-                        newUser.Email,
-                        newUser.CreateDate,
-                        '<a href="javascript:void(0);" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>' +
-                        '<button type="button" class="btn btn-danger btn-soft-danger waves-effect waves-light" onclick="confirmAndDelete(\'' + newUser.Id + '\')"><i class="uil uil-trash-alt font-size-18"></i></button>'
-                    ]).draw();
-                },
-                error: function (error) {
-                    toastr.error('Error updating user table', 'Error');
-                    console.error('Error updating user table', error);
-                }
-            });
-        }
     </script>
+
 
 </body>
 </html>

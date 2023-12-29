@@ -6,7 +6,7 @@ using SporC.BL.Abstract;
 using SporC.BL.Concrete;
 using SporC.DAL.Repositories.Abstract;
 using SporC.DAL.Repositories.Concrete;
-using SporC.Web.AutoMapper;
+
 using SporC.Web.Extensions;
 using SporC.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -24,7 +24,7 @@ namespace SporC.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddAutoMapper(typeof(SporCMapper));
+        
             builder.Services.AddSporCServices();
            
 

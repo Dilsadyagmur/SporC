@@ -17,5 +17,11 @@ namespace SporC.BL.Concrete
         {
             this.repository = repository;
         }
+
+        public async Task<int> CountUserPostsAsync(int userId, DateTime lastMinute)
+        {
+            return await repository.CountAsync(p => p.UserId == userId && p.CreateDate >= lastMinute);
+
+        }
     }
 }

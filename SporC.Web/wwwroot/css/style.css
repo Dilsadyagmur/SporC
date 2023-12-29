@@ -48,7 +48,21 @@
 *, *:after, *:before {
     box-sizing: border-box;
 }
+.dropdown {
+    margin-top: 16px;
+    display: none;
+    align-items: center;
+    color: #333
+}
 
+    .dropdown.active {
+        display: flex;
+    }
+
+.icon {
+    color: #333;
+    cursor: pointer;
+}
 
 
 img {
@@ -62,7 +76,7 @@ img {
 }
 
 .card {
-    background-color: #FFF;
+    background-color: #e3e0e0;
     box-shadow: 0 0 0 1px rgba(#000, .05), 0 20px 50px 0 rgba(#000, .1);
     border-radius: 15px;
     overflow: hidden;
@@ -111,6 +125,42 @@ img {
 
 }
 }
+
+
+
+.sidenav {
+    height: 67%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 245px;
+    left: 0;
+    background-color: #d6d3d3;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 15px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
 
 .icon-button {
     border: 0;
@@ -1859,6 +1909,7 @@ input[type="checkbox"] {
 
 .btn:hover {
   background-color: #000000;
+  color: #fff
 }
 
 .btn i {
@@ -4261,35 +4312,40 @@ input[type="checkbox"] {
     - Multilevel Submenu Css
 ====================================*/
 .submenu {
-  position: absolute;
-  top: 100%;
-  left: -20px;
-  -webkit-box-shadow: 0 2px 29px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 2px 29px rgba(0, 0, 0, 0.05);
-  border-bottom: 3px solid #9b9ea1;
-  background-color: #ffffff;
-  -webkit-transform: translateY(50px);
-      -ms-transform: translateY(50px);
-          transform: translateY(50px);
-  -webkit-transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
-  -o-transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
-  transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
-  -webkit-transition-delay: 0.2s;
-       -o-transition-delay: 0.2s;
-          transition-delay: 0.2s;
-  -webkit-transition-duration: 0.4s;
-       -o-transition-duration: 0.4s;
-          transition-duration: 0.4s;
-  visibility: hidden;
-  opacity: 0;
-  min-width: 200px;
-  padding: 15px 0;
-  z-index: 9;
+    column-count: 2;
+    column-gap: 0px; /* İhtiyaca göre ayarlayın */
+    max-height: 200px; /* İhtiyaca göre ayarlayın */
+    overflow-y: auto;
+    position: absolute;
+    top: 100%;
+    left: -20px;
+    -webkit-box-shadow: 0 2px 29px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 29px rgba(0, 0, 0, 0.05);
+    border-bottom: 3px solid #9b9ea1;
+    background-color: #ffffff;
+    -webkit-transform: translateY(50px);
+    -ms-transform: translateY(50px);
+    transform: translateY(50px);
+    -webkit-transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+    -o-transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+    -webkit-transition-delay: 0.2s;
+    -o-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+    -webkit-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    visibility: hidden;
+    opacity: 0;
+    min-width: 200px;
+    padding: 15px 0;
+    z-index: 9;
 }
 
-.submenu > li {
-  position: relative;
-}
+    .submenu > li {
+        position: relative;
+        break-inside: avoid;
+    }
 
 .submenu > li > a {
   display: block;
@@ -4705,9 +4761,15 @@ input[type="checkbox"] {
     padding-left: 5px;
   }
 }
-
+.footer-widget-menu-list {
+    list-style: none;
+    column-count: 2; /* Set the number of columns */
+    column-gap: 20px; /* Adjust the gap between columns */
+}
 .footer-widget-menu-list li {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
+
+
 }
 
 .footer-widget-menu-list li:last-child {

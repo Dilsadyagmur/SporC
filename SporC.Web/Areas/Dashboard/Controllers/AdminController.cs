@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using SporC.Entities;
 using SporC.BL.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 
 namespace SporC.Web.Areas.Dashboard.Controllers
 {
@@ -17,75 +18,55 @@ namespace SporC.Web.Areas.Dashboard.Controllers
     {
 
         private readonly IUserManager userManager;
-		private readonly IPostManager postManager;
-		private readonly ICategoryManager categoryManager;
-		private readonly ITeamManager teamManager;
-		private readonly ICommentManager commentManager;
+        private readonly IPostManager postManager;
+        private readonly ICategoryManager categoryManager;
+        private readonly ITeamManager teamManager;
+        private readonly ICommentManager commentManager;
         private readonly IRepository<UserType> usertyperep;
 
-        public AdminController(IUserManager userManager, IPostManager postManager, ICategoryManager categoryManager, ITeamManager teamManager, ICommentManager commentManager, IRepository<UserType> usertyperep )
+        public AdminController(IUserManager userManager, IPostManager postManager, ICategoryManager categoryManager, ITeamManager teamManager, ICommentManager commentManager, IRepository<UserType> usertyperep)
         {
             this.userManager = userManager;
-			this.postManager = postManager;
-			this.categoryManager = categoryManager;
-			this.teamManager = teamManager;
-			this.commentManager = commentManager;
+            this.postManager = postManager;
+            this.categoryManager = categoryManager;
+            this.teamManager = teamManager;
+            this.commentManager = commentManager;
             this.usertyperep = usertyperep;
         }
 
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //[Route("Dashboard/Admin/Login/")]
-        //public IActionResult Login(User user)
-        //{
-
-        //    User appuser = userManager.GetAll(u => u.UserName == user.UserName && u.Password == user.Password).Include(u => u.UserType).FirstOrDefault();
-        //    if (appuser != null)
-        //    {
-        //        List<Claim> claims = new List<Claim>();
-        //        claims.Add(new Claim(ClaimTypes.Name, appuser.UserName));
-        //        claims.Add(new Claim(ClaimTypes.Role, appuser.UserType.Name));
-        //        claims.Add(new Claim(ClaimTypes.NameIdentifier, appuser.Id.ToString()));
-
-        //        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //        HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        //        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties { IsPersistent = true });
-
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //}
         [Authorize(Roles = "Admin")]
         //[Route("/Dashboard/Admin/Index")]
         public IActionResult Index()
         {
-			List<Post> queryablePosts = new();
-            
+            List<Post> queryablePosts = new();
+
             queryablePosts = postManager.GetAll(x => !x.IsDeleted).ToList();
-			return View(queryablePosts);
+            return View(queryablePosts);
         }
 
         [Authorize(Roles = "Admin")]
-      
+
         public IActionResult GetAllUser()
         {
-            return Json(new { data = userManager.GetAllInclude(u => u.IsDeleted==false) });
+            try
+            {
+                var userData = userManager.GetAllInclude(u => u.IsDeleted == false);
+                return Json(new { data = userData });
+            }
+            catch (Exception ex)
+            {
+               
+                Debug.WriteLine($"Error in GetAllUser: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await  userManager.GetById(id);
-            if (user!=null)
+            var user = await userManager.GetById(id);
+            if (user != null)
             {
                 userManager.DeleteById(id);
                 userManager.Save();
@@ -112,10 +93,10 @@ namespace SporC.Web.Areas.Dashboard.Controllers
                 {
                     Email = user.Email,
                     UserName = user.UserName,
-                    Password = user.Password,             
+                    Password = user.Password,
                     UserTypeId = user.UserTypeId,
                     
-                    
+
 
                 };
 
@@ -123,24 +104,24 @@ namespace SporC.Web.Areas.Dashboard.Controllers
 
                 if (existinguser != null)
                 {
-                   
-                    return  BadRequest("User with this email or username already exists.");
+
+                    return BadRequest("User with this email or username already exists.");
                 }
 
-                var verifieduser = await userManager.Insert(newuser);
+               var verifieduser = await userManager.Insert(newuser);
 
                 if (verifieduser != null)
                 {
-                   
-                    return Ok("User created successfully!");
+
+                    return Ok("user created successfully!");
                 }
-               
+
             }
             return BadRequest("Modelstate is not valid");
         }
 
 
-        [HttpPost]     
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public IActionResult Update(User appUser)
         {
@@ -154,7 +135,7 @@ namespace SporC.Web.Areas.Dashboard.Controllers
         {
             var post = await postManager.GetById(id);
 
-            if (post != null )
+            if (post != null)
             {
 
                 postManager.DeleteById(id);
@@ -167,12 +148,12 @@ namespace SporC.Web.Areas.Dashboard.Controllers
             }
         }
 
-       
+
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Users()
-		{
+        {
             List<User> Users = new();
             Users = userManager.GetAll().ToList();
             var categories = categoryManager.GetAllCategories().ToList();
@@ -183,8 +164,101 @@ namespace SporC.Web.Areas.Dashboard.Controllers
             return View(Users);
 
         }
-	
 
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Categories()
+        {
+            var categories = new List<Category>();
+            categories = categoryManager.GetAll().ToList();
+
+            return View(categories);
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddCategory(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                var newcategory = new Category
+                {
+                    CategoryName = category.CategoryName,
+
+                };
+
+                await categoryManager.Insert(newcategory);
+                return Ok("Category created succesfully!");
+            }
+            return BadRequest("ModelState is not valid!");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            var category = await categoryManager.GetById(id);
+
+            if (category != null)
+            {
+
+                categoryManager.DeleteById(id);
+                categoryManager.Save();
+                return RedirectToAction("Category", "Admin");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Teams()
+        {
+            var teams = new List<Team>();
+            teams = teamManager.GetAll().ToList();
+
+            return View(teams);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddTeam(Team team)
+        {
+            if (ModelState.IsValid)
+            {
+                var newteam= new Team
+                {
+                    TeamName = team.TeamName,
+                    LogoUrl = team.LogoUrl,
+
+                };
+
+                await teamManager.Insert(newteam);
+                return Ok("Category created succesfully!");
+            }
+            return BadRequest("ModelState is not valid!");
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteTeam(int id)
+        {
+            var team = await teamManager.GetById(id);
+
+            if (team != null)
+            {
+
+                teamManager.DeleteById(id);
+                teamManager.Save();
+                return RedirectToAction("Teams", "Admin");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
     }
 }

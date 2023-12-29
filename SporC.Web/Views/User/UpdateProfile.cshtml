@@ -1,0 +1,46 @@
+﻿@using SporC.Web.Models.ViewModel;
+@model UpdateUserViewModel
+<html>
+
+
+
+<body class="theme-color-two">
+    <div class="container mt-5 mb-5">
+        <h2>Update Profile</h2>
+        <div class="mb-3">
+            <form asp-action="UpdateProfile" asp-controller="User" method="post">
+               
+
+                <div class="form-group mb-3">
+
+                    <label asp-for="@Model.Description" class="control-label">Description</label>
+                    <textarea asp-for="@Model.Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+
+
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="@Model.ProfilePicture" class="control-label">Profile Picture</label>
+                    <input type="file" name="ProfilePicture" class="form-control" />
+
+
+                </div>
+
+                
+
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+   
+</body>
+   
+</html>
+
+
